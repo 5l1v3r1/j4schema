@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="J4Schema" default="build" basedir=".">
+	<property name="buildDir"   value="${basedir}/build/"/>
+	<property name="component" value="${basedir}/extension/component" />
+	<property name="plugins"     value="${basedir}/extension/plugins" />
+	<property name="backend"    value="${component}/backend"/>
+	<property name="frontend"   value="${component}/frontend"/>
+
+	<target name="build" depends="cleanup, component, plugins, pack" />
+
+	<!-- Clean up the build directory output -->
+	<target name="cleanup">
+		<echo>Cleaning up build dir</echo>
+
+		<delete includeemptydirs="true">
+			<fileset dir="${buildDir}" includes="**/*"/>
+		</delete>
+	</target>
+
+	<!-- Create the component package (no file exclusion) -->
+	<target name="component">
+		<echo>Component build</echo>
+
+		<move tofile="${component}/j4schema.xml" file="${component}/backend/j4schema.xml" />
+		
+		<!-- Exclude the language folder in backend, since it's syslinked -->
+		<zip destfile="${buildDir}/packages/com_j4schema.zip">
+			<fileset dir="${component}">
+				<exclude name="backend/language/**" />
+			</fileset>
+		</zip>
+		<move tofile="${component}/backend/j4schema.xml" file="${component}/j4schema.xml" />
+	</target>
+
+    <target name="plugins">
+		<echo>Plugin build</echo>
+
+    	<zip destfile="${buildDir}/packages/plg_j4schema_cleanup.zip" basedir="${plugins}/j4schema_cleanup" />
+    </target>
+
+	<target name="pack">
+		<echo>Pack it up!</echo>
+		
+		<copy file="${basedir}/pkg_j4schema.xml" tofile="${buildDir}/pkg_j4schema.xml"/>
+		<copy file="${basedir}/library/lib_fof.zip" tofile="${buildDir}/packages/lib_fof.zip" />
+		
+		<zip destfile="${buildDir}/pkg_j4schema.zip" basedir="${buildDir}" />
+	</target>
+</project>

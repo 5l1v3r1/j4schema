@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="1.6">
+	<name>J4Schema Package</name>
+	<packagename>j4schema</packagename>
+	<version>2.5.5</version>
+	<url>http://www.fabbricabinaria.it/</url>
+	<description>J4Schema package (library + component + system plugin)</description>
+
+	<files folder="packages">
+		<file type="component" id="com_j4schema" >com_j4schema.zip</file>
+		<file type="plugin" id="plg_j4schema_cleanup" group="system">plg_j4schema_cleanup.zip</file>
+        <file type="library" id="lib_fof">lib_fof.zip</file>
+	</files>
+</extension>
