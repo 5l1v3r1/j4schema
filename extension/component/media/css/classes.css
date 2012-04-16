@@ -1,5 +1,5 @@
-.icon-48-j4schema_title{background:url('../img/j4schema_48.png')}
-.loader-bg-small{min-height:20px;background:url("../img/circle2_16.gif") no-repeat scroll 50% 3% transparent}
+.icon-48-j4schema{background:url('../images/j4schema_48.png')}
+.loader-bg-small{min-height:20px;background:url("../images/circle2_16.gif") no-repeat scroll 50% 3% transparent}
 .calendar{vertical-align:bottom;margin-left:5px}
 
 #warning{color: #FF0000;font-size: 14px;font-weight: bold;margin: 10px 0;text-align: center;padding:25px 0}
@@ -13,7 +13,7 @@
 #toggleEditor:hover{text-decoration:underline}
 
 input.insert, input.cancel, input.button, .updateButton {
-    background: url("../img/buttons.png") repeat scroll 0 -26px transparent;
+    background: url("../images/buttons.png") repeat scroll 0 -26px transparent;
     border: 0 none;
     cursor: pointer;
     font-weight: bold;
@@ -23,8 +23,8 @@ input.insert, input.cancel, input.button, .updateButton {
     width: 94px;
 }
 
-input.insert {background: url("../img/buttons.png") repeat scroll 0 -52px transparent;}
-input.cancel {background: url("../img/buttons.png") repeat scroll 0 0px transparent;}
+input.insert {background: url("../images/buttons.png") repeat scroll 0 -52px transparent;}
+input.cancel {background: url("../images/buttons.png") repeat scroll 0 0px transparent;}
 
 #j4schema fieldset label{clear:none;float:none;display:inline;}
 #j4schema fieldset input{float:none}

@@ -15,7 +15,7 @@ chooseElement = new Class({
 	dateTime	: '', calendarHolder : '', metaPropr : '', valuesList : '', valuesChoose : '', valuesDescr : '',
 	warning		: '',
 	options 	: {
-		BASE_URL  : 'index.php?option=com_j4schema&c=ajax&format=raw&task=',
+		BASE_URL  : 'index.php?option=com_j4schema&format=json&view=',
 		DATATYPES : ['text', 'number', 'date', 'duration', 'integer', 'url', 'enum'],
 		editor : '',
 		mode : '',
@@ -161,14 +161,14 @@ chooseElement = new Class({
 		});
 		
 		new Request.JSON({
-			url : self.options.BASE_URL + 'getTypes',
+			url : self.options.BASE_URL + 'types',
 			onSuccess : function(response){
 				self.type.load({
 					json: response
 					});
 			}
 		
-		}).post();
+		}).post({'ty_parent' : ''});
 	},
 	
 	initAttrib : function()
@@ -191,7 +191,7 @@ chooseElement = new Class({
 		this.attrib.load({json:[{property: {name: 'root'}}]});
 		this.attrib.loadOptions = function(node){
 			return {
-				url: self.options.BASE_URL + 'getAttrib&type=' + self.type.getSelected().name
+				url: self.options.BASE_URL + 'attributes&id=' + self.type.getSelected().name
 			};
 		};
 		this.attrib.addEvent('loadChildren', function(){self.options.attrib_container.removeClass('loader-bg-small');})
@@ -409,3 +409,14 @@ chooseElement = new Class({
 	getAttribDescr 	: function(node){ this.jsonAttrib.post({'item' : node.name, 'type' : 'attrib'})},
 	getTypeDescr 	: function(node){ this.jsonType.post({'item' : node.name, 'type' : 'type'})}
 });
+
+window.addEvent('load', function(){
+	var J4Stree = new chooseElement({
+			attrib_container : document.id('attrib_container'),
+			add_attrib		 : document.id('add_attribute'),
+			add_type		 : document.id('add_type'),
+			html_code		 : document.id('html_code'),
+			paste_button	 : document.id('paste_editor'),
+			type_container	 : document.id('tree_container')
+		});
+	})

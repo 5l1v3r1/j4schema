@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <install version="2.1.0" type="plugin" plugin="j4schema">
-	<name>J4Schema.org</name>
+	<name>J4Schema</name>
 	<version>2.1.0</version>
 	<creationDate>June 2011</creationDate>
 	<author>Davide Tampellini</author>

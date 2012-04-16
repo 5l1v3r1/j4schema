@@ -23,7 +23,7 @@
             <file charset="utf8" driver="mysql">install/uninstall.sql</file>
          </sql>
     </uninstall>
-
+    
     <files folder="frontend">
         <filename>j4schema.php</filename>
         <filename>index.html</filename>
@@ -32,12 +32,20 @@
 	<administration>
 		<menu view="cpanel" img="../media/com_j4schema/images/j4schema_20.png">COM_J4SCHEMA_MENU</menu>
 		<files folder="backend">
+            <folder>controllers</folder>
+            <folder>helpers</folder>
             <folder>install</folder>
-			<filename>j4schema.php</filename>
+            <folder>models</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
 			<filename>index.html</filename>
+			<filename>j4schema.php</filename>
 		</files>
 
 		<languages folder="language/backend">
+            <language tag="en-GB">en-GB/en-GB.com_j4schema.ini</language>
 			<language tag="en-GB">en-GB/en-GB.com_j4schema.sys.ini</language>
 			<language tag="en-GB">en-GB/en-GB.com_j4schema.menu.ini</language>
 		</languages>

@@ -17,7 +17,7 @@
 		</delete>
 	</target>
 
-	<!-- Create the component package (no file exclusion) -->
+	<!-- Create the component package -->
 	<target name="component">
 		<echo>Component build</echo>
 
@@ -36,14 +36,28 @@
 		<echo>Plugin build</echo>
 
     	<zip destfile="${buildDir}/packages/plg_j4schema_cleanup.zip" basedir="${plugins}/j4schema_cleanup" />
+    	<zip destfile="${buildDir}/packages/JCE_j4schema_plugin.zip" basedir="${plugins}/j4schema_editor" />
     </target>
 
+	<!-- 
+		Creates a package for component, library and system plugin.
+	 -->
 	<target name="pack">
 		<echo>Pack it up!</echo>
 		
 		<copy file="${basedir}/pkg_j4schema.xml" tofile="${buildDir}/pkg_j4schema.xml"/>
+		<copy file="${basedir}/script.pkg_j4schema.php" tofile="${buildDir}/script.pkg_j4schema.php"/>
 		<copy file="${basedir}/library/lib_fof.zip" tofile="${buildDir}/packages/lib_fof.zip" />
 		
 		<zip destfile="${buildDir}/pkg_j4schema.zip" basedir="${buildDir}" />
+				
+		<delete includeemptydirs="true">
+			<fileset dir="${buildDir}">
+				<include name="**/*" />
+				<exclude name="/*.zip" />
+			</fileset>
+		</delete>
+		
+		<copy file="${buildDir}/pkg_j4schema.zip" tofile="C:/Users/tampe125/Desktop/Trasf FTP/pkg_j4schema.zip" overwrite="true"/>
 	</target>
 </project>
