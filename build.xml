@@ -15,6 +15,8 @@
 		<delete includeemptydirs="true">
 			<fileset dir="${buildDir}" includes="**/*"/>
 		</delete>
+		
+		<mkdir dir="${buildDir}/packages"/>
 	</target>
 
 	<!-- Create the component package -->
@@ -58,6 +60,6 @@
 			</fileset>
 		</delete>
 		
-		<copy file="${buildDir}/pkg_j4schema.zip" tofile="C:/Users/tampe125/Desktop/Trasf FTP/pkg_j4schema.zip" overwrite="true"/>
+		<copy file="${buildDir}/pkg_j4schema.zip" tofile="C:/Users/${user.name}/Desktop/Trasf FTP/pkg_j4schema.zip" overwrite="true"/>
 	</target>
 </project>
