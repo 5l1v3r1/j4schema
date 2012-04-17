@@ -9,7 +9,6 @@ class J4schemaModelAttributes extends FOFModel
 		$query = FOFQueryAbstract::getNew($db);
 
 		//if i'm getting values in json format, probably i need them for the tree
-		//so i wipe out the select clause and rebuild it
 		if(FOFInput::getVar('format') == 'json')
 		{
 			$query->select('*')
@@ -18,7 +17,7 @@ class J4schemaModelAttributes extends FOFModel
 				  ->leftJoin('#__j4schema_properties ON id_properties = id_property');
 
 			//check if i'm requesting the root
-			$type = $this->getState('id_types');
+			$type = $this->getState('id', '');
 			$query->where("id_types = ".$db->quote($type));
 		}
 		else
@@ -30,17 +29,80 @@ class J4schemaModelAttributes extends FOFModel
 		return $query;
 	}
 
+	/**
+	 * Organize data, so I can manage it better to create the Attrib tree.
+	 * Inside there is a call to a recursive function {@see J4schemaModelAttributes::getAttrib} to fetch
+	 * parents attribs, too
+	 *
+	 * @see FOFModel::onProcessList()
+	 */
 	function onProcessList(&$resultArray)
 	{
 		if(FOFInput::getVar('format') != 'json') return;
 
+		// put every property inside an associative array
+		// $return[$level]['property']['name']  - Name of the attrib
+		// $return[$level]['children']			- Attribs of parent type
 		if($resultArray[0]->id_properties)
 		{
 			$i = 0;
-			$return[0]['property']['name'] = $this->getState('id_types');;
+			$return[0]['property']['name'] = $this->getState('id');
+			foreach($resultArray as $row)
+			{
+				$child[$i]['property']['name'] = $row->id_properties;
+				$i++;
+			}
+
+			$return[0]['children'] = $child;
+		}
+		else
+		{
+			$return = array();
+		}
+
+		//if type has a parent, let's get its attribs
+		if($resultArray[0]->ty_parent)
+		{
+			$return = array_merge($return, $this->getAttrib($resultArray[0]->ty_parent, 1));
+		}
+
+		//reverse the array (so first the selected one and then parents) and flag
+		//the first node to be expanded
+		if(is_array($return) && count($return))
+		{
+			array_reverse($return);
+			$return[0]['children'][0]['property']['expandTo'] = true;
+		}
+
+		$resultArray = $return;
+	}
+
+	/**
+	 * Recursive function to get all parent attribs, organizing them into levels
+	 *
+	 * @param string  $type		Type to search for
+	 * @param int	  $level	Level of nesting
+	 */
+	protected function getAttrib($type, $level = 0)
+	{
+		$db = JFactory::getDbo();
+
+		$query = FOFQueryAbstract::getNew($db)
+				 ->select('*')
+				 ->from('#__j4schema_types')
+				 ->leftJoin('#__j4schema_type_prop ON id_type = id_types')
+				 ->leftJoin('#__j4schema_properties ON id_properties = id_property')
+				 ->where('id_types = '.$db->quote($type));
+		$rows = $db->setQuery($query)->loadObjectList();
+
+		if(!$rows) return "";
+		elseif($rows[0]->id_properties)
+		{
+			$i = 0;
+			$return[$level]['property']['name'] = $type;
 			foreach($rows as $row)
 			{
-				$child[$i]['property']['name'] = $resultArray->id_properties;
+				$child[$i]['property']['name'] = $row->id_properties;
 				$i++;
 			}
 
@@ -53,9 +115,17 @@ class J4schemaModelAttributes extends FOFModel
 
 		if($rows[0]->ty_parent)
 		{
-			$return = array_merge($return, $this->getAttrib($resultArray[0]->ty_parent, 1));
+			$return = array_merge($return, $this->getAttrib($rows[0]->ty_parent, $level + 1));
 		}
 
-		$resultArray = $return;
+		return $return;
+	}
+
+	function &getItemList($overrideLimits = false, $group = '')
+	{
+		//if i'm getting values using json, i don't need the pagination
+		if(FOFInput::getVar('format') == 'json')	$overrideLimits = true;
+
+		return parent::getItemList($overrideLimits, $group);
 	}
 }

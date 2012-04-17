@@ -105,7 +105,7 @@ chooseElement = new Class({
 		});
 		
 		this.jsonType = new Request.JSON({
-			url : self.options.BASE_URL + 'getDescr',
+			url : self.options.BASE_URL + 'type',
 			onRequest : function(){
 				document.id('type_descr').empty().addClass('loader-bg-small');
 				self.warning.empty();
@@ -407,7 +407,7 @@ chooseElement = new Class({
 	},
 		
 	getAttribDescr 	: function(node){ this.jsonAttrib.post({'item' : node.name, 'type' : 'attrib'})},
-	getTypeDescr 	: function(node){ this.jsonType.post({'item' : node.name, 'type' : 'type'})}
+	getTypeDescr 	: function(node){ this.jsonType.post({'id_types' : node.name, 'task' : 'read', 'layout' : 'default_descr'})}
 });
 
 window.addEvent('load', function(){
