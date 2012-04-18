@@ -121,6 +121,22 @@ class J4schemaModelAttributes extends FOFModel
 		return $return;
 	}
 
+	function getDescr()
+	{
+		$db = JFactory::getDbo();
+
+		$id_prop = FOFInput::getVar('id_attributes');
+		$query = FOFQueryAbstract::getNew($db)
+					->select('pr_comment_plain as descr, pv_value as value')
+					->from('#__j4schema_properties')
+					->innerJoin('#__j4schema_prop_values ON id_properties = pv_id_properties')
+					->where('id_properties = '.$db->quote($id_prop));
+
+		$rows = $db->setQuery($query)->loadObjectList();
+
+		return $rows;
+	}
+
 	function &getItemList($overrideLimits = false, $group = '')
 	{
 		//if i'm getting values using json, i don't need the pagination

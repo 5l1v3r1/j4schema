@@ -90,4 +90,13 @@ class J4schemaModelTypes extends FOFModel
 
 		return $return;
 	}
+
+	function getDescr()
+	{
+		$id_types = FOFInput::getVar('id_types');
+		$table = $this->getTable($this->table);
+		$table->load($id_types);
+
+		return $table;
+	}
 }

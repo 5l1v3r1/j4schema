@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die();
 
-class J4schemaViewTypes extends FOFViewJson
+class J4schemaViewAttributes extends FOFViewJson
 {
 	/**
 	 * Since I'm using more than a JSON layout, I have to override the standard onRead method,
@@ -11,6 +11,8 @@ class J4schemaViewTypes extends FOFViewJson
 	 */
 	function onRead($tpl = null)
 	{
+		xdebug_break();
+
 		$layout = FOFInput::getVar('layout');
 
 		switch ($layout)
@@ -18,7 +20,7 @@ class J4schemaViewTypes extends FOFViewJson
 			case 'default_descr':
 				$layout = 'default';
 				$tpl = 'descr';
-			break;
+				break;
 		}
 
 		return parent::onRead($tpl);
@@ -33,8 +35,8 @@ class J4schemaViewTypes extends FOFViewJson
 	{
 		$model = $this->getModel();
 
-		$item = $model->getDescr();
-		$this->assign('item', $item );
+		$items = $model->getDescr();
+		$this->assign('items', $items );
 
 		$document = JFactory::getDocument();
 		$document->setMimeEncoding('application/json');
@@ -46,7 +48,7 @@ class J4schemaViewTypes extends FOFViewJson
 
 		if($result instanceof JException) {
 			// Default JSON behaviour in case the template isn't there!
-			echo json_encode($item);
+			echo json_encode($items);
 			return false;
 		}
 	}
