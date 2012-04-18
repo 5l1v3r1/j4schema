@@ -53,6 +53,9 @@ chooseElement = new Class({
 				self.schema_attr = '';
 				self.warning.empty();
 			},
+			onError : function(){
+				return;
+			},
 			onSuccess : function(response){
 				self.valuesDescr.removeClass('loader-bg-small').set('html', response.value_descr);
 				document.id('attrib_descr').removeClass('loader-bg-small').set('html', response.descr);

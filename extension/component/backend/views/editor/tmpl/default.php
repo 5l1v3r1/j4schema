@@ -53,7 +53,7 @@
 						<legend>List of possible Values</legend>
 						<div id="values_descr" class="italic">Click on an attribute to see its possible values</div>
 						<div id="dateTime" class="hidden">
-							<span id="calendarHolder" class="hidden"><?php echo $this->calendar?></span>
+							<span id="calendarHolder" class="hidden"><?php echo JHTML::calendar('', 'calendar', 'calendar', '%Y-%m-%d');?></span>
 							<span id="timeHolder" class="hidden">
 								<input type="text" id="calendarTime" size="5" maxlength="5" value="" /> <span class="italic">HH:mm</span>
 							</span>

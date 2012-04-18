@@ -332,34 +332,3 @@ Mif.Tree.implement({
         this.updateHover();
     }
 });
-
-/* aggiungere il supporto per l'espansione "su richiesta" creando una funzione 
- * custom partendo da initExpandTo (bind ad un evento personalizzato) */
-Mif.Tree.implement({
-	customExpandTo: function(target){
-		this.addEvent('loadChildren', function(parent){
-			if(!parent) return;
-			var children = parent.children;
-			for( var i = children.length; i--; ){
-				var child = children[i];
-				//in customExpand I can expand to one node only
-				if(child.name == target){
-					this.expanded.push(child);
-					this.expandNode = child;
-				}
-			}
-		});
-		function expand(){
-			this.expanded.each(function(node){
-				this.expandTo(node);
-			}, this);
-			this.select(this.expandNode);
-			this.expanded = [];
-			this.expandNode = null;
-		};
-		this.addEvents({
-			'load': expand.bind(this),
-			'loadNode': expand.bind(this)
-		});
-	}
-});
