@@ -3,7 +3,7 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class J4schemaControllerTypes extends FOFController
+class J4schemaControllerAttributes extends FOFController
 {
 	function __construct($config = array())
 	{

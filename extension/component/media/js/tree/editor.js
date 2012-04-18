@@ -40,7 +40,7 @@ chooseElement = new Class({
 		this.setEvents();
 				
 		this.jsonAttrib = new Request.JSON({
-			url		: self.options.BASE_URL + 'getDescr',
+			url		: self.options.BASE_URL + 'attribute',
 			onRequest : function(){
 				self.valuesDescr.empty().addClass('loader-bg-small');
 				self.nonStdValue = '';
@@ -406,8 +406,8 @@ chooseElement = new Class({
 			document.id('currSelection').set('html', '&nbsp;');}
 	},
 		
-	getAttribDescr 	: function(node){ this.jsonAttrib.post({'item' : node.name, 'type' : 'attrib'})},
-	getTypeDescr 	: function(node){ this.jsonType.post({'id_types' : node.name, 'task' : 'read', 'layout' : 'default_descr'})}
+	getAttribDescr 	: function(node){ this.jsonAttrib.post({'id_attributes' : node.name, 'task' : 'getDescr', 'layout' : 'default_descr'})},
+	getTypeDescr 	: function(node){ this.jsonType.post({'id_types' : node.name, 'task' : 'getDescr', 'layout' : 'default_descr'})}
 });
 
 window.addEvent('load', function(){
