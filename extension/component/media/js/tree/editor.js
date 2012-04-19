@@ -1,3 +1,5 @@
+var J4Stree;
+
 chooseElement = new Class({
 	Implements	: [Events, Options],
 	attrib 		: {},
@@ -414,7 +416,7 @@ chooseElement = new Class({
 });
 
 window.addEvent('load', function(){
-	var J4Stree = new chooseElement({
+	J4Stree = new chooseElement({
 			attrib_container : document.id('attrib_container'),
 			add_attrib		 : document.id('add_attribute'),
 			add_type		 : document.id('add_type'),

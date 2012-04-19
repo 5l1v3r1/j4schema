@@ -22,7 +22,11 @@
 	FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Load.js');
 	FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Selection.js');
 	FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.CookieStorage.js');
+
+	if(J4SCHEMA_PRO) FOFTemplateUtils::addJS('com_j4schema/js/pro.js');
+
 	FOFTemplateUtils::addJS('com_j4schema/js/tree/editor.js');
+
 ?>
 <div id="j4schema">
 	<form autocomplete="off" style="height:450px">
