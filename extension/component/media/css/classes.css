@@ -11,6 +11,8 @@
 	margin:10px;	
 }
 #toggleEditor:hover{text-decoration:underline}
+#values_descr{margin:5px}
+.expandToType{color:#0B55C4;cursor:pointer;text-decoration:underline}
 
 input.insert, input.cancel, input.button, .updateButton {
     background: url("../images/buttons.png") repeat scroll 0 -26px transparent;

@@ -12,7 +12,7 @@ foreach($this->items as $row)
 	//property value is not a "fixed" one (ie text, number or date)
 	if(!in_array(strtolower($row->value) , $dataTypes ))
 	{
-		if(J4SCHEMA_PRO)	$values_descr[] = 'a "<span class="expandToType pointer underline">'.$row->value.'</span>" type';
+		if(J4SCHEMA_PRO)	$values_descr[] = 'a "<span class="expandToType">'.$row->value.'</span>" type';
 		else				$values_descr[] = 'a "'.$row->value.'" type';
 	}
 	else
