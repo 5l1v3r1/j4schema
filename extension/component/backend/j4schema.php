@@ -8,5 +8,8 @@ FOFTemplateUtils::addCSS('com_j4schema/css/main.css');
 FOFTemplateUtils::addCSS('com_j4schema/css/classes.css');
 FOFTemplateUtils::addCSS('com_j4schema/css/tree.css');
 
+if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))	define('J4SCHEMA_PRO', 1);
+else														define('J4SCHEMA_PRO', 0);
+
 // Dispatch
 FOFDispatcher::getAnInstance('com_j4schema')->dispatch();

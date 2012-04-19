@@ -1,4 +1,4 @@
 build/*
+.settings/*
 .buildpath
-.settings/
 .project

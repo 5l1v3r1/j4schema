@@ -7,3 +7,12 @@
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
+
+if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))	define('J4SCHEMA_PRO', 1);
+else														define('J4SCHEMA_PRO', 0);
+
+if(!J4SCHEMA_PRO)
+{
+	echo '';
+	return;
+}

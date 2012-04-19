@@ -26,11 +26,23 @@
 		<move tofile="${component}/j4schema.xml" file="${component}/backend/j4schema.xml" />
 		
 		<!-- Exclude the language folder in backend, since it's syslinked -->
+		<!-- Pro version, no file exclusion -->
 		<zip destfile="${buildDir}/packages/com_j4schema.zip">
 			<fileset dir="${component}">
 				<exclude name="backend/language/**" />
 			</fileset>
 		</zip>
+		
+		<!-- Free version, file exclusion -->
+		<zip destfile="${buildDir}/packages/com_j4schema_free.zip">
+			<fileset dir="${component}">
+				<not>
+			    	<containsregexp expression="@category[ \t]+J4SchemaPro"/>
+			    </not>
+				<exclude name="backend/language/**" />
+			</fileset>
+		</zip>
+		
 		<move tofile="${component}/backend/j4schema.xml" file="${component}/j4schema.xml" />
 	</target>
 
@@ -40,7 +52,7 @@
     	<zip destfile="${buildDir}/packages/plg_j4schema_cleanup.zip" basedir="${plugins}/j4schema_cleanup" />
     	<zip destfile="${buildDir}/packages/JCE_j4schema_plugin.zip" basedir="${plugins}/j4schema_editor" />
     </target>
-
+	
 	<!-- 
 		Creates a package for component, library and system plugin.
 	 -->
@@ -51,7 +63,21 @@
 		<copy file="${basedir}/script.pkg_j4schema.php" tofile="${buildDir}/script.pkg_j4schema.php"/>
 		<copy file="${basedir}/library/lib_fof.zip" tofile="${buildDir}/packages/lib_fof.zip" />
 		
-		<zip destfile="${buildDir}/pkg_j4schema.zip" basedir="${buildDir}" />
+		<!-- Pro package -->
+		<zip destfile="${buildDir}/pkg_j4schema_pro.zip">
+			<fileset dir="${buildDir}">
+				<exclude name="**/com_j4schema_free.zip" />
+			</fileset>
+		</zip>
+		
+		<!-- Free package -->
+		<delete file="${buildDir}/packages/com_j4schema.zip" />
+		<move file="${buildDir}/packages/com_j4schema_free.zip" tofile="${buildDir}/packages/com_j4schema.zip" />
+		<zip destfile="${buildDir}/pkg_j4schema.zip">
+			<fileset dir="${buildDir}">
+				<exclude name="**/pkg_j4schema_pro.zip" />
+			</fileset>
+		</zip>
 				
 		<delete includeemptydirs="true">
 			<fileset dir="${buildDir}">
@@ -60,6 +86,8 @@
 			</fileset>
 		</delete>
 		
+		<!--
 		<copy file="${buildDir}/pkg_j4schema.zip" tofile="C:/Users/${user.name}/Desktop/Trasf FTP/pkg_j4schema.zip" overwrite="true"/>
+		-->
 	</target>
 </project>

@@ -1,3 +1,5 @@
+var J4Stree;
+
 chooseElement = new Class({
 	Implements	: [Events, Options],
 	attrib 		: {},
@@ -52,6 +54,9 @@ chooseElement = new Class({
 				document.id('propOnly').checked = true;
 				self.schema_attr = '';
 				self.warning.empty();
+			},
+			onError : function(){
+				return;
 			},
 			onSuccess : function(response){
 				self.valuesDescr.removeClass('loader-bg-small').set('html', response.value_descr);
@@ -411,7 +416,7 @@ chooseElement = new Class({
 });
 
 window.addEvent('load', function(){
-	var J4Stree = new chooseElement({
+	J4Stree = new chooseElement({
 			attrib_container : document.id('attrib_container'),
 			add_attrib		 : document.id('add_attribute'),
 			add_type		 : document.id('add_type'),
