@@ -3,27 +3,12 @@ defined('_JEXEC') or die();
 
 class J4schemaViewAttributes extends FOFViewJson
 {
-	/**
-	 * Since I'm using more than a JSON layout, I have to override the standard onRead method,
-	 * so I can set the correct $tpl to use
-	 *
-	 * @see FOFViewHtml::onRead()
-	 */
-	function onRead($tpl = null)
+	function __construct($config = array())
 	{
-		xdebug_break();
+		parent::__construct($config);
 
-		$layout = FOFInput::getVar('layout');
-
-		switch ($layout)
-		{
-			case 'default_descr':
-				$layout = 'default';
-				$tpl = 'descr';
-				break;
-		}
-
-		return parent::onRead($tpl);
+		//I add the backend template paths here, so FOF has already did his work
+		$this->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.'/views/attributes/tmpl');
 	}
 
 	/**

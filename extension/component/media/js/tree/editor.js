@@ -367,7 +367,7 @@ chooseElement = new Class({
 
 			if(document.id('j4sSettings').hasClass('hidden'))
 			{			
-				editorFx.start('height', '40px').chain(
+				editorFx.start('height', '50px').chain(
 						function(){document.id('j4sSettings').removeClass('hidden');}
 					);
 				
@@ -376,7 +376,7 @@ chooseElement = new Class({
 			else
 			{	
 				document.id('j4sSettings').addClass('hidden');
-				editorFx.start('height', '440px');
+				editorFx.start('height', '430px');
 				
 				this.set('html', 'Expand settings');
 			}

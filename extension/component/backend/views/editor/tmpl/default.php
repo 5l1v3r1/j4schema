@@ -30,7 +30,7 @@
 ?>
 <div id="j4schema">
 	<form autocomplete="off" style="height:450px">
-		<div id="textareaHolder" style="height:40px">
+		<div id="textareaHolder" style="height:50px">
 			<textarea id="html_code" class="w100_" style="height:auto;">&nbsp;</textarea>
 		</div>
 		<div class="clr"></div>
@@ -112,4 +112,5 @@
 		<input type="button" class="button"  id="add_attribute" name="add_attribute" value="Add attribute" /><br />
 		<input type="button" class="insert"  id="paste_editor"  name="paste_editor" value="Paste back" />
 	</div>
+	<div class="clr"></div>
 </div>

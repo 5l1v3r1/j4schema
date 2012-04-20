@@ -12,15 +12,13 @@ class J4schemaModelTypes extends FOFModel
 		//so i wipe out the select clause and rebuild it
 		if(FOFInput::getVar('format') == 'json')
 		{
-			$query = parent::buildQuery(true);
-
-			$query->clear('select')
-				  ->clear('order')
-				  ->select('id_types, ty_children');
+			//on frontend i really don't know why i have var named 'id' initialized on 'index.php' (!!!)
+			$query->select('id_types, ty_children')
+				  ->from('#__j4schema_types');
 
 			//check if i'm requesting the root
-			$parent = $this->getState('ty_parent');
-			if(empty($parent))	$query->where("ty_parent = ''");
+			$parent = $this->getState('ty_parent', '');
+			$query->where("ty_parent = ".$db->quote($parent));
 		}
 		else
 		{
