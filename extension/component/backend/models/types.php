@@ -73,7 +73,7 @@ class J4schemaModelTypes extends FOFModel
 
 		$query = FOFQueryAbstract::getNew($db)
 					->select('id_types, ty_children')
-					->from('#__j4s_types')
+					->from('#__j4schema_types')
 					->where('ty_parent = '.$db->Quote($parent));
 
 		$rows = $db->setQuery($query)->loadObjectList();

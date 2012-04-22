@@ -2,7 +2,7 @@
 <extension type="component" version="1.6.0" method="upgrade">
 
 	<name>J4Schema</name>
-	<version>2.6</version>
+	<version>3.0.0</version>
 	<creationDate>April 2012</creationDate>
 	<author>Davide Tampellini</author>
 	<authorUrl>http://www.fabbricabinaria.it</authorUrl>
@@ -23,7 +23,7 @@
             <file charset="utf8" driver="mysql">install/uninstall.sql</file>
          </sql>
     </uninstall>
-    
+        
     <files folder="frontend">
         <filename>j4schema.php</filename>
         <filename>index.html</filename>
