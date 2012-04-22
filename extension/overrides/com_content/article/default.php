@@ -19,12 +19,14 @@ $canEdit	= $this->item->params->get('access-edit');
 $user		= JFactory::getUser();
 
 ?>
-<div class="item-page<?php echo $this->pageclass_sfx?>" {ARTICLE_ITEMSCOPE}>
+<div {ARTICLE_WRAPPER} class="item-page<?php echo $this->pageclass_sfx?>">
+
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
 	<h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
 <?php endif; ?>
+	<div {ARTICLE_BODY}>
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
 {
@@ -33,7 +35,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
  ?>
 
 <?php if ($params->get('show_title')) : ?>
-	<h2>
+	<h2 {ARTICLE_TITLE}>
 	<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
 		<a href="<?php echo $this->item->readmore_link; ?>">
 		<?php echo $this->escape($this->item->title); ?></a>
@@ -92,14 +94,14 @@ endif; ?>
 	<?php	$title = $this->escape($this->item->parent_title);
 	$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
 	<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
-		<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
+		<span {ARTICLE_PARENT_CATEGORY}><?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?></span>
 	<?php else : ?>
-		<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
+		<span {ARTICLE_PARENT_CATEGORY}><?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?></span>
 	<?php endif; ?>
 	</dd>
 <?php endif; ?>
 <?php if ($params->get('show_category')) : ?>
-	<dd class="category-name">
+	<dd class="category-name" {ARTICLE_CATEGORY}>
 	<?php 	$title = $this->escape($this->item->category_title);
 	$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
 	<?php if ($params->get('link_category') and $this->item->catslug) : ?>
@@ -121,7 +123,9 @@ endif; ?>
 <?php endif; ?>
 <?php if ($params->get('show_publish_date')) : ?>
 	<dd class="published">
-	<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
+		<time {ARTICLE_PUBLISH_UP:<?php echo $this->item->publish_up?>}>
+			<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
+		</time>
 	</dd>
 <?php endif; ?>
 <?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
@@ -216,4 +220,5 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 <?php endif; ?>
 
 <?php echo $this->item->event->afterDisplayContent; ?>
+	</div>
 </div>
