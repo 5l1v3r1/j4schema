@@ -3,6 +3,7 @@ var J4Stree;
 chooseElement = new Class({
 	Implements	: [Events, Options],
 	attrib 		: {},
+	loadingAttr : false,
 	attrib_type : '',
 	dataType	: '',
 	editorHelper: '',
@@ -195,6 +196,7 @@ chooseElement = new Class({
 		
 		this.attrib.load({json:[{property: {name: 'root'}}]});
 		this.attrib.loadOptions = function(node){
+			self.loadingAttr = true;
 			return {
 				url: self.options.BASE_URL + 'attributes&id=' + self.type.getSelected().name
 			};
@@ -203,6 +205,11 @@ chooseElement = new Class({
 		this.attrib.addEvent('select', function(node){
 			if(!node.getParent().getParent()) return;
 			self.getAttribDescr(node);
+		});
+		this.attrib.addEvent('load', function(){
+			console.log(self.loadingAttr);
+			self.loadingAttr = false;
+			console.log(self.loadingAttr);
 		});
 	},
 	
