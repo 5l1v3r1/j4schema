@@ -1,8 +1,25 @@
 <?php
+/**
+ * @package 	J4Schema
+ * @copyright 	Copyright (c)2011 Davide Tampellini
+ * @license 	GNU General Public License version 3, or later
+ * @since 		1.0
+ */
+
 defined('_JEXEC') or die();
 
 class J4schemaViewEditor extends FOFViewHtml
 {
+	function __construct($config = array())
+	{
+		$config['helper_path'] = JPATH_COMPONENT_ADMINISTRATOR.'/helpers';
+
+		parent::__construct($config);
+
+		//I add the backend template paths here, so FOF has already did his work
+		$this->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.'/views/editor/tmpl');
+	}
+
 	function display($tpl = null)
 	{
 		$this->loadHelper('checks');

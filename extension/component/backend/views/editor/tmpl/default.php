@@ -1,6 +1,6 @@
 <?php
 /**
- * @package 	Joomla4Schema
+ * @package 	J4Schema
  * @copyright 	Copyright (c)2011 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  * @since 		1.0
@@ -29,9 +29,9 @@
 
 ?>
 <div id="j4schema">
-	<form autocomplete="off" style="height:450px">
-		<div id="textareaHolder" style="height:40px">
-			<textarea id="html_code" class="w100_" style="height:auto;">&nbsp;</textarea>
+	<form autocomplete="off" style="margin-bottom:10px">
+		<div id="textareaHolder">
+			<textarea id="html_code" class="w100_" style="height:50px;">&nbsp;</textarea>
 		</div>
 		<div class="clr"></div>
 		<div id="j4sSettings" style="margin-top:15px">
@@ -52,7 +52,7 @@
 				</fieldset>
 			</div>
 			<div class="sx w250">
-				<div style="min-height:313px;margin-top:-16px">
+				<div style="margin-top:-16px">
 					<fieldset style="margin-bottom:5px; padding:5px">
 						<legend>List of possible Values</legend>
 						<div id="values_descr" class="italic">Click on an attribute to see its possible values</div>
@@ -95,21 +95,25 @@
 				<div id="warning">&nbsp;</div>
 
 			</div>
+			<div class="clr"></div>
 		</div>
 	</form>
-	<div class="sx" style="width:150px">
-		<span id="toggleEditor">Expand editor</span>
-		<div class="center" style="margin-top:34px">
-			<input type="button" class="cancel"  id="remove_schemas" name="remove_schemas" value="Clean all"/>
+	<div>
+		<div class="sx" style="width:150px">
+			<span id="toggleEditor">Expand editor</span>
+			<div class="center" style="margin-top:34px">
+				<input type="button" class="cancel"  id="remove_schemas" name="remove_schemas" value="Clean all"/>
+			</div>
 		</div>
-	</div>
-	<fieldset class="sx" style="width:600px;min-height:50px">
-		<legend>Current selection</legend>
-		<div id="currSelection" class="italic"></div>
-	</fieldset>
-	<div class="dx">
-		<input type="button" class="button"  id="add_type" 	 name="add_type" value="Add type"/><br />
-		<input type="button" class="button"  id="add_attribute" name="add_attribute" value="Add attribute" /><br />
-		<input type="button" class="insert"  id="paste_editor"  name="paste_editor" value="Paste back" />
+		<fieldset class="sx" style="width:600px;min-height:50px">
+			<legend>Current selection</legend>
+			<div id="currSelection" class="italic"></div>
+		</fieldset>
+		<div class="dx">
+			<input type="button" class="button"  id="add_type" 	 name="add_type" value="Add type"/><br />
+			<input type="button" class="button"  id="add_attribute" name="add_attribute" value="Add attribute" /><br />
+			<input type="button" class="insert"  id="paste_editor"  name="paste_editor" value="Paste back" />
+		</div>
+		<div class="clr"></div>
 	</div>
 </div>

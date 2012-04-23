@@ -14,19 +14,20 @@
 #values_descr{margin:5px}
 .expandToType{color:#0B55C4;cursor:pointer;text-decoration:underline}
 
-input.insert, input.cancel, input.button, .updateButton {
+#j4schema input.insert, #j4schema input.cancel, #j4schema input.button, #j4schema .updateButton {
     background: url("../images/buttons.png") repeat scroll 0 -26px transparent;
     border: 0 none;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: bold !important;
+    font-size: 10px;
     height: 26px;
     margin: 0;
     padding: 0 0 2px;
     width: 94px;
 }
 
-input.insert {background: url("../images/buttons.png") repeat scroll 0 -52px transparent;}
-input.cancel {background: url("../images/buttons.png") repeat scroll 0 0px transparent;}
+#j4schema input.insert {background: url("../images/buttons.png") repeat scroll 0 -52px transparent;}
+#j4schema input.cancel {background: url("../images/buttons.png") repeat scroll 0 0px transparent;}
 
 #j4schema fieldset label{clear:none;float:none;display:inline;}
 #j4schema fieldset input{float:none}

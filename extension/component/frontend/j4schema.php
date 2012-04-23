@@ -13,6 +13,12 @@ else														define('J4SCHEMA_PRO', 0);
 
 if(!J4SCHEMA_PRO)
 {
-	echo '';
+	$jlang = JFactory::getLanguage();
+	$jlang->load('com_j4schema', JPATH_ADMINISTRATOR, 'en-GB', true);
+	$jlang->load('com_j4schema', JPATH_ADMINISTRATOR, null, true);
+
+	echo '<h2>'.JText::_('COM_J4SCHEMA_BACKEND_ONLY').'</h2>';
 	return;
 }
+
+require_once JPATH_COMPONENT_SITE.'/j4schema_frontend.php';

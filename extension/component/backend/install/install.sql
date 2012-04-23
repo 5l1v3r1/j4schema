@@ -1,4 +1,9 @@
-CREATE TABLE IF NOT EXISTS `#__j4s_properties` (
+DROP TABLE IF EXISTS `#__j4s_properties`;
+DROP TABLE IF EXISTS `#__j4s_prop_values`;
+DROP TABLE IF EXISTS `#__j4s_types`;
+DROP TABLE IF EXISTS `#__j4s_type_prop`;
+
+CREATE TABLE IF NOT EXISTS `#__j4schema_properties` (
   `id_properties` varchar(255) NOT NULL,
   `pr_comment` text NOT NULL,
   `pr_comment_plain` text NOT NULL,
@@ -7,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `#__j4s_properties` (
   PRIMARY KEY (`id_properties`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `#__j4s_properties` (`id_properties`, `pr_comment`, `pr_comment_plain`, `pr_ranges`, `pr_url`) VALUES
+INSERT INTO `#__j4schema_properties` (`id_properties`, `pr_comment`, `pr_comment_plain`, `pr_ranges`, `pr_url`) VALUES
 ('about', 'The subject matter of the content.', 'The subject matter of the content.', '', 'http://schema.org/about'),
 ('acceptsReservations', 'Either <code>Yes/No</code>, or a URL at which reservations can be made.', 'Either Yes/No, or a URL at which reservations can be made.', '', 'http://schema.org/acceptsReservations'),
 ('actors', 'A cast member of the movie, TV series, season, or episode, or video.', 'A cast member of the movie, TV series, season, or episode, or video.', '', 'http://schema.org/actors'),
@@ -204,14 +209,14 @@ INSERT INTO `#__j4s_properties` (`id_properties`, `pr_comment`, `pr_comment_plai
 ('RefurbishedCondition', '', '', '', 'http://schema.org/RefurbishedCondition'),
 ('UsedCondition', '', '', '', 'http://schema.org/UsedCondition');
 
-CREATE TABLE IF NOT EXISTS `#__j4s_prop_values` (
+CREATE TABLE IF NOT EXISTS `#__j4schema_prop_values` (
   `pv_id_properties` varchar(50) NOT NULL,
   `pv_value` varchar(50) NOT NULL,
   `pv_enum` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pv_id_properties`,`pv_value`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `#__j4s_prop_values` (`pv_id_properties`, `pv_value`, `pv_enum`) VALUES
+INSERT INTO `#__j4schema_prop_values` (`pv_id_properties`, `pv_value`, `pv_enum`) VALUES
 ('about', 'Thing', 0),
 ('acceptsReservations', 'Text', 0),
 ('actors', 'Person', 0),
@@ -424,7 +429,7 @@ INSERT INTO `#__j4s_prop_values` (`pv_id_properties`, `pv_value`, `pv_enum`) VAL
 ('RefurbishedCondition', 'Enum', 1),
 ('UsedCondition', 'Enum', 1);
 
-CREATE TABLE IF NOT EXISTS `#__j4s_types` (
+CREATE TABLE IF NOT EXISTS `#__j4schema_types` (
   `id_types` varchar(50) NOT NULL,
   `ty_parent` varchar(50) NOT NULL,
   `ty_comment` text NOT NULL,
@@ -433,9 +438,9 @@ CREATE TABLE IF NOT EXISTS `#__j4s_types` (
   `ty_url` varchar(100) NOT NULL,
   `ty_children` tinyint(4) NOT NULL,
   PRIMARY KEY (`id_types`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `#__j4s_types` (`id_types`, `ty_parent`, `ty_comment`, `ty_comment_plain`, `ty_label`, `ty_url`, `ty_children`) VALUES
+INSERT INTO `#__j4schema_types` (`id_types`, `ty_parent`, `ty_comment`, `ty_comment_plain`, `ty_label`, `ty_url`, `ty_children`) VALUES
 ('AboutPage', 'WebPage', 'Web page type: About page.', 'Web page type: About page.', 'About Page', 'http://schema.org/AboutPage', 0),
 ('AccountingService', 'FinancialService', 'Accountancy business.', 'Accountancy business.', 'Accounting Service', 'http://schema.org/AccountingService', 0),
 ('AdministrativeArea', 'Place', 'A geographical region under the jurisdiction of a particular government.', 'A geographical region under the jurisdiction of a particular government.', 'Administrative Area', 'http://schema.org/AdministrativeArea', 3),
@@ -732,13 +737,13 @@ INSERT INTO `#__j4s_types` (`id_types`, `ty_parent`, `ty_comment`, `ty_comment_p
 ('WPSideBar', 'WebPageElement', 'A sidebar section of the page.', 'A sidebar section of the page.', 'WP Side Bar', 'http://schema.org/WPSideBar', 0),
 ('Zoo', 'CivicStructure', 'A zoo.', 'A zoo.', 'Zoo', 'http://schema.org/Zoo', 0);
 
-CREATE TABLE IF NOT EXISTS `#__j4s_type_prop` (
+CREATE TABLE IF NOT EXISTS `#__j4schema_type_prop` (
   `id_type` varchar(50) NOT NULL,
   `id_property` varchar(50) NOT NULL,
   PRIMARY KEY (`id_type`,`id_property`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `#__j4s_type_prop` (`id_type`, `id_property`) VALUES
+INSERT INTO `#__j4schema_type_prop` (`id_type`, `id_property`) VALUES
 ('AggregateOffer', 'highPrice'),
 ('AggregateOffer', 'lowPrice'),
 ('AggregateOffer', 'offerCount'),
