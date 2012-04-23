@@ -42,20 +42,20 @@
 				<div class="clr"></div>
 
 				<fieldset class="sx w230" style="margin:5px 10px 0">
-					<legend>Type Description</legend>
-					<div id="type_descr" class="italic">Click on a type to see its description</div>
+					<legend><?php echo JText::_('COM_J4SCHEMA_TYPE_DESCR')?></legend>
+					<div id="type_descr" class="italic"><?php echo JText::_('COM_J4SCHEMA_TYPE_DESCR_DESCR')?></div>
 				</fieldset>
 
 				<fieldset class="sx w280" style="margin:5px 10px 0">
-					<legend>Attribute Description</legend>
-					<div id="attrib_descr" class="italic">Click on an attribute to see its description</div>
+					<legend><?php echo JText::_('COM_J4SCHEMA_ATTR_DESCR')?></legend>
+					<div id="attrib_descr" class="italic"><?php echo JText::_('COM_J4SCHEMA_ATTR_DESCR_DESCR')?></div>
 				</fieldset>
 			</div>
 			<div class="sx w250">
 				<div style="margin-top:-16px">
 					<fieldset style="margin-bottom:5px; padding:5px">
-						<legend>List of possible Values</legend>
-						<div id="values_descr" class="italic">Click on an attribute to see its possible values</div>
+						<legend><?php echo JText::_('COM_J4SCHEMA_VALUE_LIST')?></legend>
+						<div id="values_descr" class="italic"><?php echo JText::_('COM_J4SCHEMA_VALUE_LIST_DESCR')?></div>
 						<div id="dateTime" class="hidden">
 							<span id="calendarHolder" class="hidden"><?php echo JHTML::calendar('', 'calendar', 'calendar', '%Y-%m-%d');?></span>
 							<span id="timeHolder" class="hidden">
@@ -65,28 +65,28 @@
 						<div id="values_details">
 							<div id="values_choose" class="hidden">
 								<input type="radio" name="values" id="propOnly" checked />
-									<label for="propOnly" class="pointer">Insert as plain property</label><br />
+									<label for="propOnly" class="pointer"><?php echo JText::_('COM_J4SCHEMA_INSERT_PLAIN')?></label><br />
 	<!-- 							<input type="radio" name="values" id="metaProp" />
 									<label for="metaProp" class="pointer">Insert as meta tag</label><br /> -->
 								<span id="proprPlusTypeHolder">
 									<input type="radio" name="values" id="proprPlusType"/>
-									<label for="proprPlusType" class="pointer">Insert property AND create a new itemtype block</label>
+									<label for="proprPlusType" class="pointer"><?php echo JText::_('COM_J4SCHEMA_INSERT_NEW')?></label>
 								</span>
 								<div id="values_list" class="hidden" style="margin-left:40px"></div>
 							</div>
 						</div>
 					</fieldset>
 					<fieldset style="margin-bottom:5px; padding:5px">
-						<legend>Configuration</legend>
+						<legend><?php echo JText::_('COM_J4SCHEMA_EDITOR_CONFIG')?></legend>
 							<input type="radio" name="modeInsert" id="property" checked />
-								<label for="property" class="pointer">Add type/attribute as element property</label><br />
+								<label for="property" class="pointer"><?php echo JText::_('COM_J4SCHEMA_ADD_AS_PROPERTY')?></label><br />
 							<input type="radio" name="modeInsert" id="wrap" />
-								<label for="wrap" class="pointer">Wrap selected text with a new <pre class="inline">&lt;div&gt;</pre> or <pre class="inline">&lt;span&gt;</pre></label>
+								<label for="wrap" class="pointer"><?php echo JText::_('COM_J4SCHEMA_WRAP_PROPERTY')?></label>
 							<div id="newElement" style="margin-left:85px" class="hidden">
 								<input type="radio" name="newElement" id="newDiv" />
-									<label for="newDiv">Create a new div</label><br />
+									<label for="newDiv"><?php echo JText::_('COM_J4SCHEMA_CREATE_DIV')?></label><br />
 								<input type="radio" name="newElement" id="newSpan" checked />
-									<label for="newSpan">Create a new span</label>
+									<label for="newSpan"><?php echo JText::_('COM_J4SCHEMA_CREATE_SPAN')?></label>
 							</div>
 					</fieldset>
 
@@ -100,19 +100,19 @@
 	</form>
 	<div>
 		<div class="sx" style="width:150px">
-			<span id="toggleEditor">Expand editor</span>
+			<span id="toggleEditor"><?php echo JText::_('COM_J4SCHEMA_EXPAND_EDITOR')?></span>
 			<div class="center" style="margin-top:34px">
-				<input type="button" class="cancel"  id="remove_schemas" name="remove_schemas" value="Clean all"/>
+				<input type="button" class="cancel"  id="remove_schemas" name="remove_schemas" value="<?php echo JText::_('COM_J4SCHEMA_CLEAN_ALL')?>"/>
 			</div>
 		</div>
 		<fieldset class="sx" style="width:600px;min-height:50px">
-			<legend>Current selection</legend>
+			<legend><?php echo JText::_('COM_J4SCHEMA_CURRENT_SEL')?></legend>
 			<div id="currSelection" class="italic"></div>
 		</fieldset>
 		<div class="dx">
-			<input type="button" class="button"  id="add_type" 	 name="add_type" value="Add type"/><br />
-			<input type="button" class="button"  id="add_attribute" name="add_attribute" value="Add attribute" /><br />
-			<input type="button" class="insert"  id="paste_editor"  name="paste_editor" value="Paste back" />
+			<input type="button" class="button"  id="add_type" 	 name="add_type" value="<?php echo JText::_('COM_J4SCHEMA_ADD_TYPE')?>"/><br />
+			<input type="button" class="button"  id="add_attribute" name="add_attribute" value="<?php echo JText::_('COM_J4SCHEMA_ADD_ATTR')?>" /><br />
+			<input type="button" class="insert"  id="paste_editor"  name="paste_editor" value="<?php echo JText::_('COM_J4SCHEMA_PASTE_BACK')?>" />
 		</div>
 		<div class="clr"></div>
 	</div>

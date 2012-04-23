@@ -13,18 +13,14 @@
 ?>
 
 <div class="sx w50_" style="font-family:Helvetica;font-size:14px">
-	This extension is managed using J4Schema editor plugin. <br/>
-	Here there are no options nor settings to configure (except for component access options).<br/>
-	<br/>
-	Cheers! :)
+	<?php echo JText::_('COM_J4SCHEMA_BACKEND_MANAGE')?>
 </div>
 
 <div class="dx w45_">
 <?php if($warnings): ?>
 	<div style="font-family:Helvetica;font-size:14px;margin-bottom:15px">
 		<img class="sx" style="margin-right:5px" src="<?php echo $warn_img; ?>" />
-		Uh oh! There's something wrong<br />
-		Check the requirements below
+		<?php echo JText::_('COM_J4SCHEMA_WARNINGS')?>
 	</div>
 <?php echo implode('', $warnings); ?>
 

@@ -13,8 +13,7 @@
 <div class="">
 	<div style="font-family:Helvetica;font-size:14px;margin-bottom:15px">
 		<img class="sx" style="margin-right:5px" src="<?php echo $warn_image?>" />
-		Uh oh! There's something wrong<br />
-		Check the requirements below
+		<?php echo JText::_('COM_J4SCHEMA_WARNINGS')?>
 	</div>
 <?php echo implode('', $this->warnings); ?>
 </div>
