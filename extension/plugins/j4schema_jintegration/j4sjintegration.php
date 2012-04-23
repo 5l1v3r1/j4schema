@@ -28,6 +28,7 @@ class plgSystemJ4sjintegration extends JPlugin
 		$body = str_replace('{ARTICLE_WRAPPER}', 'itemscope itemtype="http://schema.org/WebPage"', $body);
 		$body = str_replace('{ARTICLE_BODY}', 'itemprop="mainContentOfPage"', $body);
 		$body = str_replace('{ARTICLE_TITLE}', 'itemprop="name"', $body);
+		$body = str_replace('{ARTICLE_LINK}', 'itemprop="url"', $body);
 		$body = str_replace('{ARTICLE_CATEGORY}', 'itemprop="genre"', $body);
 
 		$body = preg_replace_callback('#\{ARTICLE_PUBLISH_UP:.*\}#', 'timeToISO', $body);

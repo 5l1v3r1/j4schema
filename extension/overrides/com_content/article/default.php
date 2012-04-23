@@ -13,8 +13,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcuts to some parameters.
 $params		= $this->item->params;
-$images = json_decode($this->item->images);
-$urls = json_decode($this->item->urls);
+$images 	= json_decode($this->item->images);
+$urls 		= json_decode($this->item->urls);
 $canEdit	= $this->item->params->get('access-edit');
 $user		= JFactory::getUser();
 
@@ -37,7 +37,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 <?php if ($params->get('show_title')) : ?>
 	<h2 {ARTICLE_TITLE}>
 	<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
-		<a href="<?php echo $this->item->readmore_link; ?>">
+		<a {ARTICLE_LINK} href="<?php echo $this->item->readmore_link; ?>">
 		<?php echo $this->escape($this->item->title); ?></a>
 	<?php else : ?>
 		<?php echo $this->escape($this->item->title); ?>
@@ -94,9 +94,9 @@ endif; ?>
 	<?php	$title = $this->escape($this->item->parent_title);
 	$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
 	<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
-		<span {ARTICLE_PARENT_CATEGORY}><?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?></span>
+		<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 	<?php else : ?>
-		<span {ARTICLE_PARENT_CATEGORY}><?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?></span>
+		<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
 	<?php endif; ?>
 	</dd>
 <?php endif; ?>
