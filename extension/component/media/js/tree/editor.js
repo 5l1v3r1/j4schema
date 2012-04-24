@@ -14,6 +14,7 @@ chooseElement = new Class({
 	schema_type : '',
 	selectedText: '',
 	type		: {},
+	fromType	: {},
 	//elements
 	dateTime	: '', calendarHolder : '', metaPropr : '', valuesList : '', valuesChoose : '', valuesDescr : '',
 	warning		: '',
@@ -159,7 +160,21 @@ chooseElement = new Class({
 			height: 18
 		});
 		
+		this.type.addEvent('unSelect', function(node){
+			self.fromType = node;
+		});
+
 		this.type.addEvent('select', function(node){
+			if(self.loadingAttr)
+			{
+				alert('Please wait until the attrib tree loading completes');
+				self.loadingAttr = false;
+				self.type.select(self.fromType);
+				return;
+			}
+			
+			self.loadingAttr = true;
+			
 			self.attrib.del();
 			self.options.attrib_container.addClass('loader-bg-small');
 			self.attrib.load();
@@ -196,7 +211,6 @@ chooseElement = new Class({
 		
 		this.attrib.load({json:[{property: {name: 'root'}}]});
 		this.attrib.loadOptions = function(node){
-			self.loadingAttr = true;
 			return {
 				url: self.options.BASE_URL + 'attributes&id=' + self.type.getSelected().name
 			};
@@ -207,9 +221,7 @@ chooseElement = new Class({
 			self.getAttribDescr(node);
 		});
 		this.attrib.addEvent('load', function(){
-			console.log(self.loadingAttr);
 			self.loadingAttr = false;
-			console.log(self.loadingAttr);
 		});
 	},
 	
