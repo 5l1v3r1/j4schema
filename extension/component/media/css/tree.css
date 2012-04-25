@@ -1,6 +1,3 @@
-#attrib{float:left; width:200px}
-#html_code{font-size:11px}
-
 #j4schema .container{
 	height:300px;
 	width:300px;
@@ -10,11 +7,6 @@
 	margin:0 10px;
 	text-align:left;
 }
-
-#informer{clear:both;}
-#informer p{font-weight:bold;}
-#informer span{font-weight:normal;}
-
 
 /*@global*/
 

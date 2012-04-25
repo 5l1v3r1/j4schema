@@ -9,6 +9,8 @@
 	defined( '_JEXEC' ) or die( 'Restricted access' );
 	JHTML::_('behavior.mootools');
 
+	FOFTemplateUtils::addCSS('com_j4schema/css/editor.css');
+
 	FOFTemplateUtils::addJS('site://components/com_jce/editor/tiny_mce/tiny_mce_popup.js');
 
 	FOFTemplateUtils::addJS('com_j4schema/js/phpjs/get_html_translation_table.js');

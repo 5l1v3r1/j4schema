@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- [SKIP_STANDARD] -->
+<!-- [@DELETE_SKIP] -->
 <skip>
 	<comment>
 		This file is here so that this view does not appear in your back-end

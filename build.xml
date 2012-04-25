@@ -5,7 +5,7 @@
 	<property name="plugins"     value="${basedir}/extension/plugins" />
 	<property name="backend"    value="${component}/backend"/>
 	<property name="frontend"   value="${component}/frontend"/>
-
+	
 	<target name="build" depends="cleanup, component, plugins, pack" />
 
 	<!-- Clean up the build directory output -->
@@ -33,6 +33,9 @@
 			</fileset>
 		</zip>
 		
+		<!-- Add skip files for empty backend view on Free edition -->
+		<copy todir="${backend}/views/tokens" file="${basedir}/skip.xml" />
+		
 		<!-- Free version, file exclusion -->
 		<zip destfile="${buildDir}/packages/com_j4schema_free.zip">
 			<fileset dir="${component}">
@@ -42,6 +45,12 @@
 				<exclude name="backend/language/**" />
 			</fileset>
 		</zip>
+		
+		<delete includeemptydirs="true">
+			<fileset dir="${component}">
+				<containsregexp expression="@DELETE_SKIP"/>
+			</fileset>
+		</delete>
 		
 		<move tofile="${component}/backend/j4schema.xml" file="${component}/j4schema.xml" />
 	</target>
