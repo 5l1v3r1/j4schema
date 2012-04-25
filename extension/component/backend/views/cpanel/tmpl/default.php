@@ -17,6 +17,11 @@
 </div>
 
 <div class="dx w45_">
+	<div class="cpanel">
+		<div class="icon-wrapper">
+		<?php echo LiveUpdate::getIcon(); ?>
+		</div>
+	</div>
 <?php if($warnings): ?>
 	<div style="font-family:Helvetica;font-size:14px;margin-bottom:15px">
 		<img class="sx" style="margin-right:5px" src="<?php echo $warn_img; ?>" />

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+    <fieldset name="params" label="COM_J4SCHEMA_PARAMS" description="">
+      <field name="downloadid" type="text" default="" size="30"
+              label="Download ID"
+              description ="COM_J4SCHEMA_DOWNLOADID_DESCR" />
+    </fieldset>
     <fieldset
         name="access"
         label="JCONFIG_PERMISSIONS_LABEL"
