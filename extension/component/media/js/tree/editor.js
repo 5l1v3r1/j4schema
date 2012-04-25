@@ -159,7 +159,7 @@ chooseElement = new Class({
 			dfltType: 'folder',
 			height: 18
 		});
-		
+
 		this.type.addEvent('select', function(node){
 			if(self.loadingAttr)
 			{
