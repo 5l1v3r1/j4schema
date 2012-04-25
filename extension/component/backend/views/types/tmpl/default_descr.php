@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die();
 
-$return['descr'] = $this->item->ty_comment_plain ? $this->item->ty_comment_plain : 'No description provided';
+$return['descr'] = $this->item->ty_comment_plain ? $this->item->ty_comment_plain : JText::_('COM_J4SCHEMA_NODESCR');
 $return['schema'] = $this->item->ty_url;
 
 echo json_encode($return);

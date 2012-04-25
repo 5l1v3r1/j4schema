@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="package" version="1.6">
+
 	<name>J4Schema Package</name>
 	<packagename>j4schema</packagename>
-	<version>2.6</version>
-	<url>http://www.fabbricabinaria.it/</url>
+	<version>3.0.0</version>
+    <creationDate>April 2012</creationDate>
+    <author>Davide Tampellini</author>
+    <authorUrl>http://www.fabbricabinaria.it</authorUrl>
+    <authorEmail>webmaster@fabbricabinaria.it</authorEmail>
+    <license>http://www.gnu.org/licenses/gpl.html (GNU/GPL)</license>
 	<description>J4Schema package</description>
 
     <scriptfile>script.pkg_j4schema.php</scriptfile>

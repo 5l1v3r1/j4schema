@@ -3,6 +3,7 @@ var J4Stree;
 chooseElement = new Class({
 	Implements	: [Events, Options],
 	attrib 		: {},
+	loadingAttr : false,
 	attrib_type : '',
 	dataType	: '',
 	editorHelper: '',
@@ -13,6 +14,7 @@ chooseElement = new Class({
 	schema_type : '',
 	selectedText: '',
 	type		: {},
+	fromType	: {},
 	//elements
 	dateTime	: '', calendarHolder : '', metaPropr : '', valuesList : '', valuesChoose : '', valuesDescr : '',
 	warning		: '',
@@ -157,8 +159,18 @@ chooseElement = new Class({
 			dfltType: 'folder',
 			height: 18
 		});
-		
+
 		this.type.addEvent('select', function(node){
+			if(self.loadingAttr)
+			{
+				alert('Please wait until the attrib tree loading completes');
+				self.loadingAttr = false;
+				self.type.select(self.fromType);
+				return;
+			}
+			
+			self.loadingAttr = true;
+			
 			self.attrib.del();
 			self.options.attrib_container.addClass('loader-bg-small');
 			self.attrib.load();
@@ -203,6 +215,9 @@ chooseElement = new Class({
 		this.attrib.addEvent('select', function(node){
 			if(!node.getParent().getParent()) return;
 			self.getAttribDescr(node);
+		});
+		this.attrib.addEvent('load', function(){
+			self.loadingAttr = false;
 		});
 	},
 	

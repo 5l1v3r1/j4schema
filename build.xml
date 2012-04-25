@@ -5,7 +5,7 @@
 	<property name="plugins"     value="${basedir}/extension/plugins" />
 	<property name="backend"    value="${component}/backend"/>
 	<property name="frontend"   value="${component}/frontend"/>
-	
+
 	<target name="build" depends="cleanup, component, plugins, pack" />
 
 	<!-- Clean up the build directory output -->
@@ -17,6 +17,7 @@
 		</delete>
 		
 		<mkdir dir="${buildDir}/packages"/>
+		<mkdir dir="${buildDir}/archives" />
 	</target>
 
 	<!-- Create the component package -->
@@ -45,12 +46,14 @@
 				<exclude name="backend/language/**" />
 			</fileset>
 		</zip>
-		
 		<delete includeemptydirs="true">
 			<fileset dir="${component}">
 				<containsregexp expression="@DELETE_SKIP"/>
 			</fileset>
 		</delete>
+
+		<copy file="${buildDir}/packages/com_j4schema.zip" tofile="${buildDir}/archives/com_j4schema_pro.zip" />
+		<copy file="${buildDir}/packages/com_j4schema_free.zip" tofile="${buildDir}/archives/com_j4schema_free.zip" />
 		
 		<move tofile="${component}/backend/j4schema.xml" file="${component}/j4schema.xml" />
 	</target>
@@ -60,6 +63,9 @@
 
     	<zip destfile="${buildDir}/packages/plg_j4schema_cleanup.zip" basedir="${plugins}/j4schema_cleanup" />
     	<zip destfile="${buildDir}/packages/JCE_j4schema_plugin.zip" basedir="${plugins}/j4schema_editor" />
+    	
+    	<copy file="${buildDir}/packages/plg_j4schema_cleanup.zip" tofile="${buildDir}/archives/plg_j4schema_cleanup.zip" />
+    	<copy file="${buildDir}/packages/plg_j4schema_cleanup.zip" tofile="${buildDir}/archives/JCE_j4schema_plugin.zip" />
     </target>
 	
 	<!-- 
@@ -70,11 +76,13 @@
 		
 		<copy file="${basedir}/pkg_j4schema.xml" tofile="${buildDir}/pkg_j4schema.xml"/>
 		<copy file="${basedir}/script.pkg_j4schema.php" tofile="${buildDir}/script.pkg_j4schema.php"/>
+		<copy file="${basedir}/output.php" tofile="${buildDir}/output.php"/>
 		<copy file="${basedir}/library/lib_fof.zip" tofile="${buildDir}/packages/lib_fof.zip" />
 		
 		<!-- Pro package -->
 		<zip destfile="${buildDir}/pkg_j4schema_pro.zip">
 			<fileset dir="${buildDir}">
+				<exclude name="**/archives/**" />
 				<exclude name="**/com_j4schema_free.zip" />
 			</fileset>
 		</zip>
@@ -84,6 +92,7 @@
 		<move file="${buildDir}/packages/com_j4schema_free.zip" tofile="${buildDir}/packages/com_j4schema.zip" />
 		<zip destfile="${buildDir}/pkg_j4schema.zip">
 			<fileset dir="${buildDir}">
+				<exclude name="**/archives/**" />
 				<exclude name="**/pkg_j4schema_pro.zip" />
 			</fileset>
 		</zip>
@@ -91,12 +100,13 @@
 		<delete includeemptydirs="true">
 			<fileset dir="${buildDir}">
 				<include name="**/*" />
+				<exclude name="archives/*" />
 				<exclude name="/*.zip" />
 			</fileset>
 		</delete>
 		
-		<!--
+		
 		<copy file="${buildDir}/pkg_j4schema.zip" tofile="C:/Users/${user.name}/Desktop/Trasf FTP/pkg_j4schema.zip" overwrite="true"/>
-		-->
+		
 	</target>
 </project>

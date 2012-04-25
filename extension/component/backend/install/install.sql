@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS `#__j4s_properties`;
+DROP TABLE IF EXISTS `#__j4s_prop_values`;
+DROP TABLE IF EXISTS `#__j4s_types`;
+DROP TABLE IF EXISTS `#__j4s_type_prop`;
+
 CREATE TABLE IF NOT EXISTS `#__j4schema_properties` (
   `id_properties` varchar(255) NOT NULL,
   `pr_comment` text NOT NULL,
@@ -433,7 +438,7 @@ CREATE TABLE IF NOT EXISTS `#__j4schema_types` (
   `ty_url` varchar(100) NOT NULL,
   `ty_children` tinyint(4) NOT NULL,
   PRIMARY KEY (`id_types`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `#__j4schema_types` (`id_types`, `ty_parent`, `ty_comment`, `ty_comment_plain`, `ty_label`, `ty_url`, `ty_children`) VALUES
 ('AboutPage', 'WebPage', 'Web page type: About page.', 'Web page type: About page.', 'About Page', 'http://schema.org/AboutPage', 0),
