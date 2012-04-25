@@ -50,7 +50,7 @@
 			<language tag="en-GB">en-GB/en-GB.com_j4schema.menu.ini</language>
 		</languages>
 	</administration>
-  
+    
     <media destination="com_j4schema" folder="media">
         <folder>css</folder>
         <folder>images</folder>
