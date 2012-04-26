@@ -35,11 +35,13 @@
             <folder>controllers</folder>
             <folder>helpers</folder>
             <folder>install</folder>
+            <folder>liveupdate</folder>
             <folder>models</folder>
             <folder>tables</folder>
             <folder>views</folder>
             <filename>access.xml</filename>
             <filename>config.xml</filename>
+            <filename>dispatcher.php</filename>
 			<filename>index.html</filename>
 			<filename>j4schema.php</filename>
 		</files>
