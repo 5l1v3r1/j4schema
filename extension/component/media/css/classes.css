@@ -4,6 +4,8 @@
 #j4schema .input_pre{font-family:"Courier New";font-size:100%}
 .faux_pre{font-family:"Courier New";}
 
+#dummy_disabled{font-size: 110%;font-style: italic;padding-left: 30px;}
+
 fieldset label.radiobtn{clear:none}
 
 label.main {

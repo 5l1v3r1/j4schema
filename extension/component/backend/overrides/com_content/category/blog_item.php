@@ -23,9 +23,9 @@ JHtml::core();
 <div class="system-unpublished">
 <?php endif; ?>
 <?php if ($params->get('show_title')) : ?>
-	<h2>
+	<h2 {BLOG_ARTICLE_TITLE}>
 		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>">
+			<a {BLOG_ARTICLE_TITLE_LINK} href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>">
 			<?php echo $this->escape($this->item->title); ?></a>
 		<?php else : ?>
 			<?php echo $this->escape($this->item->title); ?>
@@ -77,7 +77,7 @@ JHtml::core();
 		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_category')) : ?>
-		<dd class="category-name">
+		<dd class="category-name" {BLOG_CATEGORY}>
 			<?php $title = $this->escape($this->item->category_title);
 					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catid)) . '">' . $title . '</a>'; ?>
 			<?php if ($params->get('link_category')) : ?>
@@ -99,7 +99,9 @@ JHtml::core();
 <?php endif; ?>
 <?php if ($params->get('show_publish_date')) : ?>
 		<dd class="published">
-		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
+			<time {ARTICLE_PUBLISH_UP:<?php echo $this->item->publish_up?>}>
+				<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
+			</time>
 		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
@@ -134,7 +136,10 @@ JHtml::core();
 		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/>
 	</div>
 <?php endif; ?>
+
+	<div {BLOG_TEXT_WRAPPER}>
 <?php echo $this->item->introtext; ?>
+	</div>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :
 	if ($params->get('access-view')) :

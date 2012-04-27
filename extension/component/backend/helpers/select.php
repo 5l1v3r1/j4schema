@@ -25,6 +25,20 @@ class J4schemaHelperSelect
 		return self::genericlist(self::$cache['integration'], $id, $attribs, $selected, $id);
 	}
 
+	public static function tokenType($id, $selected = null, $attribs = '')
+	{
+		if(!isset(self::$cache['tokenType']))
+		{
+			$opt[] = array('value' => '', 'text' => ' - '.JText::_('COM_J4SCHEMA_SELECT').' - ');
+			$opt[] = array('value' => 'text', 'text' => JText::_('COM_J4SCHEMA_PLAIN_TEXT'));
+			$opt[] = array('value' => 'date', 'text' => JText::_('COM_J4SCHEMA_DATE'));
+
+			self::$cache['tokenType'] = $opt;
+		}
+
+		return self::genericlist(self::$cache['tokenType'], $id, $attribs, $selected, $id);
+	}
+
 	protected static function genericlist($list, $name, $attribs, $selected, $idTag)
 	{
 		return JHTML::_('select.genericlist', $list, $name, $attribs, 'value', 'text', $selected, $idTag);

@@ -22,7 +22,7 @@ $class = ' class="first"';
 		?>
 		<li<?php echo $class; ?>>
 			<?php $class = ''; ?>
-			<span class="item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id));?>">
+			<span class="item-title"><a {BLOG_CHILDREN_LINK} href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id));?>">
 				<?php echo $this->escape($child->title); ?></a>
 			</span>
 

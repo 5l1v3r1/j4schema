@@ -32,6 +32,12 @@ class J4schemaTableToken extends FOFTable
 			$result = false;
 		}
 
+		if(empty($this->to_type))
+		{
+			$this->setError(JText::_('COM_J4SCHEMA_TOKEN_ERR_TYPE'));
+			$result = false;
+		}
+
 		return $result;
 	}
 }

@@ -14,29 +14,46 @@ class plgSystemJ4sjintegration extends JPlugin
 {
 	public function onAfterRender()
 	{
-		function timeToISO($value)
-		{
-			$datetime = str_replace('{ARTICLE_PUBLISH_UP:', '', $value[0]);
-			$datetime = str_replace('}', '', $datetime);
-			$date = new JDate($datetime);
-			$iso  = $date->toISO8601();
-			return 'itemprop="datePublished" datetime="'.$iso.'"';
-		}
+		$tokens = $this->getTokens();
 
 		$body = JResponse::getBody();
 
-		// -- SINGLE ARTICLE TOKEN REPLACE --
-		$body = str_replace('{ARTICLE_WRAPPER}', 'itemscope itemtype="http://schema.org/WebPage"', $body);
-		$body = str_replace('{ARTICLE_BODY}', 'itemprop="mainContentOfPage"', $body);
-		$body = str_replace('{ARTICLE_TITLE}', 'itemprop="name"', $body);
-		$body = str_replace('{ARTICLE_LINK}', 'itemprop="url"', $body);
-		$body = str_replace('{ARTICLE_CATEGORY}', 'itemprop="genre"', $body);
-		$body = str_replace('{ARTICLE_LINKS}', 'itemprop="significantLinks"', $body);
-		$body = preg_replace_callback('#\{ARTICLE_PUBLISH_UP:.*\}#', 'timeToISO', $body);
-
-		// -- BLOG LAYOUT TOKEN REPLACE --
-		//$body = str_replace();
+		foreach($tokens as $token)
+		{
+			if($token->to_type == 'text')
+			{
+				$body = str_replace('{'.$token->to_name.'}', $token->to_replace, $body);
+			}
+			elseif($token->to_type == 'date')
+			{
+				$this->token = $token;
+				$body = preg_replace_callback('#\{'.$token->to_name.':.*\}#', array($this, 'timeToISO'), $body);
+				$this->token= '';
+			}
+		}
 
 		JResponse::setBody($body);
+	}
+
+	function timeToISO($value)
+	{
+		$datetime = str_replace('{'.$this->token->to_name.':', '', $value[0]);
+		$datetime = str_replace('}', '', $datetime);
+		$date = new JDate($datetime);
+		$iso  = $date->toISO8601();
+		return $this->token->to_replace.' datetime="'.$iso.'"';
+	}
+
+	protected function getTokens()
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+					->select('*')
+					->from('#__j4schema_tokens')
+					->where('enabled = 1');
+		$rows = $db->setQuery($query)->loadObjectList();
+
+		return $rows;
 	}
 }

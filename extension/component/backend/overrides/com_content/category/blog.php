@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 ?>
-<div class="blog<?php echo $this->pageclass_sfx;?>">
+<div class="blog<?php echo $this->pageclass_sfx;?>" {BLOG_WRAPPER}>
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
 	<h1>
 		<?php echo $this->escape($this->params->get('page_heading')); ?>
@@ -28,8 +28,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 	</h2>
 	<?php endif; ?>
 
-
-
+<div {BLOG_POSTS_WRAPPER}> <?php #<--- J4SCHEMA POSTS WRAPPER?>
 
 <?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 	<div class="category-desc">
@@ -42,8 +41,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 	<div class="clr"></div>
 	</div>
 <?php endif; ?>
-
-<div {CATEGORY_WRAPPER}>
 
 <?php $leadingcount=0 ; ?>
 <?php if (!empty($this->lead_items)) : ?>
@@ -92,7 +89,8 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 
 <?php endif; ?>
-
+</div>
+	<div> <?php #<-- J4SCHEMA LINKS WRAPPER?>
 <?php if (!empty($this->link_items)) : ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
@@ -120,6 +118,5 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 				<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
 <?php  endif; ?>
-
+	</div>
 </div>
-</div> <?php #<--- END OF J4SCHEMA BLOG WRAPPER?>
