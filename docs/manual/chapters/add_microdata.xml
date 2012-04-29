@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook V5.0//EN" "http://www.oasis-open.org/docbook/xml/5.0/docbook.dtd" >
+
+<section xml:id="adding-microdata">
+	<title>Adding microdata</title>
+	
+	<para>Now that you know every part of <guilabel>J4Schema</guilabel> editor, let's start adding Schema.org information.</para>
+	<para>First of all, we have to add the <code>itemtype</code> property, so we can identify 
+		the subject of this block of text.</para>
+	
+	<section xml:id="adding-itemtype">
+		<title>Adding the itemtype</title>
+		
+		<para>Just select the entire text, explode the type tree until the Movie one and click on <guibutton>Add type button.</guibutton></para>
+		<para>Great! You have just added a type to your text!</para>
+		
+		<note>
+			<para>You can find the Movie type under <emphasis>Thing</emphasis> &#187; <emphasis>Creative Work</emphasis> 
+			&#187; <emphasis>Movie</emphasis></para>
+		</note>
+
+		<para>Now your text should be something like this:</para>
+		
+		<example>
+            <title>HTML after type add</title>
+            <programlisting><![CDATA[
+<div itemscope="" itemtype="http://schema.org/Movie">
+    <h1>Avatar</h1>
+    <span>Director: James Cameron (born August 16, 1954)</span> 
+    <span>Science fiction</span> 
+    <a href="http://www.example.com/movies/avatar-theatrical-trailer.html">Trailer</a>
+</div>]]>
+            </programlisting>
+        </example>
+
+		<note>
+			<para>As you can see, the <code>itemscope</code> property has empty attributes; don't worry! J4Schema cleanup 
+			plugin will remove these quotes for you.</para>
+		</note>
+
+	</section>
+	
+	<section xml:id="adding-attributes">
+		<title>Adding attributes</title>
+		
+		<para>Now you have access to "Movie" and its parents properties; select <code><![CDATA[<h1>Avatar</h1>]]></code> and explode 
+			the node <emphasis>Thing</emphasis> on the <emphasis>Attribute node</emphasis>.
+		</para>
+		
+		<para>Select the attribute <emphasis>name</emphasis> and press the <guibutton>Add attribute button</guibutton>. 
+			If you have done every right, your text should look like this:</para>
+		
+		<example>
+            <title>HTML after adding "name" attribute</title>
+            <programlisting><![CDATA[
+<div itemscope="" itemtype="http://schema.org/Movie">
+    <h1 itemprop="name">Avatar</h1>
+    <span>Director: James Cameron (born August 16, 1954)</span> 
+    <span>Science fiction</span> 
+    <a href="http://www.example.com/movies/avatar-theatrical-trailer.html">Trailer</a>
+</div>]]>
+            </programlisting>
+        </example>
+        
+        <para>In the same way, we can add more information about the movie genre: select the text 
+        	<code><![CDATA[<span>Science fiction</span>]]></code> and look for the <emphasis>Genre</emphasis> attribute.</para>
+        
+        <para>You'll find it in the <emphasis>CreativeWork</emphasis> node, since every type shares its attributes with its parent;
+        	now add it as we did before.</para>
+        	
+        <para>Now select the trailer link (<code><![CDATA[<a href="http://www.example.com/movies/avatar-theatrical-trailer.html">Trailer</a>]]></code>)
+        	and select the <emphasis>Trailer</emphasis> attribute.</para>
+        
+        <para>As you can see in the box on the right, <guilabel>List of possible Values</guilabel>, you can choose to add it as
+        	plain property or to create another <code>itemtype</code> block. For the moment, just add it as property.</para>
+        	
+        <para>Your text should be like this:</para>
+        
+        <example>
+            <title>HTML after adding attributes</title>
+            <programlisting><![CDATA[
+<div itemscope="" itemtype="http://schema.org/Movie">
+    <h1 itemprop="name">Avatar</h1>
+    <span>Director: James Cameron (born August 16, 1954)</span> 
+    <span itemprop="genre">Science fiction</span> 
+    <a itemprop="trailer" href="http://www.example.com/movies/avatar-theatrical-trailer.html">
+        Trailer
+    </a>
+</div>]]>
+            </programlisting>
+        </example>
+	</section>
+</section>

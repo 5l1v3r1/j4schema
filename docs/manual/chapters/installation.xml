@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V5.0//EN" "http://www.oasis-open.org/docbook/xml/5.0/docbook.dtd" >
+
+<chapter xml:id="installation">
+    <title>Installation</title>
+    
+    <para>Installation and requirements details for J4Schema extension</para>
+    
+    <section xml:id="requirements">
+        <title>Requirements</title>
+        
+        <para>
+            J4Schema runs on both Joomla! 1.7 and Joomla! 2.5 . We strongly suggest you to always use the latest Joomla! version, since
+            it patches all the known bugs.
+        </para>
+        
+        <para>
+            System requirements are less restrictive than Joomla!, so, if you can run the CMS without problems, you shouldn't have 
+            any problems with this extension.
+        </para>
+        
+        <para>
+            J4Schema is integrated with <ulink url="http://www.joomlacontenteditor.net/">JCE editor</ulink>, so you need to install 
+            and use it as editor for your articles.
+        </para>
+    </section>
+    
+    <section xml:id="download">
+        <title>Download</title>
+
+        <para>
+            You can get the latest version of our extension from the "Download" section of our site. J4Schema package consists in 3 files:
+            <itemizedlist>
+                <listitem>
+                    <simpara>J4Schema component <emphasis>(com_j4schema.zip)</emphasis></simpara>
+                </listitem>
+                <listitem>
+                    <simpara>J4Schema cleanup plugin <emphasis>(plg_j4schema_cleanup.zip)</emphasis></simpara>
+                </listitem>
+                <listitem>
+                    <simpara>J4Schema JCE plugin <emphasis>(JCE_plg_j4schema.zip)</emphasis></simpara>                  
+                </listitem>
+            </itemizedlist>
+        </para>
+      
+        <note>
+            <para>
+                You should always use the latest version, since we constantly work on fixing bugs and adding new features.
+            </para>
+        </note>
+    </section>
+    
+    <section xml:id="installation-steps">
+        <title>Installation</title>
+        
+        <para>
+            J4Schema component and cleanup plugin are standard Joomla! extensions, so you can install them as usual with the <emphasis>
+            Joomla! Extension manager</emphasis>. J4Schema JCE plugin is a JCE extension, so you have to install it from its control panel.
+        </para>
+    </section>
+    
+    <section xml:id="configuration">
+        <title>Configuration</title>
+        
+        <para>
+            First of all you need to enabled the content plugin <emphasis>J4Schema cleanup</emphasis>, otherwise microdata attributes
+            will not display correctly.
+            
+            <tip>                   
+                <para>
+                    You have to install this plugin since we're adding some non-standard HTML attributes and, sometimes, JCE editor won't
+                    process them in the right way.
+                </para>
+                <para>
+                    For example, when you add the <code>itemscope</code> attribute, JCE will process it as it would be a standard attribute,
+                    adding <code>=""</code>. So, you will have this wrong text: <code>itemscope=""</code>.
+                </para>
+                <para>
+                    Schema.org dictionary, instead, wants it without any quotes, so we have to manipulate it and eliminate them.
+                </para>
+            </tip>
+        </para>
+        
+        <para>
+            After that, you have to add the J4Schema button on JCE editor. To do that, you have to go in <emphasis>JCE Administration</emphasis> &#187; 
+            <emphasis>Edit profile</emphasis> &#187; <emphasis>Features tab</emphasis> and drag&amp;drop the Google button.
+        </para>
+        
+        <para>
+            As last step, you have to disable the "Cleanup HTML" features, since we're adding non-standard HTML tags, JCE sees them as
+            errors and strips them out from your articles.
+        </para>
+        
+        <para>
+            You can disable it from <emphasis>JCE Administration</emphasis> &#187; <emphasis>Editor Global Configuration</emphasis>.
+        </para>
+        
+        <para>
+            Excellent! You're ready to start!
+        </para>
+    </section>
+  </chapter>

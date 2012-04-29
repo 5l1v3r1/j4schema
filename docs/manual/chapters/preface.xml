@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V5.0//EN" "http://www.oasis-open.org/docbook/xml/5.0/docbook.dtd" >
+  <chapter xml:id="preface">
+    <title>Preface</title>
+
+    <para>In June 2011, three main search engines (Google, Bing and Yahoo) created a new standard for semantic search: schema.org.
+	  They created a dictionary in order to turn into machine readable some information that only a human being could understand.</para>
+	  
+	<para>
+	  For example, the word "Avatar" could be a lot of things: it could be a film title, an user image on a forum and so on. 
+	  We can understand what we're talking about using the context, a machine can't, it needs more information.
+	</para>
+	  
+	<para>
+	    To help developers in this task, we have created an extension that allows them to quickly navigate inside the dictionary and 
+	    pick the tags they need. 
+	</para>     
+  </chapter>
