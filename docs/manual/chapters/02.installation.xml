@@ -10,8 +10,8 @@
         <title>Requirements</title>
         
         <para>
-            J4Schema runs on both Joomla! 1.7 and Joomla! 2.5 . We strongly suggest you to always use the latest Joomla! version, since
-            it patches all the known bugs.
+            J4Schema is tested on Joomla! 2.5; however it <emphasis>should</emphasis> work on Joomla! 1.7, too. 
+            Anyway, we strongly suggest you to always use the latest Joomla! version, since it patches all the known bugs.
         </para>
         
         <para>
@@ -29,16 +29,20 @@
         <title>Download</title>
 
         <para>
-            You can get the latest version of our extension from the "Download" section of our site. J4Schema package consists in 3 files:
+            You can get the latest version of our extension from the "Download" section of our site. We have created a "one-click-installer" 
+            package, once installed you will find:
             <itemizedlist>
                 <listitem>
-                    <simpara>J4Schema component <emphasis>(com_j4schema.zip)</emphasis></simpara>
+                  <simpara>FrameworkOnFramework library</simpara>
                 </listitem>
                 <listitem>
-                    <simpara>J4Schema cleanup plugin <emphasis>(plg_j4schema_cleanup.zip)</emphasis></simpara>
+                    <simpara>J4Schema component</simpara>
                 </listitem>
                 <listitem>
-                    <simpara>J4Schema JCE plugin <emphasis>(JCE_plg_j4schema.zip)</emphasis></simpara>                  
+                    <simpara>J4Schema cleanup plugin</simpara>
+                </listitem>
+                <listitem>
+                    <simpara>J4Schema JCE plugin</simpara>                  
                 </listitem>
             </itemizedlist>
         </para>
@@ -48,19 +52,28 @@
                 You should always use the latest version, since we constantly work on fixing bugs and adding new features.
             </para>
         </note>
-    </section>
-    
-    <section xml:id="installation-steps">
-        <title>Installation</title>
         
-        <para>
-            J4Schema component and cleanup plugin are standard Joomla! extensions, so you can install them as usual with the <emphasis>
-            Joomla! Extension manager</emphasis>. J4Schema JCE plugin is a JCE extension, so you have to install it from its control panel.
-        </para>
+        <warning>
+          <para>
+            If you are using any Akeeba extension (ie Admin Tool, Akeeba Backup etc etc), you should pay attention when uninstalling J4Schema, since
+            the FrameworkOnFramework libary is used by both. 
+          </para>
+          <para>
+            If you try to uninstall J4Schema as <emphasis>"package"</emphasis>, Joomla! will remove FOF library too, so your Akeeba extension might stop
+            working.
+          </para>
+          <para>
+            To avoid this, you should uninstall every single part of J4Schema (component, plugins etc etc) manually from Joomla! extension management.
+          </para>
+        </warning>
     </section>
-    
+
     <section xml:id="configuration">
         <title>Configuration</title>
+        
+        <note>
+          On package installation, everything should be ready to use. However, if you have any problems on JCE plugin, you should check these steps.
+        </note>
         
         <para>
             First of all you need to enabled the content plugin <emphasis>J4Schema cleanup</emphasis>, otherwise microdata attributes

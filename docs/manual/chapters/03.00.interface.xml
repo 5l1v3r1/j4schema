@@ -212,7 +212,7 @@
         </section>
     </section>
     
-    <xi:include href="add_microdata.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="03.01.add_microdata.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
 	<section xml:id="add-microdata-congrats">
 		<title>Congratulations!</title>

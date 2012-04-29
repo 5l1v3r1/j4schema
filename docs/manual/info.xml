@@ -15,10 +15,15 @@
 
     <revhistory>
       <revision>
+        <revnumber>3.1.0</revnumber>
+        <date>April 30th, 2012</date>
+        <author>
+          <personname><firstname>Davide</firstname><surname>Tampellini</surname></personname>
+        </author>
+      </revision>
+      <revision>
         <revnumber>2.5.4</revnumber>
-
         <date>March 13th, 2012</date>
-
         <author>
           <personname><firstname>Davide</firstname><surname>Tampellini</surname></personname>
         </author>
@@ -35,7 +40,7 @@
     </legalnotice>
 
     <abstract>
-      <para>This book covers the use of the J4Schema component, plugin and JCE plugin bundle for <trademark>Joomla!</trademark>
+      <para>This book covers the use of the J4Schema package for <trademark>Joomla!</trademark>
       -powered web sites.</para>
     </abstract>
   </info>

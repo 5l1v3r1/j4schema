@@ -2,11 +2,12 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" >
 <book>
 
-  	<xi:include href="info.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
-	<xi:include href="chapters/preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
-	<xi:include href="chapters/installation.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
-	<xi:include href="chapters/interface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
-	<xi:include href="chapters/advanced_usage.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="info.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="chapters/01.preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="chapters/02.installation.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="chapters/03.00.interface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="chapters/04.advanced_usage.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="chapters/05.pro_version.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
 	
 <appendix xml:id="gpl">
     <title><acronym>GNU</acronym> General Public License version 3</title>
