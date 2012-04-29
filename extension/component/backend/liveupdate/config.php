@@ -16,7 +16,7 @@ class LiveUpdateConfig extends LiveUpdateAbstractConfig
 	var $_extensionTitle		= 'J4Schema package';
 
 	//default settings (standard version)
-	var $_updateURL				= 'http://localhost/fabbrica/index.php?option=com_ars&view=update&format=ini&id=3';
+	var $_updateURL				= 'http://www.fabbricabinaria.it/index.php?option=com_ars&view=update&format=ini&id=3';
 	var $_requiresAuthorization	= false;
 
 	var $_versionStrategy		= 'different';
@@ -26,7 +26,7 @@ class LiveUpdateConfig extends LiveUpdateAbstractConfig
 		//settings for pro version
 		if(defined('J4SCHEMA_PRO') && J4SCHEMA_PRO == 1)
 		{
-			$this->_updateURL = 'http://localhost/fabbrica/index.php?option=com_ars&view=update&format=ini&id=3';
+			$this->_updateURL = 'http://www.fabbricabinaria.it/index.php?option=com_ars&view=update&format=ini&id=4';
 			$this->_requiresAuthorization = true;
 		}
 
