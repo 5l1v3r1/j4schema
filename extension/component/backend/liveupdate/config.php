@@ -12,7 +12,8 @@ defined('_JEXEC') or die();
  */
 class LiveUpdateConfig extends LiveUpdateAbstractConfig
 {
-	var $_extensionName			= 'pkg_j4schema';
+	//We need to use a com_ name, or ALU won't know from where fetch the Download ID
+	var $_extensionName			= 'com_j4schema';
 	var $_extensionTitle		= 'J4Schema package';
 
 	//default settings (standard version)

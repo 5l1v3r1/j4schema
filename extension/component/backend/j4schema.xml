@@ -2,7 +2,7 @@
 <extension type="component" version="1.6.0" method="upgrade">
 
 	<name>J4Schema</name>
-	<version>3.0.0</version>
+	<version>3.1.0</version>
 	<creationDate>April 2012</creationDate>
 	<author>Davide Tampellini</author>
 	<authorUrl>http://www.fabbricabinaria.it</authorUrl>
