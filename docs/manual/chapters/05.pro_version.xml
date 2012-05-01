@@ -67,8 +67,13 @@
       </para>
       
       <para>
-        For example, you can create a token named <code></code>
+        For example, you can create a token named <code>ARTICLE_WRAPPER</code> and replace it with
+      </para>      
+      <para>
+        <code>itemscope itemtype="http://schema.org/WebPage"</code>
       </para>
+      
+      <para>Your starting text </para>
     </section>
   </section>
 </chapter>
