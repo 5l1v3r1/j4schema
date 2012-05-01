@@ -15,7 +15,7 @@
 		<delete includeemptydirs="true">
 			<fileset dir="${buildDir}" includes="**/*"/>
 		</delete>
-
+		
 		<mkdir dir="${buildDir}/packages"/>
 		<mkdir dir="${buildDir}/archives" />
 	</target>
@@ -25,7 +25,7 @@
 		<echo>Component build</echo>
 
 		<move tofile="${component}/j4schema.xml" file="${component}/backend/j4schema.xml" />
-
+		
 		<!-- Exclude the language folder in backend, since it's syslinked -->
 		<!-- Pro version, no file exclusion -->
 		<zip destfile="${buildDir}/packages/com_j4schema.zip">
@@ -33,7 +33,10 @@
 				<exclude name="backend/language/**" />
 			</fileset>
 		</zip>
-
+		
+		<!-- Add skip files for empty backend view on Free edition -->
+		<copy todir="${backend}/views/tokens" file="${basedir}/skip.xml" />
+		
 		<!-- Free version, file exclusion -->
 		<zip destfile="${buildDir}/packages/com_j4schema_free.zip">
 			<fileset dir="${component}">
@@ -43,10 +46,15 @@
 				<exclude name="backend/language/**" />
 			</fileset>
 		</zip>
+		<delete includeemptydirs="true">
+			<fileset dir="${component}">
+				<containsregexp expression="@DELETE_SKIP"/>
+			</fileset>
+		</delete>
 
 		<copy file="${buildDir}/packages/com_j4schema.zip" tofile="${buildDir}/archives/com_j4schema_pro.zip" />
 		<copy file="${buildDir}/packages/com_j4schema_free.zip" tofile="${buildDir}/archives/com_j4schema_free.zip" />
-
+		
 		<move tofile="${component}/backend/j4schema.xml" file="${component}/j4schema.xml" />
 	</target>
 
@@ -59,18 +67,18 @@
     	<copy file="${buildDir}/packages/plg_j4schema_cleanup.zip" tofile="${buildDir}/archives/plg_j4schema_cleanup.zip" />
     	<copy file="${buildDir}/packages/plg_j4schema_cleanup.zip" tofile="${buildDir}/archives/JCE_j4schema_plugin.zip" />
     </target>
-
+	
 	<!-- 
 		Creates a package for component, library and system plugin.
 	 -->
 	<target name="pack">
 		<echo>Pack it up!</echo>
-
+		
 		<copy file="${basedir}/pkg_j4schema.xml" tofile="${buildDir}/pkg_j4schema.xml"/>
 		<copy file="${basedir}/script.pkg_j4schema.php" tofile="${buildDir}/script.pkg_j4schema.php"/>
 		<copy file="${basedir}/output.php" tofile="${buildDir}/output.php"/>
 		<copy file="${basedir}/library/lib_fof.zip" tofile="${buildDir}/packages/lib_fof.zip" />
-
+		
 		<!-- Pro package -->
 		<zip destfile="${buildDir}/pkg_j4schema_pro.zip">
 			<fileset dir="${buildDir}">
@@ -78,7 +86,7 @@
 				<exclude name="**/com_j4schema_free.zip" />
 			</fileset>
 		</zip>
-
+		
 		<!-- Free package -->
 		<delete file="${buildDir}/packages/com_j4schema.zip" />
 		<move file="${buildDir}/packages/com_j4schema_free.zip" tofile="${buildDir}/packages/com_j4schema.zip" />
@@ -88,7 +96,7 @@
 				<exclude name="**/pkg_j4schema_pro.zip" />
 			</fileset>
 		</zip>
-
+				
 		<delete includeemptydirs="true">
 			<fileset dir="${buildDir}">
 				<include name="**/*" />
@@ -96,7 +104,8 @@
 				<exclude name="/*.zip" />
 			</fileset>
 		</delete>
-
+		
+		
 		<copy file="${buildDir}/pkg_j4schema.zip" tofile="C:/Users/${user.name}/Desktop/Trasf FTP/pkg_j4schema.zip" overwrite="true"/>
 		<copy file="${buildDir}/pkg_j4schema_pro.zip" tofile="C:/Users/${user.name}/Desktop/Trasf FTP/pkg_j4schema_pro.zip" overwrite="true"/>
 		
