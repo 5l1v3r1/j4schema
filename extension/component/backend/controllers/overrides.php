@@ -13,12 +13,14 @@ class J4schemaControllerOverrides extends FOFController
 {
 	public function copyOverrides()
 	{
+		require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/html.php';
+
 		$keys   = JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides', '.', false, false);
 		$values = JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides', '.', false, true);
 
 		$j4s = array_combine($keys, $values);
 
-		$tmpl_path = JPATH_BASE.'/templates/'.JFactory::getApplication()->getTemplate().'/html/';
+		$tmpl_path = JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html/';
 
 		//let's copy the custom overrides
 		foreach($j4s as $folder => $path)

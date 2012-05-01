@@ -7,10 +7,11 @@
  */
 
 	defined('_JEXEC') or die();
+	$this->loadHelper('html');
 	$this->loadHelper('filesystem');
 
 	$j4s  = J4schemaHelperFilesystem::treeFolder(JPATH_COMPONENT_ADMINISTRATOR.'/overrides');
-	$tmpl = J4schemaHelperFilesystem::treeFolder(JPATH_BASE.'/templates/'.JFactory::getApplication()->getTemplate().'/html');
+	$tmpl = J4schemaHelperFilesystem::treeFolder(JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html');
 ?>
 <form id="adminForm" action="index.php" method="post">
 
