@@ -1,9 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook V5.0//EN" "http://www.oasis-open.org/docbook/xml/5.0/docbook.dtd" >
-<chapter xml:id="pro-version">
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" >
+<chapter id="pro-version">
   <title>Professional Version</title>
   
-  <section xml:id="pro-preface">
-    <title>Preface</title>
+  <para>
+    Inside <emphasis>J4Schema Professional</emphasis> package you'll find new features and some useful function 
+    that will help you on choosing and selecting the Schema.org elements.
+    <itemizedlist>
+      <listitem>
+        <simpara><emphasis>Token management</emphasis> Automatically replace your own tokens with Schema.org attributes</simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          <emphasis>Template overrides for standard tokens</emphasis> We provided template overrides for <code>com_content</code> component 
+          with standard Schema.org attributes. However you can apply the same logic to every part of your site!
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          <emphasis>Auto-expansion of tree type</emphasis> On editor view, if the attribute you have chosen 
+          could be an <code>itemtype</code>, there will be a shortcut to automatically expand the type tree to that element
+        </simpara>
+      </listitem>
+    </itemizedlist>
+  </para>
+  
+  <section id="how-to-use-pro">
+    <title>How to download/install</title>
+
+    <para>
+      Professional versions are available to users with an active membership. Once you purchased it, you will find the professional packages inside 
+      every version; you can install it as a regular Joomla! package.
+    </para>
+    
+    <note>
+      <title>Updates for Pro versions</title>
+      <para>
+        To enable automatically updates you must enter your <guilabel>Download ID</guilabel> inside the Download ID field that you can find in the 
+        Option page of the component.
+      </para>
+    </note>
+  </section>
+  
+  <section id="token-management">
+    <title>Token management</title>
+    
+    <para>
+      As usually let's start with an example. Let's say you have styled your article with the attributes you wanted. Everything is perfect, but you 
+      want to style other parts of your site, too. 
+    </para>
+    <para>
+      What if you want to add information on your blog layout, saying that every article is a independent element, with its category, its creation time 
+      and so? Using the JCE editor plugin you can't, since your scope is limited to the article; you need another tool.
+    </para>
+    
+    <section id="token-logic">
+      <title>The logic</title>
+      
+      <para>To simplify things, we have introduced a search&amp;replace token system. What does it mean?</para>
+      <para>
+        Well, it's quite simple: you create a token and assign him a value (it could whatever you want), then you add these tokens to your site: you 
+        can add them inside your articles, inside your template, on your template overrides... wherever you want.
+      </para>
+      <para>
+        Next, our system plugin will replace the token string with the value you just typed.
+      </para>
+      
+      <para>
+        For example, you can create a token named <code></code>
+      </para>
+    </section>
   </section>
 </chapter>
