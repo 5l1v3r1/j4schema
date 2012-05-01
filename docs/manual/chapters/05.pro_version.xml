@@ -59,8 +59,8 @@
       
       <para>To simplify things, we have introduced a search&amp;replace token system. What does it mean?</para>
       <para>
-        Well, it's quite simple: you create a token and assign him a value (it could whatever you want), then you add these tokens to your site: you 
-        can add them inside your articles, inside your template, on your template overrides... wherever you want.
+         Well, it's quite simple: you create a token and assign him a value (it could whatever you want), then you add these tokens to your site: you
+         can add them inside your articles, inside your template, on your template overrides... <emphasis>wherever</emphasis> you want.
       </para>
       <para>
         Next, our system plugin will replace the token string with the value you just typed.
@@ -73,7 +73,43 @@
         <code>itemscope itemtype="http://schema.org/WebPage"</code>
       </para>
       
-      <para>Your starting text </para>
+      <para>
+        Your starting text is something like that:
+        <programlisting>
+        <![CDATA[
+<div { ARTICLE_WRAPPER } class="item-page<?php echo $this->pageclass_sfx?>">
+...
+...
+</div>]]>
+        </programlisting>
+         
+         But the final output (read from search engine) would be:
+         <programlisting>
+        <![CDATA[
+<div itemscope itemtype="http://schema.org/WebPage" 
+     class="item-page<?php echo $this->pageclass_sfx?>">
+...
+...
+</div>]]>
+        </programlisting>
+      </para>
+      
+      <para>
+        This example is taken from the <emphasis>default</emphasis> layout of <emphasis>Article</emphasis> view of the 
+        <emphasis>com_content</emphasis> component and it's inside the installation package.
+      </para>
+      <para>
+        Let's see how to add and manage more token.
+      </para>
     </section>
+    
+    <section id="create-a-token">
+      <title>Create a new token</title>
+      
+      <para>
+        xx
+      </para>
+    </section>
+    
   </section>
 </chapter>

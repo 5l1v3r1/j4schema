@@ -63,8 +63,10 @@
 
     	<zip destfile="${buildDir}/packages/plg_j4schema_cleanup.zip" basedir="${plugins}/j4schema_cleanup" />
     	<zip destfile="${buildDir}/packages/JCE_j4schema_plugin.zip" basedir="${plugins}/j4schema_editor" />
+    	<zip destfile="${buildDir}/packages/plg_j4schema_jintegration.zip" basedir="${plugins}/j4schema_jintegration" />
     	
     	<copy file="${buildDir}/packages/plg_j4schema_cleanup.zip" tofile="${buildDir}/archives/plg_j4schema_cleanup.zip" />
+    	<copy file="${buildDir}/packages/plg_j4schema_jintegration.zip" tofile="${buildDir}/archives/plg_j4schema_integartion.zip" />
     	<copy file="${buildDir}/packages/plg_j4schema_cleanup.zip" tofile="${buildDir}/archives/JCE_j4schema_plugin.zip" />
     </target>
 	
@@ -74,7 +76,7 @@
 	<target name="pack">
 		<echo>Pack it up!</echo>
 		
-		<copy file="${basedir}/pkg_j4schema.xml" tofile="${buildDir}/pkg_j4schema.xml"/>
+		<copy file="${basedir}/pkg_j4schema_pro.xml" tofile="${buildDir}/pkg_j4schema.xml"/>
 		<copy file="${basedir}/script.pkg_j4schema.php" tofile="${buildDir}/script.pkg_j4schema.php"/>
 		<copy file="${basedir}/output.php" tofile="${buildDir}/output.php"/>
 		<copy file="${basedir}/library/lib_fof.zip" tofile="${buildDir}/packages/lib_fof.zip" />
@@ -87,6 +89,7 @@
 			</fileset>
 		</zip>
 		
+		<copy file="${basedir}/pkg_j4schema.xml" tofile="${buildDir}/pkg_j4schema.xml" overwrite="true"/>
 		<!-- Free package -->
 		<delete file="${buildDir}/packages/com_j4schema.zip" />
 		<move file="${buildDir}/packages/com_j4schema_free.zip" tofile="${buildDir}/packages/com_j4schema.zip" />
@@ -94,6 +97,7 @@
 			<fileset dir="${buildDir}">
 				<exclude name="**/archives/**" />
 				<exclude name="**/pkg_j4schema_pro.zip" />
+				<exclude name="**/plg_j4schema_jintegration.zip" />
 			</fileset>
 		</zip>
 				
