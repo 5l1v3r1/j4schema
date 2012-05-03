@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE section PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" >
 
-<section xml:id="adding-microdata">
+<section id="adding-microdata">
 	<title>Adding microdata</title>
 	
 	<para>Now that you know every part of <guilabel>J4Schema</guilabel> editor, let's start adding Schema.org information.</para>
 	<para>First of all, we have to add the <code>itemtype</code> property, so we can identify 
 		the subject of this block of text.</para>
 	
-	<section xml:id="adding-itemtype">
+	<section id="adding-itemtype">
 		<title>Adding the itemtype</title>
 		
 		<para>Just select the entire text, explode the type tree until the Movie one and click on <guibutton>Add type button.</guibutton></para>
@@ -40,7 +40,7 @@
 
 	</section>
 	
-	<section xml:id="adding-attributes">
+	<section id="adding-attributes">
 		<title>Adding attributes</title>
 		
 		<para>Now you have access to "Movie" and its parents properties; select <code><![CDATA[<h1>Avatar</h1>]]></code> and explode 

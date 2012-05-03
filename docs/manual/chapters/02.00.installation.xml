@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" >
 
-<chapter xml:id="installation">
+<chapter id="installation">
     <title>Installation</title>
     
     <para>Installation and requirements details for J4Schema extension</para>
     
-    <section xml:id="requirements">
+    <section id="requirements">
         <title>Requirements</title>
         
         <para>
@@ -25,7 +25,7 @@
         </para>
     </section>
     
-    <section xml:id="download">
+    <section id="download">
         <title>Download</title>
 
         <para>
@@ -68,11 +68,13 @@
         </warning>
     </section>
 
-    <section xml:id="configuration">
+    <section id="configuration">
         <title>Configuration</title>
         
         <note>
-          On package installation, everything should be ready to use. However, if you have any problems on JCE plugin, you should check these steps.
+          <para>
+            On package installation, everything should be ready to use. However, if you have any problems on JCE plugin, you should check these steps.
+          </para>
         </note>
         
         <para>

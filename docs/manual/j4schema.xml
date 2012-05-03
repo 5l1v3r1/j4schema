@@ -3,11 +3,11 @@
 <book>
 
   <xi:include href="info.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
-  <xi:include href="chapters/01.preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
-  <xi:include href="chapters/02.installation.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="chapters/01.00.preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="chapters/02.00.installation.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
   <xi:include href="chapters/03.00.interface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
-  <xi:include href="chapters/04.advanced_usage.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
-  <xi:include href="chapters/05.pro_version.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="chapters/04.00.advanced_usage.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="chapters/05.00.pro_version.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
 	
 <appendix xml:id="gpl">
     <title><acronym>GNU</acronym> General Public License version 3</title>

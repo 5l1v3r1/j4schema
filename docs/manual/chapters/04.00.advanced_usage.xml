@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" >
-<chapter xml:id="advanced-usage">
+<chapter id="advanced-usage">
 	<title>Advanced Usage</title>
 	
-	<section xml:id="adding-embedded-items">
+	<section id="adding-embedded-items">
 		<title>Adding embedded items</title>
 		
 		<para>Some properties are items itself, so we can choose to add them as plain properties or 
@@ -82,7 +82,7 @@
         </tip>
 	</section>
 	
-	<section xml:id="advanced-usage-congrats">
+	<section id="advanced-usage-congrats">
 		<title>Congratulations! (again)</title>
 		
 		<para>Congratulations! You have styled your text block using Schema.org dictionary.</para>

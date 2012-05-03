@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" >
-<chapter xml:id="usage">
+<chapter id="usage">
     <title>Usage</title>
     
-    <section xml:id="a-real-example">
+    <section id="a-real-example">
         <title>A real example</title>
         
         <para>
@@ -31,10 +31,6 @@
                 When selecting a text, the best thing to do is to click on the container element on the editor status bar.
                 In this way you'll get the opening and closing tags, too. 
                 <screenshot>
-			        <info>
-			          <title>Select the text</title>
-			        </info>
-			
 			        <mediaobject>
 			          <imageobject>
 			            <imagedata align="center" fileref="images/selecting_text.jpg"
@@ -50,15 +46,11 @@
             Let's try to figure out all the options that you have.
         </para>
         
-        <section xml:id="j4schema-interface">
+        <section id="j4schema-interface">
         	<title>The interface</title>     
         	
         	<para>  
 		        <screenshot>
-				  <info>
-				    <title>J4Schema interface</title>
-				  </info>
-				
 				  <mediaobject>
 				    <imageobject>
 				      <imagedata align="center" fileref="images/interface.jpg"
@@ -134,11 +126,7 @@
 		                           <emphasis>The attribute could be another itemtype</emphasis> The attribute you selected can be a plain property
 		                           or another itemtype block, you may want to choose the last option, so you can add more of its properties inside.
 		                           <screenshot>
-										<info>
-											<title>The attribute could be another itemtype</title>
-								        </info>
-								
-								        <mediaobject>
+										<mediaobject>
 											<imageobject>
 								            	<imagedata align="center" fileref="images/attribute_itemtype.jpg" scalefit="1" userlevel="" />
 											</imageobject>
@@ -151,11 +139,7 @@
 		                    		<emphasis>Time/duration specification</emphasis> You have to translate a date (i.e. "January, 1st 1970") or a
 		                    		duration (i.e. "3 hours") into the ISO format; just complete the two fields and you're ok, <guilabel>J4Schema</guilabel> we'll do the rest.
 		                    		<screenshot>
-										<info>
-											<title>Time/duration specification</title>
-								        </info>
-								
-								        <mediaobject>
+										<mediaobject>
 											<imageobject>
 								            	<imagedata align="center" fileref="images/attribute_date_duration.jpg" scalefit="1" userlevel="" />
 											</imageobject>
@@ -168,11 +152,7 @@
 		                    		<emphasis>Multiple itemtypes</emphasis> Selected text can refer to more itemtypes, you have to choose one
 		                    		and if you want to create a new itemtype block or just a property.
 		                    		<screenshot>
-										<info>
-											<title>Multiple itemtypes</title>
-								        </info>
-								
-								        <mediaobject>
+										<mediaobject>
 											<imageobject>
 								            	<imagedata align="center" fileref="images/attribute_multiple_itemtypes.jpg" scalefit="1" userlevel="" />
 											</imageobject>
@@ -214,7 +194,7 @@
     
     <xi:include href="03.01.add_microdata.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
 
-	<section xml:id="add-microdata-congrats">
+	<section id="add-microdata-congrats">
 		<title>Congratulations!</title>
 		
 		<para>You've just styled your first text with Schema.org!</para>
