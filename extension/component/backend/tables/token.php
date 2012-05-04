@@ -25,6 +25,11 @@ class J4schemaTableToken extends FOFTable
 			$this->setError(JText::_('COM_J4SCHEMA_TOKEN_ERR_NAME'));
 			$result = false;
 		}
+		else
+		{
+			//clean up the token name, only A-z-0-9 chars are allowed
+			$this->to_name = strtoupper(preg_replace('#[^A-z-0-9]#', '_', $this->to_name));
+		}
 
 		if(empty($this->to_integration))
 		{

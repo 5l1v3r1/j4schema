@@ -109,7 +109,7 @@
       <note>
         <title>What's a template override?</title>
         <para>
-          If you don't know what's a template override, you really should read this guide: <ulink url="">Joomla! template override system</ulink>, 
+          If you don't know what's a template override, you really should read this guide: <ulink url="http://docs.joomla.org/How_to_override_the_output_from_the_Joomla!_core">Joomla! template override system</ulink>, 
           since we're going to use them a lot!
         </para>
       </note>
