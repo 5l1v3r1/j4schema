@@ -3,6 +3,37 @@ defined('_JEXEC') or die();
 
 class Pkg_j4schemaInstallerScript
 {
+	public function preflight($type, $parent)
+	{
+		$db = JFactory::getDBO();
+
+		$query = $db->getQuery(true)
+					->select('extension_id')
+					->from('#__extensions')
+					->where('element = '.$db->q('com_j4schema'));
+		$ext_id = $db->setQuery($query)->loadResult();
+
+		//no extension_id, maybe we're installing
+		if(!$ext_id) return true;
+
+		$query = $db->getQuery(true)
+					->select('COUNT(*)')
+					->from('#__schemas schema')
+					->where('extension_id = '.$ext_id);
+		$count = $db->setQuery($query)->loadResult();
+
+		//schema table is already up to date
+		if($count) return true;
+
+		//mhm.. no version :-( let's add a dummy one
+		$query = $db->getQuery(true)
+					->insert('#__schemas')
+					->values($ext_id.','.$db->q('3.0.0'));
+		$db->setQuery($query)->query();
+
+		return true;
+	}
+
 	public function postflight($type, $parent)
 	{
 		$this->changeTableNames();
