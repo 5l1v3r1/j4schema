@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `#__j4schema_tokens`;
 CREATE TABLE IF NOT EXISTS `#__j4schema_tokens` (
   `id_tokens` int(11) NOT NULL AUTO_INCREMENT,
   `to_integration` varchar(15) NOT NULL,

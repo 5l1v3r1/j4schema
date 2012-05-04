@@ -36,19 +36,28 @@
 					foreach($j4s as $folder)
 					{
 						$views = array();
+						$layouts = array();
 			?>
 					<tr class="row<?php echo $k?>">
 						<td><?php echo $folder['folder']?></td>
 						<td>
 						<?php
 							foreach($folder['children'] as $view):
-								$views[] = $view;
-								echo $view['folder'].'<br/>';
+								if(is_array($view))
+								{
+									$views[] = $view;
+									echo $view['folder'].'<br/>';
+								}
+								else
+								{
+									$layouts[] = $view;
+								}
 							endforeach;
 						?>
 						</td>
 						<td>
 						<?php
+							if($layouts) $views[] = array('folder' => '', 'children' => $layouts);
 							foreach($views as $layout):
 								echo '<div><strong>'.$layout['folder'].'</strong></div>';
 								echo implode('<br/>', $layout['children']).'<br/><br/>';
@@ -87,19 +96,28 @@
 					foreach($tmpl as $folder)
 					{
 						$views = array();
+						$layouts = array();
 			?>
 					<tr class="row<?php echo $k?>">
 						<td><?php echo $folder['folder']?></td>
 						<td>
 						<?php
 							foreach($folder['children'] as $view):
-								$views[] = $view;
-								echo $view['folder'].'<br/>';
+								if(is_array($view))
+								{
+									$views[] = $view;
+									echo $view['folder'].'<br/>';
+								}
+								else
+								{
+									$layouts[] = $view;
+								}
 							endforeach;
 						?>
 						</td>
 						<td>
 						<?php
+							if($layouts) $views[] = array('folder' => '', 'children' => $layouts);
 							foreach($views as $layout):
 								echo '<div><strong>'.$layout['folder'].'</strong></div>';
 								echo implode('<br/>', $layout['children']).'<br/><br/>';

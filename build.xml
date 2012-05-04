@@ -35,6 +35,8 @@
 		</zip>
 		
 		<!-- Add skip files for empty backend view on Free edition -->
+		<copy todir="${backend}/views/overrides" file="${basedir}/skip.xml" />
+		<copy todir="${backend}/views/token" file="${basedir}/skip.xml" />
 		<copy todir="${backend}/views/tokens" file="${basedir}/skip.xml" />
 		
 		<!-- Free version, file exclusion -->

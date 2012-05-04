@@ -20,7 +20,7 @@ class LiveUpdateConfig extends LiveUpdateAbstractConfig
 	var $_updateURL				= 'http://www.fabbricabinaria.it/index.php?option=com_ars&view=update&format=ini&id=3';
 	var $_requiresAuthorization	= false;
 
-	var $_versionStrategy		= 'different';
+	var $_versionStrategy		= 'vcompare';
 
 	function __construct()
 	{

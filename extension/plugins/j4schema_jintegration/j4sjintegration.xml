@@ -3,7 +3,7 @@
 	<name>System - J4Schema Joomla! integration</name>
 	<creationDate>April 2012</creationDate>
 	<author>Davide Tampellini</author>
-	<version>v 1.7</version>
+	<version>1.0</version>
     <description>Replaces J4Schema tags with Schema.org urls</description>
 	<files>
 		<filename plugin="j4sjintegration">j4sjintegration.php</filename>
