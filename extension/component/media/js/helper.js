@@ -41,7 +41,6 @@ var chooseElement = new Class({
 		this.initAttrib();
 		//this.editorHelper = new J4S(this.options.editor, this.options.mode);
 		//this.options.html_code.value = this.editorHelper.getSelectedText();
-		
 		this.setEvents();
 				
 		this.jsonAttrib = new Request.JSON({
@@ -96,11 +95,11 @@ var chooseElement = new Class({
 					self.valuesList.removeClass('hidden');
 				}
 				else if(!standard && response.value.length == 1) self.nonStdValue = response.value;
-				else if(response.value == 'Duration' && this.options.lite == false){
+				else if(response.value == 'Duration' && self.options.lite == false){
 					self.dateTime.removeClass('hidden');
 					document.id('timeHolder').removeClass('hidden');
 				}
-				else if(response.value == 'Date' && this.options.lite == false)
+				else if(response.value == 'Date' && self.options.lite == false)
 				{
 					self.calendarHolder.removeClass('hidden');
 					self.dateTime.removeClass('hidden');
