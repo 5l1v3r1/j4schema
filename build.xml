@@ -2,11 +2,12 @@
 <project name="J4Schema" default="build" basedir=".">
 	<property name="buildDir"   value="${basedir}/build/"/>
 	<property name="component" value="${basedir}/extension/component" />
+	<property name="modules" value="${basedir}/extension/modules" />
 	<property name="plugins"     value="${basedir}/extension/plugins" />
 	<property name="backend"    value="${component}/backend"/>
 	<property name="frontend"   value="${component}/frontend"/>
 
-	<target name="build" depends="cleanup, component, plugins, pack" />
+	<target name="build" depends="cleanup, component, modules, plugins, pack" />
 
 	<!-- Clean up the build directory output -->
 	<target name="cleanup">
@@ -39,6 +40,11 @@
 		<copy todir="${backend}/views/token" file="${basedir}/skip.xml" />
 		<copy todir="${backend}/views/tokens" file="${basedir}/skip.xml" />
 		
+		<!-- Comment folders on manifest file -->
+		<replace file="${component}/j4schema.xml" 
+			token="&lt;folder&gt;overrides&lt;/folder&gt;" 
+			value="&lt;!--&lt;folder&gt;overrides&lt;/folder&gt;--&gt;"/>
+		
 		<!-- Free version, file exclusion -->
 		<zip destfile="${buildDir}/packages/com_j4schema_free.zip">
 			<fileset dir="${component}">
@@ -46,6 +52,7 @@
 			    	<containsregexp expression="@category[ \t]+J4SchemaPro"/>
 			    </not>
 				<exclude name="backend/language/**" />
+				<exclude name="backend/overrides/**" />
 			</fileset>
 		</zip>
 		<delete includeemptydirs="true">
@@ -57,9 +64,22 @@
 		<copy file="${buildDir}/packages/com_j4schema.zip" tofile="${buildDir}/archives/com_j4schema_pro.zip" />
 		<copy file="${buildDir}/packages/com_j4schema_free.zip" tofile="${buildDir}/archives/com_j4schema_free.zip" />
 		
+		<!-- Uncomment folders on manifest file -->
+		<replace file="${component}/j4schema.xml" 
+			token="&lt;!--&lt;folder&gt;overrides&lt;/folder&gt;--&gt;"
+			value="&lt;folder&gt;overrides&lt;/folder&gt;"/>
+		
 		<move tofile="${component}/backend/j4schema.xml" file="${component}/j4schema.xml" />
 	</target>
 
+	<target name="modules">
+		<echo>Modules build</echo>
+		
+		<zip destfile="${buildDir}/packages/mod_j4srichtools.zip" basedir="${modules}/mod_j4srichtools" />
+		
+		<copy file="${buildDir}/packages/mod_j4srichtools.zip" tofile="${buildDir}/archives/mod_j4srichtools.zip" />
+	</target>
+	
     <target name="plugins">
 		<echo>Plugin build</echo>
 
@@ -100,6 +120,7 @@
 				<exclude name="**/archives/**" />
 				<exclude name="**/pkg_j4schema_pro.zip" />
 				<exclude name="**/plg_j4schema_jintegration.zip" />
+				<exclude name="**/mod_j4srichtools.zip" />
 			</fileset>
 		</zip>
 				

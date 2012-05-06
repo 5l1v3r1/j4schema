@@ -384,7 +384,9 @@ var chooseElement = new Class({
 			//get previous value
 			var result = new Element('div').set('html', new_html).getFirst().get('html');
 			var wrapper = new Element('div').adopt(html.clone()).getFirst();
-						
+
+			if(wrapper.getProperty('itemscope') === '' && !result.test('itemscope')) result += ' itemscope';
+			
 			if(wrapper.getProperty('itemtype'))
 			{
 				if(result.test('itemtype'))	result = result.replace(/itemtype\=".*"/, 'itemtype="' + wrapper.getProperty('itemtype')+'"');
