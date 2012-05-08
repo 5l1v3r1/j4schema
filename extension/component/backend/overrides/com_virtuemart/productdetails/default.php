@@ -158,7 +158,7 @@ echo $this->loadTemplate('images');
 			    $ratingwidth = ( $this->rating->rating * 100 ) / $maxrating; //I don't use round as percetntage with works perfect, as for me
 			    ?>
 			<span class="vote" {VM_RATING_WRAPPER}>
-				<meta itemprop="reviewCount" content="<?php echo count($this->rating_reviews)?>">
+				{VM_META_RATING_REVIEWS_COUNT:<?php echo count($this->rating_reviews)?>}
 	<?php echo JText::_('COM_VIRTUEMART_RATING') . ' <span {VM_RATING}>' . round($this->rating->rating, 2) . '</span>/<span {VM_MAX_RATING}>' . $maxrating.'</span>'; ?><br/>
 			    <span title=" <?php echo (JText::_("COM_VIRTUEMART_RATING_TITLE") . $this->rating->rating . '/' . $maxrating) ?>" class="vmicon ratingbox" style="display:inline-block;">
 				<span class="stars-orange" style="width:<?php echo $ratingwidth.'%'; ?>">

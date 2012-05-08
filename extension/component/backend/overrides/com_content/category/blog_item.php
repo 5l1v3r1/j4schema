@@ -114,7 +114,9 @@ JHtml::core();
 				 JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $author)); ?>
 
 			<?php else :?>
+				<a href="{GOOGLE_PLUS_AUTHOR:<?php echo $this->item->created_by?>}">
 				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+				</a>
 			<?php endif; ?>
 	</dd>
 <?php endif; ?>

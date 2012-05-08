@@ -9,6 +9,16 @@ defined('_JEXEC') or die();
 
 class J4schemaToolbar extends FOFToolbar
 {
+	function onAuthorsBrowse()
+	{
+		$bar = JToolBar::getInstance('toolbar');
+		$bar->appendButton('Confirm', JText::_('COM_J4SCHEMA_CONFIRM_SYNC_AUTH'), 'refresh', JText::_('COM_J4SCHEMA_SYNC_AUTH'), 'synchAuthors', false);
+
+		JToolBarHelper::divider();
+
+		parent::onBrowse();
+	}
+
 	function onOverridesBrowse()
 	{
 		// Set toolbar title

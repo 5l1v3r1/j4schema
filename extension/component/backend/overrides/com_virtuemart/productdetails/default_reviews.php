@@ -31,8 +31,8 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 		for ($num=0 ; $num <= $maxrating; $num++  ) {
 			$stars[]='
 				<span title="'.(JText::_("COM_VIRTUEMART_RATING_TITLE") . $num . '/' . $maxrating).'" class="vmicon ratingbox" style="display:inline-block;width:'. 24 * $maxrating .'px;">
-					<meta itemprop="ratingValue" content="'.$num.'">
-					<meta itemprop="bestRating" content="'.$maxrating.'">
+					{VM_META_REVIEW_RATING:'.$num.'}
+					{VM_META_REVIEW_BEST_RATING:'.$maxrating.'}
 					<span class="stars-orange" style="width:'. (24 * $num).'px">
 					</span>
 				</span>';
@@ -77,7 +77,7 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 					    $reviews_published++;
 					    ?>
 					<div class="<?php echo $color ?>" {VM_REVIEW}>
-						<meta itemprop="datePublished" content="<?php echo JHTML::date($review->created_on, 'Y-m-d')?>" >
+						{VM_META_REVIEW_PUBLISH_DATE:<?php echo $review->created_on?>}
 						<span class="date"><?php echo JHTML::date($review->created_on, JText::_('DATE_FORMAT_LC')); ?></span>
 						<span {VM_REVIEW_RATING_WRAPPER}>
 							<span class="vote"><?php echo $stars[$review->vote] ?></span>

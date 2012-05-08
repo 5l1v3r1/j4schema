@@ -140,7 +140,9 @@ endif; ?>
 	?>
 		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', JRoute::_($cntlink), $author)); ?>
 	<?php else: ?>
+		<a href="{GOOGLE_PLUS_AUTHOR:<?php echo $this->item->created_by?>}">
 		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+		</a>
 	<?php endif; ?>
 	</dd>
 <?php endif; ?>

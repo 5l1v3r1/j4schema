@@ -159,6 +159,12 @@ var chooseElement = new Class({
 			dfltType: 'folder',
 			height: 18
 		});
+		
+		if(typeof(this.type.load) !== 'function')
+		{
+			alert('Type tree is not ready yet, please refresh the page');
+			return;
+		}
 
 		this.type.addEvent('select', function(node){
 			if(self.loadingAttr)
@@ -204,6 +210,12 @@ var chooseElement = new Class({
 					dfltType: 'folder',
 					height: 18
 				});
+		
+		if(typeof(this.attrib.load) !== 'function')
+		{
+			alert('Attrib tree is not ready yet, please refresh the page');
+			return;
+		}
 		
 		this.attrib.load({json:[{property: {name: 'root'}}]});
 		this.attrib.loadOptions = function(node){

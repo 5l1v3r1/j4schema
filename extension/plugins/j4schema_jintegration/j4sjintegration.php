@@ -20,28 +20,79 @@ class plgSystemJ4sjintegration extends JPlugin
 
 		foreach($tokens as $token)
 		{
-			if($token->to_type == 'text')
+			switch ($token->to_type)
 			{
-				$body = str_replace('{'.$token->to_name.'}', $token->to_replace, $body);
-			}
-			elseif($token->to_type == 'date')
-			{
-				$this->token = $token;
-				$body = preg_replace_callback('#\{'.$token->to_name.':.*\}#', array($this, 'timeToISO'), $body);
-				$this->token= '';
+				case 'date':
+					$this->token = $token;
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*\}#', array($this, 'buildDate'), $body);
+					$this->token = '';
+				break;
+
+				case 'google+':
+					$this->token = $token;
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*\}#', array($this, 'buildGoogle'), $body);
+					$this->token = '';
+				break;
+
+				case 'link':
+					$body = str_replace('{'.$token->to_name.'}', '<link '.$token->to_replace.' />', $body);
+				break;
+
+				case 'meta':
+					$this->token = $token;
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*\}#', array($this, 'buildMeta'), $body);
+					$this->token = '';
+				break;
+
+				case 'text':
+					$body = str_replace('{'.$token->to_name.'}', $token->to_replace, $body);
+				break;
 			}
 		}
 
 		JResponse::setBody($body);
 	}
 
-	function timeToISO($value)
+	function buildDate($value)
 	{
 		$datetime = str_replace('{'.$this->token->to_name.':', '', $value[0]);
 		$datetime = str_replace('}', '', $datetime);
-		$date = new JDate($datetime);
-		$iso  = $date->toISO8601();
+
+		$iso = $this->timeToISO($datetime);
+
 		return $this->token->to_replace.' datetime="'.$iso.'"';
+	}
+
+	function buildGoogle($value)
+	{
+		$db = JFactory::getDbo();
+
+		$userid = preg_replace('#[^\d]#', '', $value[0]);
+
+		$query = $db->getQuery(true)
+					->select('at_profile')
+					->from('#__j4schema_authors')
+					->where('at_userid = '.$userid);
+		$profile = $db->setQuery($query)->loadResult();
+
+		if(!$profile) 	return '';
+		else			return 'https://plus.google.com/'.$profile.'?rel=author';
+	}
+
+	function buildMeta($value)
+	{
+		$content = str_replace('{'.$this->token->to_name.':', '', $value[0]);
+		$content = str_replace('}', '', $content);
+
+		if(preg_match('#^(\d{4})\-(\d{2})\-(\d{2})#', $content))	$content = $this->timeToISO($content);
+
+		return '<meta '.$this->token->to_replace.' content="'.$content.'" >';
+	}
+
+	protected function timeToISO($datetime)
+	{
+		$date = new JDate($datetime);
+		return $date->toISO8601();
 	}
 
 	protected function getTokens()
