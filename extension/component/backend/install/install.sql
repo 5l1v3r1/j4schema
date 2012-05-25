@@ -994,3 +994,57 @@ INSERT INTO `#__j4schema_type_prop` (`id_type`, `id_property`) VALUES
 ('WebPage', 'mainContentOfPage'),
 ('WebPage', 'primaryImageOfPage'),
 ('WebPage', 'significantLinks');
+
+CREATE TABLE IF NOT EXISTS `#__j4schema_tokens` (
+  `id_tokens` int(11) NOT NULL AUTO_INCREMENT,
+  `to_integration` varchar(15) NOT NULL,
+  `to_name` varchar(50) NOT NULL,
+  `to_type` varchar(10) NOT NULL,
+  `to_replace` varchar(255) NOT NULL,
+  `enabled` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id_tokens`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+
+INSERT INTO `#__j4schema_tokens` (`id_tokens`, `to_integration`, `to_name`, `to_type`, `to_replace`, `enabled`) VALUES
+(1, 'joomla', 'ARTICLE_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/WebPage"', 1),
+(2, 'joomla', 'ARTICLE_BODY', 'text', ' itemprop="mainContentOfPage"', 1),
+(3, 'joomla', 'ARTICLE_TITLE', 'text', ' itemprop="name"', 1),
+(4, 'joomla', 'ARTICLE_LINK', 'text', ' itemprop="url"', 1),
+(5, 'joomla', 'ARTICLE_CATEGORY', 'text', ' itemprop="genre"', 1),
+(6, 'joomla', 'ARTICLE_LINKS', 'text', ' itemprop="significantLinks"', 1),
+(7, 'joomla', 'ARTICLE_PUBLISH_UP', 'date', ' itemprop="datePublished"', 1),
+(11, 'joomla', 'BLOG_ARTICLE_TITLE_LINK', 'text', ' itemprop="url"', 1),
+(9, 'joomla', 'BLOG_ARTICLE_TITLE', 'text', 'itemprop="name"', 1),
+(10, 'joomla', 'BLOG_POSTS_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/BlogPosting" itemprop="mainContentOfPage"', 1),
+(12, 'joomla', 'BLOG_CATEGORY', 'text', ' itemprop="articleSection"', 1),
+(13, 'joomla', 'BLOG_TEXT_WRAPPER', 'text', ' itemprop="articleBody"', 1),
+(14, 'joomla', 'BLOG_LINKS', 'text', ' itemprop="significantLinks"', 1),
+(15, 'joomla', 'BLOG_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/WebPage"', 1),
+(16, 'joomla', 'BLOG_CHILDREN_LINK', 'text', ' itemprop="significantLinks"', 1),
+(17, 'virtuemart', 'VM_PRODUCT_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/Product"', 1),
+(18, 'virtuemart', 'VM_PRODUCT_NAME', 'text', ' itemprop="name"', 1),
+(19, 'virtuemart', 'VM_PRODUCT_DESCR', 'text', ' itemprop="description"', 1),
+(20, 'virtuemart', 'VM_PRICE_WRAPPER', 'text', ' itemscope itemtype="http://schema.org/Offer" itemprop="offers"', 1),
+(21, 'virtuemart', 'VM_PRICE', 'text', ' itemprop="price"', 1),
+(22, 'virtuemart', 'VM_MAIN_IMAGE', 'text', ' itemprop="image"', 1),
+(23, 'virtuemart', 'VM_RATING_WRAPPER', 'text', ' itemscope itemtype="http://schema.org/AggregateRating" itemprop="aggregateRating"', 1),
+(24, 'virtuemart', 'VM_RATING', 'text', ' itemprop="ratingValue"', 1),
+(25, 'virtuemart', 'VM_MAX_RATING', 'text', ' itemprop="bestRating"', 1),
+(26, 'virtuemart', 'VM_REVIEW', 'text', ' itemscope itemtype="http://schema.org/Review" itemprop="reviews"', 1),
+(27, 'virtuemart', 'VM_REVIEW_BODY', 'text', ' itemprop="reviewBody"', 1),
+(28, 'virtuemart', 'VM_REVIEW_RATING_WRAPPER', 'text', ' itemscope itemtype="http://schema.org/Rating" itemprop="reviewRating"', 1),
+(29, 'virtuemart', 'VM_REVIEW_AUTHOR', 'text', ' itemprop="author"', 1),
+(30, 'virtuemart', 'VM_PRODUCT_IN_STOCK', 'link', ' itemprop="availability" href="http://schema.org/InStock"', 1),
+(31, 'virtuemart', 'VM_PRODUCT_OUT_STOCK', 'link', ' itemprop="availability" href="http://schema.org/OutOfStock"', 1),
+(32, 'joomla', 'GOOGLE_PLUS_AUTHOR', 'google+', '', 1),
+(33, 'virtuemart', 'VM_META_REVIEW_RATING', 'meta', ' itemprop="ratingValue" ', 1),
+(34, 'virtuemart', 'VM_META_REVIEW_BEST_RATING', 'meta', ' itemprop="bestRating"', 1),
+(35, 'virtuemart', 'VM_META_REVIEW_PUBLISH_DATE', 'meta', ' itemprop="datePublished"', 1),
+(36, 'virtuemart', 'VM_META_RATING_REVIEWS_COUNT', 'meta', ' itemprop="reviewCount"', 1);
+
+CREATE TABLE IF NOT EXISTS `#__j4schema_authors` (
+  `id_authors` int(11) NOT NULL AUTO_INCREMENT,
+  `at_userid` int(11) NOT NULL,
+  `at_profile` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_authors`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

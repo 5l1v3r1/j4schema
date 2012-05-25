@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" >
+<chapter id="pro-version">
+  <title>Professional Version</title>
+  
+  <para>
+    Inside <emphasis>J4Schema Professional</emphasis> package you'll find new features and some useful function 
+    that will help you on choosing and selecting the Schema.org elements.
+    <itemizedlist>
+      <listitem>
+        <simpara><emphasis>Token management</emphasis> Automatically replace your own tokens with Schema.org attributes</simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          <emphasis>Template overrides for standard tokens</emphasis> We provided template overrides for <code>com_content</code> component 
+          with standard Schema.org attributes. However you can apply the same logic to every part of your site!
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          <emphasis>Auto-expansion of tree type</emphasis> On editor view, if the attribute you have chosen 
+          could be an <code>itemtype</code>, there will be a shortcut to automatically expand the type tree to that element
+        </simpara>
+      </listitem>
+    </itemizedlist>
+  </para>
+  
+  <section id="how-to-use-pro">
+    <title>How to download/install</title>
+
+    <para>
+      Professional versions are available to users with an active membership. Once you purchased it, you will find the professional packages inside 
+      every version; you can install it as a regular Joomla! package.
+    </para>
+    
+    <note>
+      <title>Updates for Pro versions</title>
+      <para>
+        To enable automatically updates you must enter your <guilabel>Download ID</guilabel> inside the Download ID field that you can find in the 
+        Option page of the component.
+      </para>
+    </note>
+  </section>
+  
+  <section id="token-management">
+    <title>Token management</title>
+    
+    <para>
+      As usually let's start with an example. Let's say you have styled your article with the attributes you wanted. Everything is perfect, but you 
+      want to style other parts of your site, too. 
+    </para>
+    <para>
+      What if you want to add information on your blog layout, saying that every article is a independent element, with its category, its creation time 
+      and so? Using the JCE editor plugin you can't, since your scope is limited to the article; you need another tool.
+    </para>
+    
+    <section id="token-logic">
+      <title>The logic</title>
+      
+      <para>To simplify things, we have introduced a search&amp;replace token system. What does it mean?</para>
+      <para>
+         Well, it's quite simple: you create a token and assign him a value (it could whatever you want), then you add these tokens to your site: you
+         can add them inside your articles, inside your template, on your template overrides... <emphasis>wherever</emphasis> you want.
+      </para>
+      <para>
+        Next, our system plugin will replace the token string with the value you just typed.
+      </para>
+      
+      <para>
+        For example, you can create a token named <code>ARTICLE_WRAPPER</code> and replace it with
+      </para>      
+      <para>
+        <code>itemscope itemtype="http://schema.org/WebPage"</code>
+      </para>
+      
+      <para>
+        Your starting text is something like that:
+        <programlisting>
+        <![CDATA[
+<div { ARTICLE_WRAPPER } class="item-page<?php echo $this->pageclass_sfx?>">
+...
+...
+</div>]]>
+        </programlisting>
+         
+         But the final output (read from search engine) would be:
+         <programlisting>
+        <![CDATA[
+<div itemscope itemtype="http://schema.org/WebPage" 
+     class="item-page<?php echo $this->pageclass_sfx?>">
+...
+...
+</div>]]>
+        </programlisting>
+      </para>
+      
+      <para>
+        This example is taken from the <emphasis>default</emphasis> layout of <emphasis>Article</emphasis> view of the 
+        <emphasis>com_content</emphasis> component and it's inside the installation package.
+      </para>
+      <para>
+        Let's see how to add and manage more token.
+      </para>
+    </section>
+    
+    <section id="install-template-overrides">
+      <title>Install template overrides</title>
+      
+      <note>
+        <title>What's a template override?</title>
+        <para>
+          If you don't know what's a template override, you really should read this guide: <ulink url="http://docs.joomla.org/How_to_override_the_output_from_the_Joomla!_core">Joomla! template override system</ulink>, 
+          since we're going to use them a lot!
+        </para>
+      </note>
+      
+      <para>
+        First of all, you should setup template overrides. Surf to the <guibutton>Template overrides</guibutton> submenu
+        and you will find two tables.
+      </para>
+      
+      <para>
+        The table on the left, shows the ready-to-use overrides that come with <guilabel>J4Schema</guilabel>, on the right you can find 
+        the overrides that already exist. 
+      </para>
+      
+      <para>
+        When you click on <guibutton>Copy overrides</guibutton> toolbar button, J4Schema overrides will be copied inside your current 
+        template override folder; if the files are already present, they will be backed up.  
+      </para>
+      
+      <para>
+        Our overrides won't change the presentation of your articles, the are just <emphasis>com_content</emphasis> 
+        layouts with inside our tokens, ready to use.
+        However, if you already have your overrides (and you want to keep them), you have to manually merge ours with yours. You can find 
+        our file inside this folder:
+      </para>
+      <para>
+        <code>site_root/administrator/components/com_j4schema/overrides</code>
+      </para>
+    </section>
+    
+    <section id="token-list">
+      <title>Token list</title>
+      
+      <para>
+        In <guilabel>J4Schema</guilabel> component, surf to the <guibutton>Tokens</guibutton> menu, you will find the default tokens inside the 
+        installation package.
+      </para>
+      
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" fileref="images/token_list.jpg" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+      
+      <variablelist>
+        <varlistentry>
+          <term>ID</term>
+          <listitem>
+            <para>It's the token ID</para></listitem>
+        </varlistentry>
+        
+        <varlistentry>
+          <term>Token Name</term>
+          <listitem>
+            <para>
+              It's the token name. This string (wrapped with <code>{ }</code>) will be replaced with the string inside the column <emphasis>Token replace</emphasis>
+            </para>
+          </listitem>
+        </varlistentry>
+        
+        <varlistentry>
+          <term>Integration</term>
+          <listitem><para>It's the type of integration, at the moment there is only Joomla</para></listitem>
+        </varlistentry>
+        
+        <varlistentry>
+          <term>Token type</term>
+          <listitem>
+            <para>
+              It's the type of the token. Available types are <emphasis>text</emphasis> or <emphasis>date</emphasis>
+            </para>
+          </listitem>
+        </varlistentry>
+        
+        <varlistentry>
+          <term>Token replace</term>
+          <listitem>
+            <para>It's the text that will replace the <emphasis>Token name</emphasis>
+            </para>
+          </listitem>
+        </varlistentry>
+        
+        <varlistentry>
+          <term>Published</term>
+          <listitem><para>Is this token published?</para></listitem>
+        </varlistentry>
+      </variablelist>
+      
+      <para>
+        Here you can perform all the standard actions: publish, unpublish, add, delete and modify.
+      </para>
+    </section>
+    
+    <section id="create-a-token">
+      <title>Create a token</title>
+      
+      <para>
+        When you try to add or modify a token, you'll find this view:
+      </para>
+      
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" fileref="images/token_add.gif" scalefit="1"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+      
+      <para>
+        <variablelist>
+          <varlistentry>
+            <term>Token name</term>
+            <listitem>
+              <para>
+                It's the text that will be replaced, ie <emphasis>MY_TOKEN</emphasis>. 
+                
+                <note>
+                  <para>
+                    Please entry it on uppercase, alphabetics only, without any spaces or digits. 
+                    Avoid colons (<code>:</code>), since it's reserved char, used to parse data from 
+                    tokens (you'll learn more when we'll add a <emphasis>date</emphasis> token).
+                  </para>
+                </note>                
+              </para>
+            </listitem>
+          </varlistentry>
+          
+          <varlistentry>
+            <term>Integration</term>
+            <listitem>
+              <para>
+                It's the "domain" of integration; at the moment there is Joomla! only, but in the future 
+                more will come (K2, Virtuemart and so on).
+              </para>
+            </listitem>
+          </varlistentry>
+          
+          <varlistentry>
+            <term>Token type</term>
+            <listitem>
+              <para>
+                It's the type of the token, it could be <emphasis>text</emphasis> or <emphasis>date</emphasis>. They are almost the same,
+                but in the latter case you have to "style" your token in template overrides in a different way.  
+              </para> 
+            </listitem>
+          </varlistentry>
+          
+          <varlistentry>
+            <term>Published</term>
+            <listitem><para>To publish/unpublish a token</para></listitem>
+          </varlistentry>
+          
+          <varlistentry>
+            <term>Token replace</term>
+            <listitem>
+              <para>
+                This is the most important field, since it holds Schema.org attributes. If you know what to add, you can add them
+                manually; in the other case you can explore the type/attributes tree and then click on <guibutton>Add type</guibutton> or
+                <guibutton>Add attribute</guibutton> button. 
+              </para>
+            </listitem>
+          </varlistentry>
+        </variablelist> 
+      </para>
+      
+      <note>
+        <para>
+          Please note that J4Schema can't verify if the data you added is correct, since you could add nested tokens.
+          To ensure that everything is ok, you can use this <guilabel>Google</guilabel> tool: 
+          <ulink url="http://www.google.com/webmasters/tools/richsnippets">Rich Snippets Testing Tool</ulink>
+        </para>  
+      </note>
+      
+      <para>
+        Now you know everything you need to start adding tokens, let's start with an example. 
+      </para>
+      
+      <section id="add-tokens">
+        <title>Add tokens</title>
+        
+        <para>
+          Ok, let's say we want to add some information to the article we have just created in the previous examples 
+          (the one about the "Avatar" film, do you remember?).
+        </para>
+        
+        <para>
+          Here you can find the sections of the article view that we can style:
+          
+          <screenshot>
+            <mediaobject>
+              <imageobject>
+                <imagedata align="center" fileref="images/token_article.gif" scalefit="1"/>
+              </imageobject>
+            </mediaobject>
+          </screenshot>
+        </para>
+        
+        <para>
+          <orderedlist>
+            <listitem><para>Article title</para></listitem>
+            <listitem><para>Category</para></listitem>
+            <listitem><para>Publish date (or any other date such as Creation date or Modified date)</para></listitem>
+            <listitem><para>Related links</para></listitem>
+          </orderedlist>
+        </para>
+       
+       <para>
+        So this, is a snippet of a template override for the article (some parts were removed):
+        <note>
+          <para>
+            In these examples there is a space between the token name and <code>{</code> or <code>}</code>. We had to
+            do so to prevent Joomla to parse them as plugin in these articles; inside template overrides you have to
+            remove that space.
+          </para>
+        </note>
+       </para>
+        
+       <example>
+        <title>Article Tokens</title>
+        <programlisting><![CDATA[
+<div { ARTICLE_WRAPPER } class="item-page<?php echo $this->pageclass_sfx?>">
+[...]
+	<div { ARTICLE_BODY }>
+    [...]
+<?php if ($params->get('show_title')) : ?>
+	<h2 { ARTICLE_TITLE }>
+	<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
+		<a { ARTICLE_LINK } href ="<?php echo $this->item->readmore_link; ?>">
+		<?php echo $this->escape($this->item->title); ?></a>
+	<?php else : ?>
+		<?php echo $this->escape($this->item->title); ?>
+	<?php endif; ?>
+	</h2>
+<?php endif; ?>
+
+[...]
+
+<?php if ($params->get('show_category')) : ?>
+	<dd class="category-name" { ARTICLE_CATEGORY }>
+	[...]
+	</dd>
+<?php endif; ?>
+      [...]
+	</div>
+</div>
+]]>
+        </programlisting>
+       </example>
+
+      <para>
+        If you use our tokens, too, this is the HTML output:
+        
+        <example>
+          <title>Article HTML after token replace</title>
+          
+          <programlisting><![CDATA[
+<div class="item-page" itemtype="http://schema.org/WebPage" itemscope>
+[...]
+    <div itemprop="mainContentOfPage">
+    [...]
+        <h2 itemprop="name">
+          <a href ="" itemprop="url">J4Schema</a>
+        </h2>
+    [...]
+        <dd itemprop="genre" class="category-name">
+            Category: <a href ="test-blog">Blog</a>
+        </dd>
+    [...]	
+    </div>
+</div>
+]]>
+          </programlisting>
+        </example>
+      </para>
+      
+      <para>
+        This is only a simple example, but, as you can see, once you set up everything, it works automatically!
+        Even in the worst case (token not replaced) your page style won't be affected, since your browser will ignore the tokens! 
+      </para>
+      
+      <tip>
+        <title>Can I add a token wherever I want?</title>
+        <para>
+          The short answer is: <emphasis>Yes, you can!</emphasis>.
+        </para>
+        <para>
+          Here it is the longer and more techincal one. J4Schema uses a system plugin, loaded in the <code>onAfterRender</code> event.
+          This event is fired just before sending the output, so we can manipulate the text however we want!
+        </para>
+      </tip>
+      
+      <para>Now let's see a particular token: the <emphasis>date token</emphasis> </para>
+      </section>
+      
+      <section id="add-a-date-token">
+        <title>Add a date token</title>
+        
+        <para>
+          As we already said, the date token is different from the text one.
+        </para>
+        
+        <para>
+          Take a look at the <code>ARTICLE_PUBLISH_UP</code> token in the token list: it's like a regular
+          one, but its type is <emphasis>date</emphasis>. 
+        </para>
+        
+        <para>
+          So far so good, ok? Now move to the template override and search for it. As you can see it's quite different
+          from the other ones.
+        </para>
+        
+        <programlisting><![CDATA[
+<time { ARTICLE_PUBLISH_UP:<?php echo $this->item->publish_up?> }>
+   <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', 
+              JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
+</time>]]>
+        </programlisting>
+        
+        <para>
+          As you can see, we have to wrap the text we want to style with a <guibutton>time</guibutton> tag, then
+          add the token to it.
+        </para>
+        
+        <para>
+          The token syntax is quite different, since we have to pass to the plugin the date in order to transform it
+          into the ISO format. To do that we have to add a colon (<code>:</code>) after the token name, then output
+          the date value.
+        </para>
+      </section>
+    </section>
+
+  </section>
+  
+  <section id="pro-congratulations">
+      <title>Congratulations!</title>
+      
+      <para>
+        Congratulations! Now you should know everything you need to start adding Schema.org attributes to your site.
+      </para>
+      
+      <para>So what's next?</para>
+      <para>
+        We suggest you to take a look and become familiar with Schema.org syntax and its use;
+        we gave you the tools but you have to add your own knownledge :)</para>
+      
+      <para>
+        Here you can find a list of usefull links:
+        <itemizedlist>
+          <listitem><simpara><ulink url="http://schema.org">Schema.org homepage</ulink></simpara></listitem>
+          <listitem><simpara><ulink url="http://schema.org/docs/gs.html">Schema.org tutorial</ulink></simpara></listitem>
+          <listitem><simpara><ulink url="http://schema.org/docs/full.html">Schema.org full reference</ulink></simpara></listitem>
+        </itemizedlist>
+      </para>
+      
+    </section>
+</chapter>

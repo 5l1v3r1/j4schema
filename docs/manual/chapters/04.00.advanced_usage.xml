@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" >
+<chapter id="advanced-usage">
+	<title>Advanced Usage</title>
+	
+	<section id="adding-embedded-items">
+		<title>Adding embedded items</title>
+		
+		<para>Some properties are items itself, so we can choose to add them as plain properties or 
+			to create a new itemtype block.</para>
+		<para>What's the difference? When you add a new block, you have access to all of its (and its parent) properties,
+			so you can add much more information rather than adding a simple attribute.</para>
+			
+		<para>Let's continue with the previous example, your final text should be this:</para>
+		
+		<programlisting><![CDATA[
+<div itemscope="" itemtype="http://schema.org/Movie">
+    <h1 itemprop="name">Avatar</h1>
+    <span>Director: James Cameron (born August 16, 1954)</span> 
+    <span itemprop="genre">Science fiction</span> 
+    <a itemprop="trailer" href="http://www.example.com/movies/avatar-theatrical-trailer.html">
+        Trailer
+    </a>
+</div>]]>
+		</programlisting>
+		
+		<para>The director section has a lot of unstyled information: name, surname and date of birth, so let's 
+			turn them into a machine-readeable format. But first of all we need to do a little change: convert 
+			the <code><![CDATA[<span>]]></code> element into a <code><![CDATA[<div>]]></code>.</para>
+			
+		<example>
+            <title>Prepare your "Director" block</title>
+            <programlisting><![CDATA[
+<div itemscope="" itemtype="http://schema.org/Movie">
+    <h1 itemprop="name">Avatar</h1>
+    <div>Director: James Cameron (born August 16, 1954)</div> 
+    <span itemprop="genre">Science fiction</span> 
+    <a itemprop="trailer" href="http://www.example.com/movies/avatar-theatrical-trailer.html">
+        Trailer
+    </a>
+</div>]]>
+            </programlisting>
+        </example>
+        
+        <para>Now select <code><![CDATA[<div>Director: James Cameron (born August 16, 1954)</div>]]></code> and select
+        the <emphasis>director</emphasis> attribute. You can choose to add it as property or to create a new itemtype block:
+        select the latter one and apply it to the current element.</para>
+        
+        <para>Great! Now you're ready to style everything inside the director property!</para>
+        
+        <example>
+            <title>Creating an embedded itemtype</title>
+            <programlisting><![CDATA[
+<div itemscope="" itemtype="http://schema.org/Movie">
+    <h1 itemprop="name">Avatar</h1>
+    <div itemprop="director" itemscope="" itemtype="http://schema.org/Person">
+        Director: James Cameron (born August 16, 1954)
+    </div>
+    <span itemprop="genre">Science fiction</span> 
+    <a itemprop="trailer" href="http://www.example.com/movies/avatar-theatrical-trailer.html">
+        Trailer
+    </a>
+</div>]]>
+            </programlisting>
+        </example>
+        
+        <para>Select <code>James Cameron</code> and add the <emphasis>name</emphasis> property (you can find it
+        under the Type node). Remember to wrap the text with a new <code>span</code> element.</para>
+        
+        <para>After that select <code>August 16, 1954</code>. As you can see, it's James Cameron birthdate, let's style it.</para>
+        
+        <para>Select the <emphasis>birthDate</emphasis> property: things are quite different, this time. Infact we have to convert
+        this text into a standard time format, so let's input <code>1954-08-16</code> in the <guilabel>List of possible Values</guilabel>,
+        leaving the hour/minutes field blank.</para>
+        
+        <note>
+        	<para>You have to input the time using this format: YYYY-MM-DD</para>
+        </note>
+        
+        <tip>
+        	<para>There is a small datepicker next to the field, you can use it instead of typing the date manually.</para>
+        </tip>
+	</section>
+	
+	<section id="advanced-usage-congrats">
+		<title>Congratulations! (again)</title>
+		
+		<para>Congratulations! You have styled your text block using Schema.org dictionary.</para>
+		
+		<para>
+			You have converted a lot of information into a machine-readable format:
+			<itemizedlist>
+                <listitem>
+                    <simpara>First of all, you specified that we're talking about a movie</simpara>
+                </listitem>
+                <listitem>
+                    <simpara>Its name is <emphasis>Avatar</emphasis> and it's a <emphasis>Science fiction</emphasis> film</simpara>
+                </listitem>
+                <listitem>
+                	<simpara>You added the position of its <emphasis>trailer video</emphasis></simpara>
+                </listitem>
+                <listitem>
+                    <simpara><emphasis>James Cameron</emphasis> (born in <emphasis>August 16th, 1954</emphasis>) is its director</simpara>
+                </listitem>
+            </itemizedlist>
+		</para>
+		
+		<para>As you can see, even a small text like this could be enriched with a lot more details. Even if we consider them obious,
+			we just defined the context of the article without any doubt, and search engines bot will thank us.
+		</para>
+		
+		<example>
+            <title>Final HTML with microdata</title>
+            <programlisting><![CDATA[
+<div itemscope="" itemtype="http://schema.org/Movie">
+    <h1 itemprop="name">Avatar</h1>
+    <div itemprop="director" itemscope="" itemtype="http://schema.org/Person">
+        Director: James Cameron 
+        (born <time itemprop="birthDate" datetime="1954-08-16">August 16, 1954</time>)
+    </div>
+    <span itemprop="genre">Science fiction</span> 
+    <a itemprop="trailer" href="http://www.example.com/movies/avatar-theatrical-trailer.html">
+        Trailer
+    </a>
+</div>]]>
+            </programlisting>
+        </example>
+        
+        <para>As last thing, why don't you try to convert the trailer link into a new itemtype block and style it?</para>
+        <para>Good work!</para>
+	</section>
+</chapter>

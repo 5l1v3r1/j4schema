@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" >
+
+<chapter id="installation">
+    <title>Installation</title>
+    
+    <para>Installation and requirements details for J4Schema extension</para>
+    
+    <section id="requirements">
+        <title>Requirements</title>
+        
+        <para>
+            J4Schema is tested on Joomla! 2.5; however it <emphasis>should</emphasis> work on Joomla! 1.7, too. 
+            Anyway, we strongly suggest you to always use the latest Joomla! version, since it patches all the known bugs.
+        </para>
+        
+        <para>
+            System requirements are less restrictive than Joomla!, so, if you can run the CMS without problems, you shouldn't have 
+            any problems with this extension.
+        </para>
+        
+        <para>
+            J4Schema is integrated with <ulink url="http://www.joomlacontenteditor.net/">JCE editor</ulink>, so you need to install 
+            and use it as editor for your articles.
+        </para>
+    </section>
+    
+    <section id="download">
+        <title>Download</title>
+
+        <para>
+            You can get the latest version of our extension from the "Download" section of our site. We have created a "one-click-installer" 
+            package, once installed you will find:
+            <itemizedlist>
+                <listitem>
+                  <simpara>FrameworkOnFramework library</simpara>
+                </listitem>
+                <listitem>
+                    <simpara>J4Schema component</simpara>
+                </listitem>
+                <listitem>
+                    <simpara>J4Schema cleanup plugin</simpara>
+                </listitem>
+                <listitem>
+                    <simpara>J4Schema JCE plugin</simpara>                  
+                </listitem>
+            </itemizedlist>
+        </para>
+      
+        <note>
+            <para>
+                You should always use the latest version, since we constantly work on fixing bugs and adding new features.
+            </para>
+        </note>
+        
+        <warning>
+          <para>
+            If you are using any Akeeba extension (ie Admin Tool, Akeeba Backup etc etc), you should pay attention when uninstalling J4Schema, since
+            the FrameworkOnFramework libary is used by both. 
+          </para>
+          <para>
+            If you try to uninstall J4Schema as <emphasis>"package"</emphasis>, Joomla! will remove FOF library too, so your Akeeba extension might stop
+            working.
+          </para>
+          <para>
+            To avoid this, you should uninstall every single part of J4Schema (component, plugins etc etc) manually from Joomla! extension management.
+          </para>
+        </warning>
+    </section>
+
+    <section id="configuration">
+        <title>Configuration</title>
+        
+        <note>
+          <para>
+            On package installation, everything should be ready to use. However, if you have any problems on JCE plugin, you should check these steps.
+          </para>
+        </note>
+        
+        <para>
+            First of all you need to enabled the content plugin <emphasis>J4Schema cleanup</emphasis>, otherwise microdata attributes
+            will not display correctly.
+            
+            <tip>                   
+                <para>
+                    You have to install this plugin since we're adding some non-standard HTML attributes and, sometimes, JCE editor won't
+                    process them in the right way.
+                </para>
+                <para>
+                    For example, when you add the <code>itemscope</code> attribute, JCE will process it as it would be a standard attribute,
+                    adding <code>=""</code>. So, you will have this wrong text: <code>itemscope=""</code>.
+                </para>
+                <para>
+                    Schema.org dictionary, instead, wants it without any quotes, so we have to manipulate it and eliminate them.
+                </para>
+            </tip>
+        </para>
+        
+        <para>
+            After that, you have to add the J4Schema button on JCE editor. To do that, you have to go in <emphasis>JCE Administration</emphasis> &#187; 
+            <emphasis>Edit profile</emphasis> &#187; <emphasis>Features tab</emphasis> and drag&amp;drop the Google button.
+        </para>
+        
+        <para>
+            As last step, you have to disable the "Cleanup HTML" features, since we're adding non-standard HTML tags, JCE sees them as
+            errors and strips them out from your articles.
+        </para>
+        
+        <para>
+            You can disable it from <emphasis>JCE Administration</emphasis> &#187; <emphasis>Editor Global Configuration</emphasis>.
+        </para>
+        
+        <para>
+            Excellent! You're ready to start!
+        </para>
+    </section>
+  </chapter>

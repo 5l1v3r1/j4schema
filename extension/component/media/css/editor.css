@@ -1,0 +1,9 @@
+#attrib{float:left; width:200px}
+#html_code{font-size:11px}
+#j4sSettings fieldset {background-color:#FFF}
+#j4sSettings fieldset label{clear:none;float:none;display:inline;}
+#j4sSettings fieldset input{float:none}
+#j4sSettings fieldset input[type="radio"]{border:none;margin:0}
+#informer{clear:both;}
+#informer p{font-weight:bold;}
+#informer span{font-weight:normal;}

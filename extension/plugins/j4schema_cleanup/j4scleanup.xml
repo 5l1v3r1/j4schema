@@ -3,7 +3,7 @@
 	<name>J4Schema Cleanup</name>
 	<creationDate>February 2012</creationDate>
 	<author>Davide Tampellini</author>
-	<version>v 1.7</version>
+	<version>1.7</version>
 	<files>
 		<filename plugin="j4scleanup">j4scleanup.php</filename>
         <filename plugin="j4scleanup">index.html</filename>

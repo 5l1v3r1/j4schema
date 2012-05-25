@@ -29,7 +29,7 @@ form fieldset {
     padding: 0 10px 10px;
 }
 
-legend {
+/*legend {
     background: none repeat scroll 0 0 #FFFFFF;
     padding: 0 10px;
 }
@@ -38,7 +38,7 @@ legend {
     color: #0B55C4;
     font-size: 12px;
     font-weight: bold;
-}
+}*/
 
 a{cursor:pointer}
 	a:link, a:visited {color:#257D7D;}

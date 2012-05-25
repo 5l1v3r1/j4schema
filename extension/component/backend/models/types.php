@@ -10,6 +10,12 @@ defined('_JEXEC') or die();
 
 class J4schemaModelTypes extends FOFModel
 {
+	public function &getItemList($overrideLimits = false, $group = '')
+	{
+		if(FOFInput::getVar('format') == 'json') $overrideLimits = true;
+		return parent::getItemList($overrideLimits, $group);
+	}
+
 	function buildQuery($overrideLimits = false)
 	{
 		$db = $this->getDbo();

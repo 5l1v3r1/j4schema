@@ -2,7 +2,7 @@
 <extension type="component" version="1.6.0" method="upgrade">
 
 	<name>J4Schema</name>
-	<version>3.0.0</version>
+	<version>3.1.3</version>
 	<creationDate>April 2012</creationDate>
 	<author>Davide Tampellini</author>
 	<authorUrl>http://www.fabbricabinaria.it</authorUrl>
@@ -23,6 +23,13 @@
             <file charset="utf8" driver="mysql">install/uninstall.sql</file>
          </sql>
     </uninstall>
+    
+    <update>
+        <schemas>
+            <schemapath type="mysql">install/updates</schemapath>
+            <schemapath type="mysqli">install/updates</schemapath> 
+        </schemas>
+    </update>
         
     <files folder="frontend">
         <filename>j4schema.php</filename>
@@ -35,13 +42,17 @@
             <folder>controllers</folder>
             <folder>helpers</folder>
             <folder>install</folder>
+            <folder>liveupdate</folder>
             <folder>models</folder>
+            <folder>overrides</folder>
             <folder>tables</folder>
             <folder>views</folder>
             <filename>access.xml</filename>
             <filename>config.xml</filename>
+            <filename>dispatcher.php</filename>
 			<filename>index.html</filename>
 			<filename>j4schema.php</filename>
+            <filename>toolbar.php</filename>
 		</files>
 
 		<languages folder="language/backend">
@@ -50,7 +61,7 @@
 			<language tag="en-GB">en-GB/en-GB.com_j4schema.menu.ini</language>
 		</languages>
 	</administration>
-  
+    
     <media destination="com_j4schema" folder="media">
         <folder>css</folder>
         <folder>images</folder>
