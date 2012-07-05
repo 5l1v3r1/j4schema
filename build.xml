@@ -101,7 +101,6 @@
 		<copy file="${basedir}/pkg_j4schema_pro.xml" tofile="${buildDir}/pkg_j4schema.xml"/>
 		<copy file="${basedir}/script.pkg_j4schema.php" tofile="${buildDir}/script.pkg_j4schema.php"/>
 		<copy file="${basedir}/output.php" tofile="${buildDir}/output.php"/>
-		<copy file="${basedir}/library/lib_fof.zip" tofile="${buildDir}/packages/lib_fof.zip" />
 		
 		<!-- Pro package -->
 		<zip destfile="${buildDir}/pkg_j4schema_pro.zip">

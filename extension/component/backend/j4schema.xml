@@ -36,6 +36,8 @@
         <filename>index.html</filename>
     </files>
 
+	<scriptfile>script.com_j4schema.php</scriptfile>
+
 	<administration>
 		<menu view="cpanel" img="../media/com_j4schema/images/j4schema_20.png">COM_J4SCHEMA_MENU</menu>
 		<files folder="backend">
