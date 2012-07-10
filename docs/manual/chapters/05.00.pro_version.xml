@@ -243,8 +243,8 @@
             <term>Integration</term>
             <listitem>
               <para>
-                It's the "domain" of integration; at the moment there is Joomla! only, but in the future 
-                more will come (K2, Virtuemart and so on).
+                It's the "domain" of integration; at the moment there is Joomla! and Virtuemart; in the future 
+                more will come (K2, JEvents and so on).
               </para>
             </listitem>
           </varlistentry>
@@ -253,8 +253,25 @@
             <term>Token type</term>
             <listitem>
               <para>
-                It's the type of the token, it could be <emphasis>text</emphasis> or <emphasis>date</emphasis>. They are almost the same,
-                but in the latter case you have to "style" your token in template overrides in a different way.  
+                It's the type of the token, it could be:
+                <itemizedlist>
+                  <listitem>
+                    <para>Date</para>
+                  </listitem>
+                  <listitem>
+                    <para>Google+</para>
+                  </listitem>
+                  <listitem>
+                    <para>Link</para>
+                  </listitem>
+                  <listitem>
+                    <para>Meta</para>
+                  </listitem>
+                  <listitem>
+                    <para>Plain text</para>
+                  </listitem>
+                </itemizedlist>
+                They are almost the same, but you have to "style" it in template overrides in a different way.  
               </para> 
             </listitem>
           </varlistentry>
@@ -282,7 +299,11 @@
           Please note that J4Schema can't verify if the data you added is correct, since you could add nested tokens.
           To ensure that everything is ok, you can use this <guilabel>Google</guilabel> tool: 
           <ulink url="http://www.google.com/webmasters/tools/richsnippets">Rich Snippets Testing Tool</ulink>
-        </para>  
+        </para>
+        <para>
+          However in our pro-version you can find a module named <emphasis>J4Schema Rich Tools tester</emphasis>. It will submit the current url
+          to the Google tool, you only have to publish it wherever you want and follow the link.
+        </para>
       </note>
       
       <para>
@@ -440,6 +461,26 @@
           into the ISO format. To do that we have to add a colon (<code>:</code>) after the token name, then output
           the date value.
         </para>
+      </section>
+      <section id="add-an-author-token">
+        <title>Add an author token</title>
+        
+        <para>With this token type, you can add author information on your page. In this way, author profile photo will
+          show up in search results:</para>
+          
+        <para>First of all, you have to configure your Google+ profile; then edit the <emphasis>Contributor To</emphasis> section.
+          In the dialog that appears, click <emphasis>Add custom link</emphasis> and enter the website URL, then click <emphasis>Save</emphasis>.</para>
+        
+        <note>
+          <para>As you can imagine, you can test author tokens on live sites only; you can't do it on localhost, since Google can't reach it!</para>
+        </note>
+        
+        <para>Then surf on the <guilabel>Authors</guilabel> view and click on <guibutton>Synch Authors</guibutton>. In this way you'll import existant
+          users inside J4Schema.</para>
+        <para>Don't worry, only new users will be imported, so you can run this operation every time you want. However, if you want, you can manually
+          add a single user, clicking on the <guibutton>New</guibutton> button.</para>
+          
+        
       </section>
     </section>
 
