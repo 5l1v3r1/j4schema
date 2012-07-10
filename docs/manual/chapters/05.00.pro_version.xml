@@ -11,10 +11,19 @@
         <simpara><emphasis>Token management</emphasis> Automatically replace your own tokens with Schema.org attributes</simpara>
       </listitem>
       <listitem>
-        <simpara>
-          <emphasis>Template overrides for standard tokens</emphasis> We provided template overrides for <code>com_content</code> component 
-          with standard Schema.org attributes. However you can apply the same logic to every part of your site!
-        </simpara>
+        <para>
+          <emphasis>Template overrides for standard tokens</emphasis> We provided template overrides for these components 
+          with standard Schema.org attributes:
+          <itemizedlist>
+          	<listitem>
+          		<para>Joomla! standard content (com_content)</para>
+          	</listitem>
+          	<listitem>
+          		<para>Virtuemart product page</para>
+          	</listitem>
+          </itemizedlist>
+          However you can apply the same logic to every part of your site!
+        </para>
       </listitem>
       <listitem>
         <simpara>
@@ -138,6 +147,10 @@
       <para>
         <code>site_root/administrator/components/com_j4schema/overrides</code>
       </para>
+      
+      <note>
+      	<title>YOOtheme Warp users</title>
+      </note>
     </section>
     
     <section id="token-list">
@@ -462,6 +475,7 @@
           the date value.
         </para>
       </section>
+
       <section id="add-an-author-token">
         <title>Add an author token</title>
         
