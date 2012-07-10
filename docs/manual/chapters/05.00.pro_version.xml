@@ -150,6 +150,13 @@
       
       <note>
       	<title>YOOtheme Warp users</title>
+        
+        <para>Latest YOOtheme template are based on Warp framework, which overrides by default every section of your Joomla! site.</para>
+        <para>This means that you <emphasis>MUST NOT</emphasis> install the templates overrides automatically, but you have to manually copy 
+          them inside this folder:</para>
+        <para>
+          <code>site_root/templates/&lt;your_template&gt;/warp/systems/joomla/layouts</code>
+        </para>
       </note>
     </section>
     
@@ -353,7 +360,7 @@
         </para>
        
        <para>
-        So this, is a snippet of a template override for the article (some parts were removed):
+        So this is a snippet of a template override for the article (some parts were removed):
         <note>
           <para>
             In these examples there is a space between the token name and <code>{</code> or <code>}</code>. We had to
@@ -439,7 +446,7 @@
       
       <para>Now let's see a particular token: the <emphasis>date token</emphasis> </para>
       </section>
-      
+              
       <section id="add-a-date-token">
         <title>Add a date token</title>
         
@@ -457,12 +464,14 @@
           from the other ones.
         </para>
         
-        <programlisting><![CDATA[
+        <example>
+          <title>Date Token</title>
+            <programlisting><![CDATA[
 <time { ARTICLE_PUBLISH_UP:<?php echo $this->item->publish_up?> }>
    <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', 
               JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
-</time>]]>
-        </programlisting>
+</time>]]></programlisting>
+        </example>
         
         <para>
           As you can see, we have to wrap the text we want to style with a <guibutton>time</guibutton> tag, then
@@ -481,9 +490,26 @@
         
         <para>With this token type, you can add author information on your page. In this way, author profile photo will
           show up in search results:</para>
+         
+        <para>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/author_snippet.gif" align="center" />
+            </imageobject>
+            <caption>Image taken from Google's Rich Testing Tools</caption>
+          </mediaobject>
+        </para>
           
         <para>First of all, you have to configure your Google+ profile; then edit the <emphasis>Contributor To</emphasis> section.
           In the dialog that appears, click <emphasis>Add custom link</emphasis> and enter the website URL, then click <emphasis>Save</emphasis>.</para>
+        
+        <para>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/google_plus.gif" align="center" />
+            </imageobject>
+          </mediaobject>
+        </para>
         
         <note>
           <para>As you can imagine, you can test author tokens on live sites only; you can't do it on localhost, since Google can't reach it!</para>
@@ -494,6 +520,108 @@
         <para>Don't worry, only new users will be imported, so you can run this operation every time you want. However, if you want, you can manually
           add a single user, clicking on the <guibutton>New</guibutton> button.</para>
           
+        <para>For each author, you have to insert his google profile id:</para>
+        
+        <para>Well, you're done! If you test your page, you should see a nice image of your profile next to the search result!</para>
+        
+        <section id="add-author-manually">
+          <title>Add an author token manually</title>
+          
+          <para>If you want to add the author token in an already existant template override (or in another part of your site), you have to follow
+            these steps.</para>
+            
+          <para>First of all, you have to create a <guilabel>Google+</guilabel> token, and assign it a name.</para>
+          
+          <para>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/google_plus_token.gif" align="center"/>
+              </imageobject>
+            </mediaobject>
+          </para>
+         
+          <para>Then, in your template override, you have to place your token in this way:
+            <example>
+              <title>Google+ Token</title>
+              
+              <programlisting><![CDATA[
+<a href ="{ GOOGLE_PLUS_AUTHOR:<?php echo $this->item->created_by?> }">
+  <?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+</a>
+]]></programlisting>
+            </example>
+          </para>
+          
+          <para>As you can see, the token is made by two part: the token name and the userid of the author, joined together by a
+            semicolon ( <code>:</code> ). In this way <guilabel>J4Schema</guilabel> can check if there is a linked Google+ 
+            profile and create a correct link.</para>
+        </section>
+      </section>
+      
+      <section id="add-a-meta-token">
+        <title>Add a meta token</title>
+        
+        <para>Sometimes you have to add some information that aren't visible on the page, for example the number of reviews, 
+          the best rating vote and so on.</para>
+        <para>In these case, the best way to deal with that is to create a <guilabel>Meta</guilabel> token: the token will be
+          invisible to the user, but it's present inside the page HTML code, providing information to the search engine.</para>
+        <para>You can view these tokens inside Virtuemart template overrides.</para>
+        
+        <para>In this example we'll add a meta token for the total number of reviews. First of all create a new Meta token and
+          assign it a name and a Schema.org property:</para>
+          
+        <para>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/meta_token.gif" align="center" />
+            </imageobject>
+          </mediaobject>
+        </para>
+        
+        <para>Then, in your template override, you have to add the following code (snippet taken from <code>default_reviews.php</code>):
+          <example>
+            <title>Meta Token</title>
+              
+            <programlisting><![CDATA[
+<span title="'.(JText::_("COM_VIRTUEMART_RATING_TITLE") . $num . '/' . $maxrating).'">
+	{ VM_META_REVIEW_RATING:'.$num.' }
+	{ VM_META_REVIEW_BEST_RATING:'.$maxrating.' }
+	<span class="stars-orange" style="width:'. (24 * $num).'px">
+	</span>
+</span>';
+]]></programlisting>
+          </example>
+        </para>
+        
+        <para>Even in this case, the token is made by two parts: the token name and the value that will be used, joined together by a
+        semicolon ( <code>:</code> ).</para>
+        
+      </section>
+      
+      <section id="add-a-link-token">
+        <title>Add a link token</title>
+        
+        <para>Link tokens are very similar to text ones, except that they have a fixed value and they're invisible to the user. Usually
+          they're used for enumeration, for example in item availability.</para>
+        <para>As usually, create a token and assign it a name and some Schema.org properties:</para>
+        
+        <para>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/link_token.gif" align="center"/>
+            </imageobject>
+          </mediaobject>
+        </para>
+        
+        <para>Then in your template overrides place the token wherever you want:
+          <example>
+            <title>Link Token</title>
+              
+            <programlisting><![CDATA[
+echo '{ VM_PRODUCT_IN_STOCK }'
+]]></programlisting>
+          </example>
+        </para>
         
       </section>
     </section>
