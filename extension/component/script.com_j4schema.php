@@ -13,6 +13,16 @@ class Com_j4schemaInstallerScript
 	/** @var string The component's name */
 	protected $_fabbrica_extension = 'com_j4schema';
 
+	/** @var array */
+	protected $_delete_on_pro_files = array('admin' => array(
+												'views/author/skip.xml',
+												'views/authors/skip.xml',
+												'views/overrides/skip.xml',
+												'views/token/skip.xml',
+												'views/tokens/skip.xml'
+													)
+											);
+
 	/**
 	 * Joomla! pre-flight event
 	 *
@@ -40,6 +50,16 @@ class Com_j4schemaInstallerScript
 	function postflight( $type, $parent )
 	{
 		$fofStatus = $this->_installFOF($parent);
+
+		// It's a pro version, let's check if I have to delete skip files coming from the base one
+		if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))
+		{
+			foreach($this->_delete_on_pro_files['admin'] as $file)
+			{
+				$filename = JPATH_ROOT.'/administrator/components/com_j4schema/'.$file;
+				if(file_exists($filename)) @unlink($filename);
+			}
+		}
 	}
 
 	/**
