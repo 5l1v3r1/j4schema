@@ -17,6 +17,7 @@ class J4schemaHelperSelect
 		if(!isset(self::$cache['integration']))
 		{
 			$opt[] = array('value' => '', 'text' => ' - '.JText::_('COM_J4SCHEMA_SELECT').' - ');
+			$opt[] = array('value' => 'jevents', 'text' => 'JEvents');
 			$opt[] = array('value' => 'joomla', 'text' => 'Joomla!');
 			$opt[] = array('value' => 'virtuemart', 'text' => 'Virtuemart');
 
