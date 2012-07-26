@@ -11,26 +11,114 @@ defined('_JEXEC') or die();
 jimport('joomla.application.component.model');
 
 /**
+ * Guess what? JModel is an interface in Joomla! 3.0. Holly smoke, Batman! 
+ */
+if(!class_exists('FOFWorksAroundJoomlaToGetAModel')) {
+	if(interface_exists('JModel')) {
+		abstract class FOFWorksAroundJoomlaToGetAModel extends JModelLegacy {}
+	} else {
+		class FOFWorksAroundJoomlaToGetAModel extends JModel {}
+	}
+}
+
+/**
  * FrameworkOnFramework model class
  *
  * FrameworkOnFramework is a set of classes whcih extend Joomla! 1.5 and later's
  * MVC framework with features making maintaining complex software much easier,
  * without tedious repetitive copying of the same code over and over again.
  */
-class FOFModel extends JModel
+class FOFModel extends FOFWorksAroundJoomlaToGetAModel
 {
+	/**
+	 * The name of the table to use
+	 * @var string
+	 */
 	protected $table = null;
+	
+	/**
+	 * The table object, populated when saving data
+	 * @var FOFTable 
+	 */
 	protected $otable = null;
 
+	/**
+	 * Stores a list of IDs passed to the model's state
+	 * @var array
+	 */
 	protected $id_list = array();
+	
+	/**
+	 * The first row ID passed to the model's state
+	 * @var int
+	 */
 	protected $id = null;
+	
+	/**
+	 * The table object, populated when retrieving data
+	 * @var FOFTable
+	 */
 	protected $record = null;
+	
+	/**
+	 * The list of records made available through getList
+	 * @var array
+	 */
 	protected $list = null;
 
+	/**
+	 * Pagination object
+	 * @var JPagination
+	 */
 	protected $pagination = null;
+	
+	/**
+	 * Total rows based on the filters set in the model's state
+	 * @var int
+	 */
 	protected $total = 0;
 
+	/**
+	 * Input variables, passed on from the controller, in an associative array
+	 * @var array
+	 */
 	protected $input = array();
+	
+	/**
+	 * The event to trigger after deleting the data.
+	 * @var    string
+	 */
+	protected $event_after_delete = 'onContentAfterDelete';
+
+	/**
+	 * The event to trigger after saving the data.
+	 * @var    string
+	 */
+	protected $event_after_save = 'onContentAfterSave';
+
+	/**
+	 * The event to trigger before deleting the data.
+	 * @var    string
+	 */
+	protected $event_before_delete = 'onContentBeforeDelete';
+
+	/**
+	 * The event to trigger before saving the data.
+	 * @var    string
+	 */
+	protected $event_before_save = 'onContentBeforeSave';
+
+	/**
+	 * The event to trigger after changing the published state of the data.
+	 * @var    string
+	 */
+	protected $event_change_state = 'onContentChangeState';
+	
+	/**
+	 * Should I save the model's state in the session?
+	 * @var bool
+	 */
+	protected $_savestate = null;
 
 	/**
 	 * Returns a new model object. Unless overriden by the $config array, it will
@@ -64,9 +152,21 @@ class FOFModel extends JModel
 
 		if (!class_exists( $modelClass ))
 		{
-			$include_paths = JModel::addIncludePath();
+			if(interface_exists('JModel')) {
+				$include_paths = JModelLegacy::addIncludePath();
+			} else {
+				$include_paths = JModel::addIncludePath();
+			}
 
-			$isCLI = version_compare(JVERSION, '1.6.0', 'ge') ? (JFactory::getApplication() instanceof JException) : false;
+			try {
+				if(is_null(JFactory::$application)) {
+					$isCLI = true;
+				} else {
+					$isCLI = version_compare(JVERSION, '1.6.0', 'ge') ? (JFactory::getApplication() instanceof JException) : false;
+				}
+			} catch(Exception $e) {
+				$isCLI = true;
+			}
 			if($isCLI) {
 				$isAdmin = false;
 			} else {
@@ -87,10 +187,17 @@ class FOFModel extends JModel
 
 			// Try to load the model file
 			jimport('joomla.filesystem.path');
-			$path = JPath::find(
-				$include_paths,
-				JModel::_createFileName( 'model', array( 'name' => $type))
-			);
+			if(interface_exists('JModel')) {
+				$path = JPath::find(
+					$include_paths,
+					JModelLegacy::_createFileName( 'model', array( 'name' => $type))
+				);
+			} else {
+				$path = JPath::find(
+					$include_paths,
+					JModel::_createFileName( 'model', array( 'name' => $type))
+				);
+			}
 			if ($path)
 			{
 				require_once $path;
@@ -154,28 +261,39 @@ class FOFModel extends JModel
 		} else {
 			$this->_name = $name;
 		}
+		$this->option = $component;
+		
+		// Get the view name
+		$className = get_class($this);
+		if($className == 'FOFModel') {
+			if(array_key_exists('view', $config)) {
+				$view = $config['view'];
+			}
+			if(empty($view)) {
+				$view = FOFInput::getCmd('view','cpanel',$this->input);
+			}
+		} else {
+			$eliminatePart = ucfirst($name).'Model';
+			$view = strtolower(str_replace($eliminatePart, '', $className));
+		}
 
 		// Assign the correct table
 		if(array_key_exists('table',$config)) {
 			$this->table = $config['table'];
 		} else {
-			$className = get_class($this);
-			if($className == 'FOFModel') {
-				if(array_key_exists('view', $config)) {
-					$view = $config['view'];
-				}
-				if(empty($view)) {
-					$view = FOFInput::getCmd('view','cpanel',$this->input);
-				}
-			} else {
-				$eliminatePart = ucfirst($name).'Model';
-				$view = strtolower(str_replace($eliminatePart, '', $className));
-			}
 			$this->table = FOFInflector::singularize($view);
 		}
 
 		// Get and store the pagination request variables
-		$isCLI = version_compare(JVERSION, '1.6.0', 'ge') ? (JFactory::getApplication() instanceof JException) : false;
+		try {
+			if(is_null(JFactory::$application)) {
+				$isCLI = true;
+			} else {
+				$isCLI = version_compare(JVERSION, '1.6.0', 'ge') ? (JFactory::getApplication() instanceof JException) : false;
+			}
+		} catch(Exception $e) {
+			$isCLI = true;
+		}
 		if($isCLI) {
 			$limit = 20;
 			$limitstart = 0;
@@ -186,8 +304,9 @@ class FOFModel extends JModel
 			} else {
 				$default_limit = 20;
 			}
-			$limit = $this->getUserStateFromRequest('global.list.limit', 'limit', $default_limit);
-			$limitstart = $this->getUserStateFromRequest(JRequest::getCmd('option','com_ars').$this->getName().'limitstart','limitstart',0);
+			
+			$limit = $this->getUserStateFromRequest($component.'.'.$view.'.limit', 'limit', $default_limit, 'int', false);
+			$limitstart = $this->getUserStateFromRequest($component.'.'.$view.'.limitstart', 'limitstart', 0, 'int', false);
 		}
 		$this->setState('limit',$limit);
 		$this->setState('limitstart',$limitstart);
@@ -211,6 +330,23 @@ class FOFModel extends JModel
 		else
 		{
 			$this->setId($id);
+		}
+		
+		// Populate the event names from the $config array
+		if(isset($config['event_after_delete'])) {
+			$this->event_after_delete = $config['event_after_delete'];
+		}
+		if(isset($config['event_after_save'])) {
+			$this->event_after_save = $config['event_after_save'];
+		}
+		if(isset($config['event_before_delete'])) {
+			$this->event_before_delete = $config['event_before_delete'];
+		}
+		if(isset($config['event_before_save'])) {
+			$this->event_before_save = $config['event_before_save'];
+		}
+		if(isset($config['event_change_state'])) {
+			$this->event_change_state = $config['event_change_state'];
 		}
 	}
 
@@ -526,7 +662,15 @@ class FOFModel extends JModel
 				$this->setError($table->getError());
 				return false;
 			} else {
+				// Call our itnernal event
 				$this->onAfterPublish($table);
+				
+				// Call the plugin events
+				$dispatcher = JDispatcher::getInstance();
+				JPluginHelper::importPlugin('content');
+				$name = FOFInput::getCmd('view','cpanel',$this->input);
+				$context = $this->option.'.'.$name;
+				$result = $dispatcher->trigger($this->event_change_state, array($context, $this->id_list, $publish));
 			}
 		}
 		return true;
@@ -691,22 +835,22 @@ class FOFModel extends JModel
 		}
 
 		// Get the savestate status
-		$savestate = parent::getState('savestate');
+		$savestate = $this->_savestate;
 		if(is_null($savestate)) {
-			$savestate = FOFInput::getBool('savestate',false,$this->input);
+			$savestate = FOFInput::getInt('savestate', -999, $this->input);
+			if($savestate == -999) {
+				$savestate = true;
+			}
 		}
+		$this->_savestate = $savestate;
 
 		$value = parent::getState($key);
 		if(is_null($value))
 		{
-			// Try to fetch it from the request or session
-			if($savestate) {
-				$value = $this->getUserStateFromRequest($this->getHash().$key,$key,null);
-			} else {
-				$value = FOFInput::getVar($key, null, $this->input);
+			$value = $this->getUserStateFromRequest($this->getHash().$key,$key,$value,'none',$savestate);
+			if(is_null($value))	{
+				return $default;
 			}
-
-			if(is_null($value))	return $default;
 		}
 
 		if( strtoupper($filter_type) == 'RAW' )
@@ -736,11 +880,20 @@ class FOFModel extends JModel
 	 * @param	string	The name of the variable passed in a request.
 	 * @param	string	The default value for the variable if not found. Optional.
 	 * @param	string	Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
+	 * @param	bool	Should I save the variable in the user state? Default: true. Optional.
 	 * @return	The request user state.
 	 */
-	protected function getUserStateFromRequest( $key, $request, $default = null, $type = 'none' )
+	protected function getUserStateFromRequest( $key, $request, $default = null, $type = 'none', $setUserState = true )
 	{
-		$isCLI = version_compare(JVERSION, '1.6.0', 'ge') ? (JFactory::getApplication() instanceof JException) : false;
+		try {
+			if(is_null(JFactory::$application)) {
+				$isCLI = true;
+			} else {
+				$isCLI = version_compare(JVERSION, '1.6.0', 'ge') ? (JFactory::getApplication() instanceof JException) : false;
+			}
+		} catch(Exception $e) {
+			$isCLI = true;
+		}
 		if($isCLI) return $default;
 
 		$app = JFactory::getApplication();
@@ -753,9 +906,13 @@ class FOFModel extends JModel
 		$new_state = FOFInput::getVar($request, null, $this->input, $type);
 
 		// Save the new value only if it was set in this request
-		if ($new_state !== null) {
-			$app->setUserState($key, $new_state);
-		} else {
+		if($setUserState) {
+			if ($new_state !== null) {
+				$app->setUserState($key, $new_state);
+			} else {
+				$new_state = $cur_state;
+			}
+		} elseif(is_null($new_state)) {
 			$new_state = $cur_state;
 		}
 
@@ -870,16 +1027,16 @@ class FOFModel extends JModel
 		} else {
 			$query = FOFQueryAbstract::getNew()
 				->select('*')
-				->from($db->nameQuote($tableName));
+				->from($db->quoteName($tableName));
 		}
 
 		$where = array();
 		if(version_compare(JVERSION, '3.0', 'ge')) {
-			$fieldsArray = $db->getTableColumns($tableName, true);
+			$fields = $db->getTableColumns($tableName, true);
 		} else {
 			$fieldsArray = $db->getTableFields($tableName, true);
+			$fields = array_shift($fieldsArray);
 		}
-		$fields = array_shift($fieldsArray);
 		foreach($fields as $fieldname => $fieldtype) {
 			$filterName = ($fieldname == $tableKey) ? 'id' : $fieldname;
 			$filterState = $this->getState($filterName, null);
@@ -890,7 +1047,7 @@ class FOFModel extends JModel
 						if(version_compare(JVERSION, '3.0', 'ge')) {
 							$query->where('('.$db->qn($fieldname).' LIKE '.$db->q('%'.$filterState.'%').')');
 						} else {
-							$query->where('('.$db->nameQuote($fieldname).' LIKE '.$db->Quote('%'.$filterState.'%').')');
+							$query->where('('.$db->quoteName($fieldname).' LIKE '.$db->Quote('%'.$filterState.'%').')');
 						}
 						break;
 
@@ -899,7 +1056,7 @@ class FOFModel extends JModel
 							if(version_compare(JVERSION, '3.0', 'ge')) {
 								$query->where($db->qn($fieldname).' = '.$db->q((int)$filterState));
 							} else {
-								$query->where($db->nameQuote($fieldname).' = '.$db->Quote((int)$filterState));
+								$query->where($db->quoteName($fieldname).' = '.$db->Quote((int)$filterState));
 							}
 						}
 						break;
@@ -908,7 +1065,7 @@ class FOFModel extends JModel
 						if(version_compare(JVERSION, '3.0', 'ge')) {
 							$query->where('('.$db->qn($fieldname).'='.$db->q($filterState).')');
 						} else {
-							$query->where('('.$db->nameQuote($fieldname).'='.$db->Quote($filterState).')');
+							$query->where('('.$db->quoteName($fieldname).'='.$db->Quote($filterState).')');
 						}
 						break;
 				}
@@ -922,7 +1079,7 @@ class FOFModel extends JModel
 			if(version_compare(JVERSION, '3.0', 'ge')) {
 				$query->order($db->qn($order).' '.$dir);
 			} else {
-				$query->order($db->nameQuote($order).' '.$dir);
+				$query->order($db->quoteName($order).' '.$dir);
 			}
 		}
 
@@ -979,6 +1136,19 @@ class FOFModel extends JModel
 		$this->setState($name, $arg1);
 		return $this;
 	}
+	
+	/**
+	 * Sets the model state auto-save status. By default the model is set up to
+	 * save its state to the session.
+	 * 
+	 * @param bool $newState True to save the state, false to not save it.
+	 */
+	public function &savestate($newState)
+	{
+		$this->_savestate = $newState ? true : false;
+		
+		return $this;
+	}
 
 	/**
 	 * This method can be overriden to automatically do something with the
@@ -1011,7 +1181,54 @@ class FOFModel extends JModel
 	 * @return bool
 	 */
 	protected function onBeforeSave(&$data, &$table)
-	{
+	{		
+		list($isCLI, $isAdmin) = FOFDispatcher::isCliAdmin();
+		
+		// Let's import the plugin only if we're not in CLI (content plugin needs a user)
+		if(!$isCLI){
+			JPluginHelper::importPlugin('content');			
+		}
+		
+		$dispatcher = JDispatcher::getInstance();
+		
+		try {
+			// Do I have a new record?
+			$key = $table->getKeyName();
+			if($data instanceof FOFTable) {
+				$allData = $data->getData();
+			} elseif(is_object($data)) {
+				$allData = (array)$data;
+			} else {
+				$allData = $data;
+			}
+			$pk = (!empty($allData[$key])) ? $allData[$key] : 0;
+			
+			$this->_isNewRecord = $pk <= 0;
+			
+			// Bind the data
+			$table->bind($allData);
+			// Call the plugin
+			$name = version_compare(JVERSION, '1.6.0', 'ge') ? $this->name : $this->_name;
+			$result = $dispatcher->trigger($this->event_before_save, array($this->option.'.'.$name, &$table, $this->_isNewRecord));
+			if (in_array(false, $result, true)) {
+				// Plugin failed, return false
+				$this->setError($table->getError());
+				return false;
+			} else {
+				// Plugin successful, refetch the possibly modified data
+				if($data instanceof FOFTable) {
+					$data->bind($allData);
+				} elseif(is_object($data)) {
+					$data = (object)$allData;
+				} else {
+					$data = $allData;
+				}
+			}
+		} catch(Exception $e) {
+			// Oops, an exception occured!
+			$this->setError($e->getMessage());
+			return false;
+		}
 		return true;
 	}
 
@@ -1022,6 +1239,22 @@ class FOFModel extends JModel
 	 */
 	protected function onAfterSave(&$table)
 	{
+		list($isCLI, $isAdmin) = FOFDispatcher::isCliAdmin();
+		
+		// Let's import the plugin only if we're not in CLI (content plugin needs a user)
+		if(!$isCLI){
+			JPluginHelper::importPlugin('content');			
+		}
+		
+		$dispatcher = JDispatcher::getInstance();
+		try {
+			$name = version_compare(JVERSION, '1.6.0', 'ge') ? $this->name : $this->_name;
+			$dispatcher->trigger($this->event_after_save, array($this->option.'.'.$name, &$table, $this->_isNewRecord));
+		} catch(Exception $e) {
+			// Oops, an exception occured!
+			$this->setError($e->getMessage());
+			return false;
+		}
 	}
 
 	/**
@@ -1031,11 +1264,56 @@ class FOFModel extends JModel
 	 */
 	protected function onBeforeDelete(&$id, &$table)
 	{
+		list($isCLI, $isAdmin) = FOFDispatcher::isCliAdmin();
+		
+		// Let's import the plugin only if we're not in CLI (content plugin needs a user)
+		if(!$isCLI){
+			JPluginHelper::importPlugin('content');			
+		}
+		
+		$dispatcher = JDispatcher::getInstance();
+		try {
+			$table->load($id);
+			
+			$name = FOFInput::getCmd('view','cpanel',$this->input);
+			$context = $this->option.'.'.$name;
+			$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
+			
+			if (in_array(false, $result, true)) {
+				// Plugin failed, return false
+				$this->setError($table->getError());
+				return false;
+			}
+			
+			$this->_recordForDeletion = clone $table;
+		} catch(Exception $e) {
+			// Oops, an exception occured!
+			$this->setError($e->getMessage());
+			return false;
+		}
 		return true;
 	}
 
 	protected function onAfterDelete($id)
 	{
+		list($isCLI, $isAdmin) = FOFDispatcher::isCliAdmin();
+		
+		// Let's import the plugin only if we're not in CLI (content plugin needs a user)
+		if(!$isCLI){
+			JPluginHelper::importPlugin('content');			
+		}
+		
+		$dispatcher = JDispatcher::getInstance();
+		try {
+			$name = FOFInput::getCmd('view','cpanel',$this->input);
+			$context = $this->option.'.'.$name;
+			$result = $dispatcher->trigger($this->event_after_delete, array($context, $this->_recordForDeletion));
+			unset($this->_recordForDeletion);
+		} catch(Exception $e) {
+			// Oops, an exception occured!
+			$this->setError($e->getMessage());
+			return false;
+		}
 	}
 
 	protected function onBeforePublish(&$table)

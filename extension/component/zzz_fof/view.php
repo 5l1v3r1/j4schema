@@ -11,13 +11,24 @@ defined('_JEXEC') or die();
 jimport('joomla.application.component.view');
 
 /**
+ * Guess what? JView is an interface in Joomla! 3.0. Holly smoke, Batman! 
+ */
+if(!class_exists('FOFWorksAroundJoomlaToGetAView')) {
+	if(interface_exists('JModel')) {
+		abstract class FOFWorksAroundJoomlaToGetAView extends JViewLegacy {}
+	} else {
+		class FOFWorksAroundJoomlaToGetAView extends JView {}
+	}
+}
+
+/**
  * FrameworkOnFramework View class
  * 
  * FrameworkOnFramework is a set of classes which extend Joomla! 1.5 and later's
  * MVC framework with features making maintaining complex software much easier,
  * without tedious repetitive copying of the same code over and over again.
  */
-abstract class FOFView extends JView
+abstract class FOFView extends FOFWorksAroundJoomlaToGetAView
 {
 	protected $config = array();
 	
@@ -116,16 +127,16 @@ abstract class FOFView extends JView
 		
 		// Get the default paths
 		$paths = array();
-		$paths[] = ($templateParts['admin'] ? JPATH_ADMINISTRATOR : JPATH_SITE).'/components/'.
-			$templateParts['component'].'/views/'.$templateParts['view'].'/tmpl';
 		$paths[] = ($templateParts['admin'] ? JPATH_ADMINISTRATOR : JPATH_SITE).'/templates/'.
 			$template.'/html/'.$templateParts['component'].'/'.$templateParts['view'];
+		$paths[] = ($templateParts['admin'] ? JPATH_ADMINISTRATOR : JPATH_SITE).'/components/'.
+			$templateParts['component'].'/views/'.$templateParts['view'].'/tmpl';
 		
 		// Look for a template override
 		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
 		{
-			$apath = array_pop($paths);
-			$paths[] = str_replace($template, $layoutTemplate, $apath);
+			$apath = array_shift($paths);
+			array_unshift($paths, str_replace($template, $layoutTemplate, $apath));
 		}
 		
 		$filetofind = $templateParts['template'].'.php';

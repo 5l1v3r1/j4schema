@@ -13,13 +13,23 @@ jimport('joomla.application.component.controller');
 require_once(dirname(__FILE__).'/input.php');
 
 /**
+ * Guess what? JController is an interface in Joomla! 3.0. Holly smoke, Batman! 
+ */
+if(!class_exists('FOFWorksAroundJoomlaToGetAController')) {
+	if(interface_exists('JController')) {
+		abstract class FOFWorksAroundJoomlaToGetAController extends JControllerLegacy {}
+	} else {
+		class FOFWorksAroundJoomlaToGetAController extends JController {}
+	}
+}
+/**
  * FrameworkOnFramework controller class
  *
  * FrameworkOnFramework is a set of classes whcih extend Joomla! 1.5 and later's
  * MVC framework with features making maintaining complex software much easier,
  * without tedious repetitive copying of the same code over and over again.
  */
-class FOFController extends JController
+class FOFController extends FOFWorksAroundJoomlaToGetAController
 {
 	/** @var string Current Joomla! version family (15 or 16) */
 	protected $jversion = '15';
@@ -390,6 +400,9 @@ class FOFController extends JController
 	 */
 	public function browse()
 	{
+		if(FOFInput::getInt('savestate', -999, $this->input) == -999) {
+			FOFInput::setVar('savestate', true, $this->input);
+		}
 		$this->display(in_array('browse', $this->cacheableTasks));
 	}
 
@@ -1124,7 +1137,7 @@ class FOFController extends JController
 			return JFactory::getUser()->authorise($area, $this->component);
 		} else {
 			$user = JFactory::getUser();
-			return $user->authorize($this->component, $area);
+			return $user->authorise($this->component, $area);
 		}
 	}
 
