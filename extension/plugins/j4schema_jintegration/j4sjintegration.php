@@ -14,6 +14,9 @@ class plgSystemJ4sjintegration extends JPlugin
 {
 	public function onAfterRender()
 	{
+		// don't run plugin on admin area
+		if(JFactory::getApplication()->isAdmin()) return;
+
 		$tokens = $this->getTokens();
 
 		$body = JResponse::getBody();
@@ -24,13 +27,13 @@ class plgSystemJ4sjintegration extends JPlugin
 			{
 				case 'date':
 					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*\}#', array($this, 'buildDate'), $body);
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#', array($this, 'buildDate'), $body);
 					$this->token = '';
 				break;
 
 				case 'google+':
 					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*\}#', array($this, 'buildGoogle'), $body);
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#', array($this, 'buildGoogle'), $body);
 					$this->token = '';
 				break;
 
@@ -40,7 +43,7 @@ class plgSystemJ4sjintegration extends JPlugin
 
 				case 'meta':
 					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*\}#', array($this, 'buildMeta'), $body);
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#', array($this, 'buildMeta'), $body);
 					$this->token = '';
 				break;
 
@@ -84,7 +87,8 @@ class plgSystemJ4sjintegration extends JPlugin
 		$content = str_replace('{'.$this->token->to_name.':', '', $value[0]);
 		$content = str_replace('}', '', $content);
 
-		if(preg_match('#^(\d{4})\-(\d{2})\-(\d{2})#', $content))	$content = $this->timeToISO($content);
+		if    (preg_match('#^(\d{4})\-(\d{2})\-(\d{2})#', $content))	$content = $this->timeToISO($content);
+		elseif(preg_match('#^P[\d]#', $content))						$content = $this->isoDuration($content);
 
 		return '<meta '.$this->token->to_replace.' content="'.$content.'" >';
 	}
@@ -93,6 +97,17 @@ class plgSystemJ4sjintegration extends JPlugin
 	{
 		$date = new JDate($datetime);
 		return $date->toISO8601();
+	}
+
+	protected function isoDuration($interval)
+	{
+		$interval = str_replace('P', '', $interval);
+		$hours	  = floor($interval / 3600);
+		$minutes  = floor(($interval % 3600) / 60);
+
+		$duration = 'P'.$hours.'H'.$minutes.'M';
+
+		return $duration;
 	}
 
 	protected function getTokens()
