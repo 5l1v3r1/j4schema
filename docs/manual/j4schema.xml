@@ -9,18 +9,18 @@
   <xi:include href="chapters/04.00.advanced_usage.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
   <xi:include href="chapters/05.00.pro_version.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
 	
-<appendix xml:id="gpl">
+<appendix id="gpl">
     <title><acronym>GNU</acronym> General Public License version 3</title>
 
     <para>Version 3, 29 June 2007</para>
 
-    <para>Copyright © 2007 Free Software Foundation, Inc. <link
-    xlink:href="http://fsf.org/">http://fsf.org/</link></para>
+    <para>Copyright © 2007 Free Software Foundation, Inc. <ulink
+    url="http://fsf.org/">http://fsf.org/</ulink></para>
 
     <para>Everyone is permitted to copy and distribute verbatim copies of this
     license document, but changing it is not allowed.</para>
 
-    <bridgehead renderas="sect1" xml:id="Preamble">Preamble</bridgehead>
+    <bridgehead renderas="sect1" id="Preamble">Preamble</bridgehead>
 
     <para>The <acronym>GNU</acronym> General Public License is a free,
     copyleft license for software and other kinds of works.</para>
@@ -87,7 +87,7 @@
 
     <bridgehead>TERMS AND CONDITIONS</bridgehead>
 
-    <bridgehead renderas="sect1" xml:id="Definitions">0.
+    <bridgehead renderas="sect1" id="Definitions">0.
     Definitions.</bridgehead>
 
     <para>“This License” refers to version 3 of the <acronym>GNU</acronym>
@@ -128,7 +128,7 @@
     a list of user commands or options, such as a menu, a prominent item in
     the list meets this criterion.</para>
 
-    <bridgehead renderas="sect1" xml:id="SourceCode">1. Source
+    <bridgehead renderas="sect1" id="SourceCode">1. Source
     Code.</bridgehead>
 
     <para>The “source code” for a work means the preferred form of the work
@@ -171,7 +171,7 @@
     <para>The Corresponding Source for a work in source code form is that same
     work.</para>
 
-    <bridgehead renderas="sect1" xml:id="BasicPermissions">2. Basic
+    <bridgehead renderas="sect1" id="BasicPermissions">2. Basic
     Permissions.</bridgehead>
 
     <para>All rights granted under this License are granted for the term of
@@ -197,7 +197,7 @@
     the conditions stated below. Sublicensing is not allowed; section 10 makes
     it unnecessary.</para>
 
-    <bridgehead renderas="sect1" xml:id="Protecting">3. Protecting Users'
+    <bridgehead renderas="sect1" id="Protecting">3. Protecting Users'
     Legal Rights From Anti-Circumvention Law.</bridgehead>
 
     <para>No covered work shall be deemed part of an effective technological
@@ -213,7 +213,7 @@
     users, your or third parties' legal rights to forbid circumvention of
     technological measures.</para>
 
-    <bridgehead renderas="sect1" xml:id="ConveyingVerbatim">4. Conveying
+    <bridgehead renderas="sect1" id="ConveyingVerbatim">4. Conveying
     Verbatim Copies.</bridgehead>
 
     <para>You may convey verbatim copies of the Program's source code as you
@@ -227,7 +227,7 @@
     <para>You may charge any price or no price for each copy that you convey,
     and you may offer support or warranty protection for a fee.</para>
 
-    <bridgehead renderas="sect1" xml:id="ConveyingModified">5. Conveying
+    <bridgehead renderas="sect1" id="ConveyingModified">5. Conveying
     Modified Source Versions.</bridgehead>
 
     <para>You may convey a work based on the Program, or the modifications to
@@ -275,7 +275,7 @@
     not cause this License to apply to the other parts of the
     aggregate.</para>
 
-    <bridgehead renderas="sect1" xml:id="ConveyingNonSource">6. Conveying
+    <bridgehead renderas="sect1" id="ConveyingNonSource">6. Conveying
     Non-Source Forms.</bridgehead>
 
     <para>You may convey a covered work in object code form under the terms of
@@ -386,7 +386,7 @@
     code form), and must require no special password or key for unpacking,
     reading or copying.</para>
 
-    <bridgehead renderas="sect1" xml:id="AdditionalTerms">7. Additional
+    <bridgehead renderas="sect1" id="AdditionalTerms">7. Additional
     Terms.</bridgehead>
 
     <para>“Additional permissions” are terms that supplement the terms of this
@@ -465,7 +465,7 @@
     form of a separately written license, or stated as exceptions; the above
     requirements apply either way.</para>
 
-    <bridgehead renderas="sect1" xml:id="Termination">8.
+    <bridgehead renderas="sect1" id="Termination">8.
     Termination.</bridgehead>
 
     <para>You may not propagate or modify a covered work except as expressly
@@ -494,7 +494,7 @@
     reinstated, you do not qualify to receive new licenses for the same
     material under section 10.</para>
 
-    <bridgehead renderas="sect1" xml:id="AcceptanceNotRequired">9. Acceptance
+    <bridgehead renderas="sect1" id="AcceptanceNotRequired">9. Acceptance
     Not Required for Having Copies.</bridgehead>
 
     <para>You are not required to accept this License in order to receive or
@@ -506,7 +506,7 @@
     License. Therefore, by modifying or propagating a covered work, you
     indicate your acceptance of this License to do so.</para>
 
-    <bridgehead renderas="sect1" xml:id="AutomaticDownstream">10. Automatic
+    <bridgehead renderas="sect1" id="AutomaticDownstream">10. Automatic
     Licensing of Downstream Recipients.</bridgehead>
 
     <para>Each time you convey a covered work, the recipient automatically
@@ -532,7 +532,7 @@
     is infringed by making, using, selling, offering for sale, or importing
     the Program or any portion of it.</para>
 
-    <bridgehead renderas="sect1" xml:id="Patents">11. Patents.</bridgehead>
+    <bridgehead renderas="sect1" id="Patents">11. Patents.</bridgehead>
 
     <para>A “contributor” is a copyright holder who authorizes use under this
     License of the Program or a work on which the Program is based. The work
@@ -600,7 +600,7 @@
     any implied license or other defenses to infringement that may otherwise
     be available to you under applicable patent law.</para>
 
-    <bridgehead renderas="sect1" xml:id="NoSurrender">12. No Surrender of
+    <bridgehead renderas="sect1" id="NoSurrender">12. No Surrender of
     Others' Freedom.</bridgehead>
 
     <para>If conditions are imposed on you (whether by court order, agreement
@@ -613,7 +613,7 @@
     the Program, the only way you could satisfy both those terms and this
     License would be to refrain entirely from conveying the Program.</para>
 
-    <bridgehead renderas="sect1" xml:id="UsedWithAGPL">13. Use with the
+    <bridgehead renderas="sect1" id="UsedWithAGPL">13. Use with the
     <acronym>GNU</acronym> Affero General Public License.</bridgehead>
 
     <para>Notwithstanding any other provision of this License, you have
@@ -625,7 +625,7 @@
     Public License, section 13, concerning interaction through a network will
     apply to the combination as such.</para>
 
-    <bridgehead renderas="sect1" xml:id="RevisedVersions">14. Revised Versions
+    <bridgehead renderas="sect1" id="RevisedVersions">14. Revised Versions
     of this License.</bridgehead>
 
     <para>The Free Software Foundation may publish revised and/or new versions
@@ -652,7 +652,7 @@
     or copyright holder as a result of your choosing to follow a later
     version.</para>
 
-    <bridgehead renderas="sect1" xml:id="WarrantyDisclaimer">15. Disclaimer of
+    <bridgehead renderas="sect1" id="WarrantyDisclaimer">15. Disclaimer of
     Warranty.</bridgehead>
 
     <para>THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
@@ -664,7 +664,7 @@
     IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
     ALL NECESSARY SERVICING, REPAIR OR CORRECTION.</para>
 
-    <bridgehead renderas="sect1" xml:id="LiabilityLimitation">16. Limitation
+    <bridgehead renderas="sect1" id="LiabilityLimitation">16. Limitation
     of Liability.</bridgehead>
 
     <para>IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN
@@ -677,7 +677,7 @@
     WITH ANY OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN
     ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</para>
 
-    <bridgehead renderas="sect1" xml:id="InterpretationSecs1516">17.
+    <bridgehead renderas="sect1" id="InterpretationSecs1516">17.
     Interpretation of Sections 15 and 16.</bridgehead>
 
     <para>If the disclaimer of warranty and limitation of liability provided
@@ -689,7 +689,7 @@
 
     <bridgehead>END OF TERMS AND CONDITIONS</bridgehead>
 
-    <bridgehead renderas="sect1" xml:id="HowToApply">How to Apply These Terms
+    <bridgehead renderas="sect1" id="HowToApply">How to Apply These Terms
     to Your New Programs</bridgehead>
 
     <para>If you develop a new program, and you want it to be of the greatest
@@ -717,8 +717,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 <acronym>GNU</acronym> General Public License for more details.
 
 You should have received a copy of the <acronym>GNU</acronym> General Public License
-along with this program.  If not, see <link
-        xlink:href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</link>.
+along with this program.  If not, see <ulink
+        url="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</ulink>.
   </screen>
 
     <para>Also add information on how to contact you by electronic and paper
@@ -742,31 +742,31 @@ under certain conditions; type '<literal>show c</literal>' for details.
     <para>You should also get your employer (if you work as a programmer) or
     school, if any, to sign a “copyright disclaimer” for the program, if
     necessary. For more information on this, and how to apply and follow the
-    <acronym>GNU</acronym> <acronym>GPL</acronym>, see <link
-    xlink:href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</link>.</para>
+    <acronym>GNU</acronym> <acronym>GPL</acronym>, see <ulink
+    url="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</ulink>.</para>
 
     <para>The <acronym>GNU</acronym> General Public License does not permit
     incorporating your program into proprietary programs. If your program is a
     subroutine library, you may consider it more useful to permit linking
     proprietary applications with the library. If this is what you want to do,
     use the <acronym>GNU</acronym> Lesser General Public License instead of
-    this License. But first, please read <link
-    xlink:href="http://www.gnu.org/philosophy/why-not-lgpl.html">http://www.gnu.org/philosophy/why-not-lgpl.html</link>.</para>
+    this License. But first, please read <ulink
+    url="http://www.gnu.org/philosophy/why-not-lgpl.html">http://www.gnu.org/philosophy/why-not-lgpl.html</ulink>.</para>
   </appendix>
 
-  <appendix xml:id="fdl">
+  <appendix id="fdl">
     <title>GNU Free Documentation License</title>
 
     <simpara>Version 1.3, 3 November 2008</simpara>
 
-    <simpara>Copyright © 2000, 2001, 2002, 2007, 2008 <link
-    xlink:href="http://www.fsf.org/">Free Software Foundation,
-    Inc.</link></simpara>
+    <simpara>Copyright © 2000, 2001, 2002, 2007, 2008 <ulink
+    url="http://www.fsf.org/">Free Software Foundation,
+    Inc.</ulink></simpara>
 
     <simpara>Everyone is permitted to copy and distribute verbatim copies of
     this license document, but changing it is not allowed.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="section0">0. PREAMBLE</bridgehead>
+    <bridgehead renderas="sect2" id="section0">0. PREAMBLE</bridgehead>
 
     <simpara>The purpose of this License is to make a manual, textbook, or
     other functional and useful document “free” in the sense of freedom: to
@@ -789,7 +789,7 @@ under certain conditions; type '<literal>show c</literal>' for details.
     is published as a printed book. We recommend this License principally for
     works whose purpose is instruction or reference.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="section1">1. APPLICABILITY AND
+    <bridgehead renderas="sect2" id="section1">1. APPLICABILITY AND
     DEFINITIONS</bridgehead>
 
     <simpara>This License applies to any manual or other work, in any medium,
@@ -878,7 +878,7 @@ under certain conditions; type '<literal>show c</literal>' for details.
     these Warranty Disclaimers may have is void and has no effect on the
     meaning of this License.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="section2">2. VERBATIM
+    <bridgehead renderas="sect2" id="section2">2. VERBATIM
     COPYING</bridgehead>
 
     <simpara>You may copy and distribute the Document in any medium, either
@@ -894,7 +894,7 @@ under certain conditions; type '<literal>show c</literal>' for details.
     <simpara>You may also lend copies, under the same conditions stated above,
     and you may publicly display copies.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="section3">3. COPYING IN
+    <bridgehead renderas="sect2" id="section3">3. COPYING IN
     QUANTITY</bridgehead>
 
     <simpara>If you publish printed copies (or copies in media that commonly
@@ -932,7 +932,7 @@ under certain conditions; type '<literal>show c</literal>' for details.
     give them a chance to provide you with an updated version of the
     Document.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="section4">4.
+    <bridgehead renderas="sect2" id="section4">4.
     MODIFICATIONS</bridgehead>
 
     <simpara>You may copy and distribute a Modified Version of the Document
@@ -1067,7 +1067,7 @@ under certain conditions; type '<literal>show c</literal>' for details.
     License give permission to use their names for publicity for or to assert
     or imply endorsement of any Modified Version.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="section5">5. COMBINING
+    <bridgehead renderas="sect2" id="section5">5. COMBINING
     DOCUMENTS</bridgehead>
 
     <simpara>You may combine the Document with other documents released under
@@ -1092,7 +1092,7 @@ under certain conditions; type '<literal>show c</literal>' for details.
     any sections Entitled “Dedications”. You must delete all sections Entitled
     “Endorsements”.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="section6">6. COLLECTIONS OF
+    <bridgehead renderas="sect2" id="section6">6. COLLECTIONS OF
     DOCUMENTS</bridgehead>
 
     <simpara>You may make a collection consisting of the Document and other
@@ -1107,7 +1107,7 @@ under certain conditions; type '<literal>show c</literal>' for details.
     of this License into the extracted document, and follow this License in
     all other respects regarding verbatim copying of that document.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="section7">7. AGGREGATION WITH
+    <bridgehead renderas="sect2" id="section7">7. AGGREGATION WITH
     INDEPENDENT WORKS</bridgehead>
 
     <simpara>A compilation of the Document or its derivatives with other
@@ -1126,7 +1126,7 @@ under certain conditions; type '<literal>show c</literal>' for details.
     covers if the Document is in electronic form. Otherwise they must appear
     on printed covers that bracket the whole aggregate.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="section8">8. TRANSLATION</bridgehead>
+    <bridgehead renderas="sect2" id="section8">8. TRANSLATION</bridgehead>
 
     <simpara>Translation is considered a kind of modification, so you may
     distribute translations of the Document under the terms of section 4.
@@ -1146,7 +1146,7 @@ under certain conditions; type '<literal>show c</literal>' for details.
     Title (section 1) will typically require changing the actual
     title.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="section9">9. TERMINATION</bridgehead>
+    <bridgehead renderas="sect2" id="section9">9. TERMINATION</bridgehead>
 
     <simpara>You may not copy, modify, sublicense, or distribute the Document
     except as expressly provided under this License. Any attempt otherwise to
@@ -1173,14 +1173,14 @@ under certain conditions; type '<literal>show c</literal>' for details.
     reinstated, receipt of a copy of some or all of the same material does not
     give you any rights to use it.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="section10">10. FUTURE REVISIONS OF
+    <bridgehead renderas="sect2" id="section10">10. FUTURE REVISIONS OF
     THIS LICENSE</bridgehead>
 
     <simpara>The Free Software Foundation may publish new, revised versions of
     the GNU Free Documentation License from time to time. Such new versions
     will be similar in spirit to the present version, but may differ in detail
-    to address new problems or concerns. See <link
-    xlink:href="http://www.gnu.org/copyleft/">Copyleft</link>.</simpara>
+    to address new problems or concerns. See <ulink
+    url="http://www.gnu.org/copyleft/">Copyleft</ulink>.</simpara>
 
     <simpara>Each version of the License is given a distinguishing version
     number. If the Document specifies that a particular numbered version of
@@ -1194,7 +1194,7 @@ under certain conditions; type '<literal>show c</literal>' for details.
     public statement of acceptance of a version permanently authorizes you to
     choose that version for the Document.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="section11">11.
+    <bridgehead renderas="sect2" id="section11">11.
     RELICENSING</bridgehead>
 
     <simpara>“Massive Multiauthor Collaboration Site” (or “MMC Site”) means
@@ -1223,7 +1223,7 @@ under certain conditions; type '<literal>show c</literal>' for details.
     site under CC-BY-SA on the same site at any time before August 1, 2009,
     provided the MMC is eligible for relicensing.</simpara>
 
-    <bridgehead renderas="sect2" xml:id="addendum">ADDENDUM: How to use this
+    <bridgehead renderas="sect2" id="addendum">ADDENDUM: How to use this
     License for your documents</bridgehead>
 
     <simpara>To use this License in a document you have written, include a
@@ -1253,5 +1253,4 @@ being LIST, and with the Back-Cover Texts being LIST.</screen>
     software license, such as the GNU General Public License, to permit their
     use in free software.</simpara>
   </appendix>
-
 </book>
