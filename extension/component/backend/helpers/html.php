@@ -15,11 +15,12 @@ class J4schemaHelperHtml
 		$db = JFactory::getDbo();
 
 		//get default template name
-		$query = $db->getQuery(true)
+		$query = FOFQueryAbstract::getNew()
 					->select('template')
 					->from('#__template_styles')
 					->where('client_id = 0')
 					->where('home = 1');
-		return $db->setQuery($query)->loadResult();
+		$db->setQuery($query);
+		return $db->loadResult();
 	}
 }

@@ -12,6 +12,7 @@ class J4schemaHelperFilesystem
 {
 	public static function treeFolder($path)
 	{
+		jimport('joomla.filesystem.folder');
 		$folders = JFolder::folders($path, '.', false, true);
 
 		foreach($folders as $folder)

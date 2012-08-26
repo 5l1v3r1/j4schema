@@ -13,6 +13,7 @@ class J4schemaControllerOverrides extends FOFController
 {
 	public function copyOverrides()
 	{
+		jimport('joomla.filesystem.folder');
 		require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/html.php';
 
 		$keys   = JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides', '.', false, false);

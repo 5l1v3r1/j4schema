@@ -9,13 +9,13 @@
 defined('_JEXEC') or die();
 JHTML::_('behavior.keepalive');
 
-if(!file_exists(JPATH_LIBRARIES.'/fof/include.php'))
+if(!file_exists(JPATH_ROOT.'/libraries/fof/include.php'))
 {
 	echo 'FrameworkOnFramework Library not found. <br/>';
 	echo 'Please re-install the package and contact us if you still have this problem';
 	return;
 }
-include_once JPATH_LIBRARIES.'/fof/include.php' ;
+include_once JPATH_ROOT.'/libraries/fof/include.php' ;
 
 FOFTemplateUtils::addCSS('com_j4schema/css/main.css');
 FOFTemplateUtils::addCSS('com_j4schema/css/classes.css');

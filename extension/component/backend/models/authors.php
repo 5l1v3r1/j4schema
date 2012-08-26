@@ -39,14 +39,15 @@ class J4schemaModelAuthors extends FOFModel
 		$query = FOFQueryAbstract::getNew($db)
 					->select('at_userid')
 					->from('#__j4schema_authors');
-		$authors = $db->setQuery($query)->loadColumn();
+		$db->setQuery($query);
+		$authors = $db->loadColumn();
 		$authors[] = 0;
 
 		$query = 'INSERT INTO '.$db->quoteName('#__j4schema_authors').
 				 ' SELECT NULL, id, "" FROM '.$db->quoteName('#__users').
 					' WHERE id NOT IN('.implode(',', $authors).')';
-
-		$result = $db->setQuery($query)->query();
+		$db->setQuery($query);
+		$result = $db->query();
 
 		return $result;
 	}
