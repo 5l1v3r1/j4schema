@@ -133,7 +133,7 @@
 			</fileset>
 		</delete>
 		
-		
+		<copy file="${buildDir}/archives/com_j4schema_pro.zip" tofile="C:/Users/${user.name}/Desktop/Trasf FTP/com_j4schema_pro.zip" overwrite="true"/>
 		<copy file="${buildDir}/pkg_j4schema.zip" tofile="C:/Users/${user.name}/Desktop/Trasf FTP/pkg_j4schema.zip" overwrite="true"/>
 		<copy file="${buildDir}/pkg_j4schema_pro.zip" tofile="C:/Users/${user.name}/Desktop/Trasf FTP/pkg_j4schema_pro.zip" overwrite="true"/>
 		

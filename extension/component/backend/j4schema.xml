@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="1.5.0" method="upgrade">
+<install type="component" version="1.5.0">
 
 	<name>J4Schema</name>
 	<version>3.2.0</version>
 	<creationDate>August 2012</creationDate>
 	<author>Davide Tampellini</author>
-	<authorUrl>http://www.fabbricabinaria.it</authorUrl>
+    <authorUrl>http://www.fabbricabinaria.it</authorUrl>
 	<authorEmail>webmaster@fabbricabinaria.it</authorEmail>
 	<license>http://www.gnu.org/licenses/gpl.html (GNU/GPL)</license>
 	<description>J4Schema.org Extension</description>
@@ -23,19 +23,13 @@
             <file charset="utf8" driver="mysql">install/uninstall.sql</file>
          </sql>
     </uninstall>
-    
-    <update>
-        <schemas>
-            <schemapath type="mysql">install/updates</schemapath>
-            <schemapath type="mysqli">install/updates</schemapath> 
-        </schemas>
-    </update>
-        
+      
     <files folder="frontend">
         <filename>j4schema.php</filename>
         <filename>index.html</filename>
     </files>
 
+    <installfile>install.com_j4schema.php</installfile>
 	<scriptfile>script.com_j4schema.php</scriptfile>
 
 	<administration>
@@ -70,4 +64,4 @@
         <folder>js</folder>
         <filename>index.html</filename>
     </media>
-</extension>
+</install>

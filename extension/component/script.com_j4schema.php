@@ -226,12 +226,19 @@ class Com_j4schemaInstallerScript
 
 	private function _installFOF($parent)
 	{
-		$src = $parent->getParent()->getPath('source');
-
 		// Install the FOF framework
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
 		jimport('joomla.utilities.date');
+		if( version_compare( JVERSION, '1.6.0', 'ge' ) ) {
+			if(!isset($parent))
+			{
+				$parent = $this->parent;
+			}
+			$src = $parent->getPath('source');
+		} else {
+			$src = $this->parent->getPath('source');
+		}
 		$source = $src.'/zzz_fof';
 		if(!defined('JPATH_LIBRARIES')) {
 			$target = JPATH_ROOT.'/libraries/fof';
@@ -240,6 +247,7 @@ class Com_j4schemaInstallerScript
 		}
 		$haveToInstallFOF = false;
 		if(!JFolder::exists($target)) {
+			JFolder::create($target);
 			$haveToInstallFOF = true;
 		} else {
 			$fofVersion = array();
@@ -247,67 +255,55 @@ class Com_j4schemaInstallerScript
 				$rawData = JFile::read($target.'/version.txt');
 				$info = explode("\n", $rawData);
 				$fofVersion['installed'] = array(
-						'version'	=> trim($info[0]),
-						'date'		=> new JDate(trim($info[1]))
+					'version'	=> trim($info[0]),
+					'date'		=> new JDate(trim($info[1]))
 				);
 			} else {
 				$fofVersion['installed'] = array(
-						'version'	=> '0.0',
-						'date'		=> new JDate('2011-01-01')
+					'version'	=> '0.0',
+					'date'		=> new JDate('2011-01-01')
 				);
 			}
 			$rawData = JFile::read($source.'/version.txt');
 			$info = explode("\n", $rawData);
 			$fofVersion['package'] = array(
-					'version'	=> trim($info[0]),
-					'date'		=> new JDate(trim($info[1]))
+				'version'	=> trim($info[0]),
+				'date'		=> new JDate(trim($info[1]))
 			);
 
 			$haveToInstallFOF = $fofVersion['package']['date']->toUNIX() > $fofVersion['installed']['date']->toUNIX();
 		}
 
-		$installedFOF = false;
-		if($haveToInstallFOF) {
-			$versionSource = 'package';
-			$installer = new JInstaller;
-			$installedFOF = $installer->install($source);
-		} else {
-			$versionSource = 'installed';
-		}
-
-		if(!isset($fofVersion)) {
-			$fofVersion = array();
-			if(JFile::exists($target.'/version.txt')) {
-				$rawData = JFile::read($target.'/version.txt');
-				$info = explode("\n", $rawData);
-				$fofVersion['installed'] = array(
-						'version'	=> trim($info[0]),
-						'date'		=> new JDate(trim($info[1]))
-				);
-			} else {
-				$fofVersion['installed'] = array(
-						'version'	=> '0.0',
-						'date'		=> new JDate('2011-01-01')
-				);
+		if($haveToInstallFOF)
+		{
+			if( version_compare( JVERSION, '1.6.0', 'ge' ) )
+			{
+				$versionSource = 'package';
+				$installer = new JInstaller;
+				$installedFOF = $installer->install($source);
 			}
-			$rawData = JFile::read($source.'/version.txt');
-			$info = explode("\n", $rawData);
-			$fofVersion['package'] = array(
-					'version'	=> trim($info[0]),
-					'date'		=> new JDate(trim($info[1]))
-			);
-			$versionSource = 'installed';
+			else
+			{
+				$versionSource = 'package';
+				$installedFOF = true;
+				$files = JFolder::files($source);
+				if(!empty($files)) {
+					foreach($files as $file) {
+						$installedFOF = $installedFOF && JFile::copy($source.'/'.$file, $target.'/'.$file);
+					}
+				}
+			}
 		}
-
-		if(!($fofVersion[$versionSource]['date'] instanceof JDate)) {
-			$fofVersion[$versionSource]['date'] = new JDate();
+		else
+		{
+			$versionSource = 'installed';
 		}
 
 		return array(
-				'required'	=> $haveToInstallFOF,
-				'installed'	=> $installedFOF,
-				'version'	=> $fofVersion[$versionSource]['version'],
-				'date'		=> $fofVersion[$versionSource]['date']->toFormat('%Y-%m-%d'),
+			'required'	=> $haveToInstallFOF,
+			'installed'	=> $installedFOF,
+			'version'	=> $fofVersion[$versionSource]['version'],
+			'date'		=> $fofVersion[$versionSource]['date']->toFormat('%Y-%m-%d'),
 		);
 	}
 }
