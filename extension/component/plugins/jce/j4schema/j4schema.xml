@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<install version="2.1.0" type="plugin" plugin="j4schema">
+	<name>J4Schema</name>
+	<version>2.1.0</version>
+	<creationDate>June 2011</creationDate>
+	<author>Davide Tampellini</author>
+	<authorEmail>webmaster@fabbricabinaria.it</authorEmail>
+	<authorUrl>http://www.fabbricabinaria.it</authorUrl>
+	<copyright>Davide Tampellini</copyright>
+	<license>GPLv2</license>
+	
+	<icon>j4schema</icon>
+	<layout>j4schema</layout>
+	<elements></elements>
+	<files>
+		<filename>editor_plugin.js</filename>
+		<filename>index.html</filename>
+		
+		<filename>img/index.html</filename>
+		<filename>img/j4schema.png</filename>
+	</files>
+</install>

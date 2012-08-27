@@ -17,7 +17,7 @@ $_delete_on_pro_files = array('admin' => array(
 									)
 							);
 
-// Install the FOF framework
+jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 jimport('joomla.utilities.date');
@@ -27,16 +27,56 @@ jimport('joomla.filesystem.archive');
 $src = $this->parent->getPath('source');
 
 $source = $src.'/zzz_fof';
-if(!defined('JPATH_LIBRARIES')) {
-	$target = JPATH_ROOT.'/libraries/fof';
-} else {
-	$target = JPATH_LIBRARIES.'/fof';
-}
+if(!defined('JPATH_LIBRARIES')) $target = JPATH_ROOT.'/libraries/fof';
+else 							$target = JPATH_LIBRARIES.'/fof';
+
 $haveToInstallFOF = false;
-if(!JFolder::exists($target)) {
+if(!JFolder::exists($target))
+{
 	JFolder::create($target);
 	$haveToInstallFOF = true;
-} else {
+}
+else
+{
+	$fofVersion = array();
+	if(JFile::exists($target.'/version.txt'))
+	{
+		$rawData = JFile::read($target.'/version.txt');
+		$info = explode("\n", $rawData);
+		$fofVersion['installed'] = array(
+			'version'	=> trim($info[0]),
+			'date'		=> new JDate(trim($info[1]))
+		);
+	}
+	else
+	{
+		$fofVersion['installed'] = array(
+			'version'	=> '0.0',
+			'date'		=> new JDate('2011-01-01')
+		);
+	}
+
+	$haveToInstallFOF = $fofVersion['package']['date']->toUNIX() > $fofVersion['installed']['date']->toUNIX();
+}
+
+if($haveToInstallFOF)
+{
+	$installedFOF = true;
+	$files = JFolder::files($source);
+	$versionSource = 'package';
+	if(!empty($files)) {
+		foreach($files as $file) {
+			$installedFOF = $installedFOF && JFile::copy($source.'/'.$file, $target.'/'.$file);
+		}
+	}
+}
+else
+{
+	$versionSource = 'installed';
+}
+
+if(!isset($fofVersion))
+{
 	$fofVersion = array();
 	if(JFile::exists($target.'/version.txt')) {
 		$rawData = JFile::read($target.'/version.txt');
@@ -57,19 +97,15 @@ if(!JFolder::exists($target)) {
 		'version'	=> trim($info[0]),
 		'date'		=> new JDate(trim($info[1]))
 	);
-
-	$haveToInstallFOF = $fofVersion['package']['date']->toUNIX() > $fofVersion['installed']['date']->toUNIX();
+	$versionSource = 'installed';
 }
 
-if($haveToInstallFOF) {
-	$installedFOF = true;
-	$files = JFolder::files($source);
-	if(!empty($files)) {
-		foreach($files as $file) {
-			$installedFOF = $installedFOF && JFile::copy($source.'/'.$file, $target.'/'.$file);
-		}
-	}
-}
+$fofStatus =  array(
+			'required'	=> $haveToInstallFOF,
+			'installed'	=> $installedFOF,
+			'version'	=> $fofVersion[$versionSource]['version'],
+			'date'		=> $fofVersion[$versionSource]['date']->toFormat('%Y-%m-%d'),
+		);
 
 // It's a pro version, let's check if I have to delete skip files coming from the base one
 if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))
@@ -85,94 +121,113 @@ return true;
 
 
 ///////////////////////////////
-$lang = JFactory::getLanguage();
-$lang->load('com_j4schema', JPATH_ADMINISTRATOR, 'en-GB', true);
-$lang->load('com_j4schema', JPATH_ADMINISTRATOR, null, true);
-
 $jce = JPluginHelper::isEnabled('editors', 'jce');
 
 //JCE is not installed, let's stop here
 if(!$jce)
 {
-	$html[] = '<h2>'.JText::_('COM_J4SCHEMA_NOT_INSTALLED').'</h2>';
-	$html[] = '<p><em>'.JText::_('COM_J4SCHEMA_JCE_NOT_INSTALLED').'</em></p>';
-	$html[] = '<p>'.JText::_('COM_J4SCHEMA_INSTALL_JCE').'</p>';
-	$html[] = '<p>'.JText::_('COM_J4SCHEMA_DOWNLOAD_PLUGIN').'</p>';
-
-	$this->output($html, false);
-	return true;
+	$jceStatus['error'] = 'JCE plugin editor not installed. Install it and then reinstall J4Schema';
 }
-
-$pkg_path = realpath(dirname(__FILE__).'/packages');
-$files = JFolder::files($pkg_path);
-
-for($i = 0; $i < count($files); $i++)
+else
 {
-	if(stripos($files[$i], 'JCE_') !== false)
+	if(!JArchive::extract($pkg_path.'/'.$files[$i], JPATH_ROOT.'/components/com_jce/editor/tiny_mce/plugins'))
 	{
-		$found = true;
-		break;
+		$jceStatus['error'] = 'There was an error extracting the JCE package. Please re-install J4Schema';
+	}
+	else
+	{
+		//automatically add the plugin to the "Default" JCE profile
+		$db = JFactory::getDbo();
+		$query = "SELECT * FROM #__wf_profiles WHERE name = 'default'";
+		$db->setQuery($query);
+		$profile = $db->loadObject();
+
+		if(!$profile)
+		{
+			$jceStatus['notice'] = 'JCE default profile not found. You have to manually the J4Schema button to the toolbar';
+		}
+		else
+		{
+			//check if J4Schema JCE plugin is already configurated
+			if(stripos($profile->rows, 'j4schema') === false && stripos($profile->plugins, 'j4schema') === false)
+			{
+				$query = 'UPDATE #__wf_profiles '.
+						' SET rows = '.$db->quote($profile->rows.',j4schema').','.
+						' plugins = '.$db->quote($profile->plugins.',j4schema').
+						' WHERE id = '.$profile->id;
+				$db->setQuery($query);
+
+
+				if(!$db->query())
+				{
+					$jceStatus['notice'] = 'There was an error while adding J4Schema button to JCE toolbar, you have to do that manually.';
+				}
+				else
+				{
+					$jceStatus['ok'] = 'Installed';
+				}
+			}
+		}
 	}
 }
 
-//if i didn't find the JCE plugin, let's stop here
-if(!$found)
-{
-	$html[] = '<h2>'.JText::_('COM_J4SCHEMA_NOT_INSTALLED').'</h2>';
-	$html[] = '<p><em>'.JText::_('COM_J4SCHEMA_PLUGIN_NOT_FOUND').'</em></p>';
-	$html[] = '<p>'.JText::_('COM_J4SCHEMA_DOWNLOAD_PLUGIN').'</p>';
+?>
+	<img src="../media/com_j4schema/images/j4schema_48.png" width="48" height="48" alt="J4Schema" align="right" />
 
-	$this->output($html, false);
-	return true;
-}
+	<h2>Welcome to J4Schema!</h2>
 
-if(!JArchive::extract($pkg_path.'/'.$files[$i], JPATH_ROOT.'/components/com_jce/editor/tiny_mce/plugins'))
-{
-	$html[] = '<h2>'.JText::_('COM_J4SCHEMA_NOT_INSTALLED').'</h2>';
-	$html[] = '<p><em>'.JText::_('COM_J4SCHEMA_ERROR_EXTRACT').'</em></p>';
-	$html[] = '<p>'.JText::_('COM_J4SCHEMA_DOWNLOAD_PLUGIN').'</p>';
-	return true;
-}
+	<p>Congratulations! Now you can start using J4Schema!</p>
 
-//automatically add the plugin to the "Default" JCE profile
-$db = JFactory::getDbo();
-$query = $db->getQuery(true)
-			->select('*')
-			->from('#__wf_profiles')
-			->where("name = 'default'");
-$profile = $db->setQuery($query)->loadObject();
-
-if(!$profile)
-{
-	$html[] = '<h2>'.JText::_('COM_J4SCHEMA_NOT_CONFIGURATED').'</h2>';
-	$html[] = '<p><em>'.JText::_('COM_J4SCHEMA_JCE_DEFAULT_NOT_FOUND').'</em></p>';
-	$html[] = '<p>'.JText::_('COM_J4SCHEMA_TOOLBAR_MANUAL').'</p>';
-
-	$this->output($html, false);
-	return true;
-}
-
-//check if J4Schema JCE plugin is already configurated
-if(stripos($profile->rows, 'j4schema') === false && stripos($profile->plugins, 'j4schema') === false)
-{
-	$query = $db->getQuery(true)
-				->update('#__wf_profiles')
-				->set('rows = '.$db->quote($profile->rows.',j4schema'))
-				->set('plugins = '.$db->quote($profile->plugins.',j4schema'))
-				->where('id = '.$profile->id);
-
-	if(!$db->setQuery($query)->query())
-	{
-		$html[] = '<h2>'.JText::_('COM_J4SCHEMA_NOT_CONFIGURATED').'</h2>';
-		$html[] = '<p><em>'.JText::_('COM_J4SCHEMA_JCE_PARAMS_ERROR').'</em></p>';
-		$html[] = '<p>'.JText::_('COM_J4SCHEMA_TOOLBAR_MANUAL').'</p>';
-
-		$this->output($html, false);
-		return true;
-	}
-}
-
-$html[] = '<h2>'.JText::_('COM_J4SCHEMA_TITLE').'</h2>';
-$html[] = '<p>'.JText::_('COM_J4SCHEMA_SUBTITLE').'</p>';
-
-$this->output($html, true);
+	<table class="adminlist">
+		<thead>
+			<tr>
+				<th class="title" colspan="2">Extension</th>
+				<th width="30%">Status</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="3"></td>
+			</tr>
+		</tfoot>
+		<tbody>
+			<tr class="row0">
+				<td class="key" colspan="2">J4Schema component</td>
+				<td><strong style="color: green">Installed</strong></td>
+			</tr>
+			<tr class="row1">
+				<td class="key" colspan="2">
+					<strong>Framework on Framework (FOF) <?php echo $fofStatus['version']?></strong> [<?php echo $fofStatus['date'] ?>]
+				</td>
+				<td><strong>
+					<span style="color: <?php echo $fofStatus['required'] ? ($fofStatus['installed']?'green':'red') : '#660' ?>; font-weight: bold;">
+						<?php echo $fofStatus['required'] ? ($fofStatus['installed'] ?'Installed':'Not Installed') : 'Already up-to-date'; ?>
+					</span>
+				</strong></td>
+			</tr>
+			<tr class="row0">
+				<td class="key" colspan="2">JCE plugin</td>
+				<td>
+					<?php
+						if    (isset($jceStatus['error']))  $color = 'red';
+						elseif(isset($jceStatus['notice'])) $color = '#660';
+						else								$color = 'green';
+					?>
+					<strong style="color:<?php echo $color?>"><?php echo array_pop($jceStatus)?></strong>
+				</td>
+			</tr>
+		<?php if(J4SCHEMA_PRO):?>
+			<tr class="row1">
+				<td class="key" colspan="2">Joomla integration plugin</td>
+				<td>
+					<?php
+						if    (isset($jintegration['error']))  	$color = 'red';
+						elseif(isset($jintegration['notice'])) 	$color = '#660';
+						else									$color = 'green';
+					?>
+					<strong style="color:<?php echo $color?>"><?php echo array_pop($jintegration)?></strong>
+				</td>
+			</tr>
+		<?php endif;?>
+		</tbody>
+	</table>
