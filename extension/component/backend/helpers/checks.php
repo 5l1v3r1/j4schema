@@ -13,11 +13,15 @@ class J4schemaHelperChecks
 	{
 		$warning = array();
 
-		//$j4splugin = self::checkJ4SPlugin();
+		// On J1.5 Mootools Upgrade plugin must be enabled
+		if(!version_compare(JVERSION, '1.6.0', 'ge')){
+			$mootools = self::checkMootools();
+		}
+
 		$jce 	   = self::checkJCE();
 
-		//if($j4splugin) 	$warning[] = $j4splugin;
 		if($jce)		$warning[] = $jce;
+		if($mootools)	$warning[] = $mootools;
 
 		return $warning;
 	}
@@ -36,6 +40,20 @@ class J4schemaHelperChecks
 		return $warning;
 	}
 
+	public static function checkMootools()
+	{
+		jimport('joomla.plugin.helper');
+		$check = JPluginHelper::isEnabled('system', 'mtupgrade');
+
+		if(!$check)
+		{
+			$warning = '<div style="margin-bottom:5px">Mootools System upgrade not enabled.<br/>
+							You <strong>MUST</strong> enable it in order to use J4Schema</div>';
+		}
+
+		return $warning;
+	}
+
 	public static function checkJCE()
 	{
 		jimport('joomla.plugin.helper');
@@ -44,7 +62,7 @@ class J4schemaHelperChecks
 		if(!$jce)
 		{
 			$warning = '<div style="margin-bottom:5px">JCE editor is not installed.<br />
-						 You <strong>MUST</strong> enabled it in order to use J4Schema</div>';
+						 You <strong>MUST</strong> enable it in order to use J4Schema</div>';
 
 			return $warning;
 		}
