@@ -13,10 +13,10 @@ class J4schemaHelperChecks
 	{
 		$warning = array();
 
-		$j4splugin = self::checkJ4SPlugin();
+		//$j4splugin = self::checkJ4SPlugin();
 		$jce 	   = self::checkJCE();
 
-		if($j4splugin) 	$warning[] = $j4splugin;
+		//if($j4splugin) 	$warning[] = $j4splugin;
 		if($jce)		$warning[] = $jce;
 
 		return $warning;

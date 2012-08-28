@@ -7,6 +7,14 @@
  */
 
 defined('_JEXEC') or die();
+
+if(version_compare(JVERSION, '1.6.0', 'ge')){
+	$published = 'JPUBLISHED';
+}
+else {
+	$published = 'PUBLISHED';
+}
+
 ?>
 <form name="adminForm" id="adminForm" action="index.php" method="post">
 
@@ -19,7 +27,7 @@ defined('_JEXEC') or die();
 				<th class="w150"><?php echo JText::_('COM_J4SCHEMA_INTEGRATION')?></th>
 				<th class="w100"><?php echo JText::_('COM_J4SCHEMA_TOKEN_TYPE')?></th>
 				<th><?php echo JText::_('COM_J4SCHEMA_REPLACE')?></th>
-				<th class="w70"><?php echo JText::_('JPUBLISHED')?></th>
+				<th class="w70"><?php echo JText::_($published)?></th>
 			</tr>
 		</thead>
 		<tfoot>

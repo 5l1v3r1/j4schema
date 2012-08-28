@@ -13,7 +13,7 @@
 	$j4s  = J4schemaHelperFilesystem::treeFolder(JPATH_COMPONENT_ADMINISTRATOR.'/overrides');
 	$tmpl = J4schemaHelperFilesystem::treeFolder(JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html');
 ?>
-<form id="adminForm" action="index.php" method="post">
+<form id="adminForm" name="adminForm" action="index.php" method="post">
 
 	<div class="fltlft width-50">
 		<fieldset>

@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<params>
-   <param name="downloadid" type="text" default="" size="30"
-              label="Download ID"
-              description ="COM_J4SCHEMA_DOWNLOADID_DESCR" />
-</params>
-
 <config>
     <fieldset name="params" label="COM_J4SCHEMA_PARAMS" description="">
       <field name="downloadid" type="text" default="" size="30"
@@ -26,4 +20,10 @@
             component="com_j4schema"
             section="component" />
     </fieldset>
+    
+    <params>
+       <param name="downloadid" type="text" default="" size="30"
+                  label="Download ID"
+                  description ="COM_J4SCHEMA_DOWNLOADID_DESCR" />
+    </params>
 </config>

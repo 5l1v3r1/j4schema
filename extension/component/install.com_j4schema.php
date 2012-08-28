@@ -8,6 +8,24 @@
 
 defined('_JEXEC') or die();
 
+if(function_exists('xdebug_break')) xdebug_break();
+$installation_queue = array(
+	// modules => { (folder) => { (module) => { (position), (published) } }* }*
+	'modules' => array(
+		'admin' => array(
+		),
+		'site' => array(
+			'mod_j4srichtools' => array('left', 0)
+		)
+	),
+	// plugins => { (folder) => { (element) => (published) }* }*
+	'plugins' => array(
+		'system' => array(
+			'j4schema_jintegration'	=> 0
+		)
+	)
+);
+
 $_delete_on_pro_files = array('admin' => array(
 									'views/author/skip.xml',
 									'views/authors/skip.xml',
@@ -26,11 +44,20 @@ jimport('joomla.filesystem.archive');
 
 $src = $this->parent->getPath('source');
 
+if(file_exists($src.'/media/js/pro.js'))	define('J4SCHEMA_PRO', 1);
+else										define('J4SCHEMA_PRO', 0);
+
 $source = $src.'/zzz_fof';
-if(!defined('JPATH_LIBRARIES')) $target = JPATH_ROOT.'/libraries/fof';
-else 							$target = JPATH_LIBRARIES.'/fof';
+$target = JPATH_ROOT.'/libraries/fof';
 
 $haveToInstallFOF = false;
+$rawData = JFile::read($source.'/version.txt');
+$info = explode("\n", $rawData);
+$fofVersion['package'] = array(
+	'version'	=> trim($info[0]),
+	'date'		=> new JDate(trim($info[1]))
+);
+
 if(!JFolder::exists($target))
 {
 	JFolder::create($target);
@@ -38,7 +65,6 @@ if(!JFolder::exists($target))
 }
 else
 {
-	$fofVersion = array();
 	if(JFile::exists($target.'/version.txt'))
 	{
 		$rawData = JFile::read($target.'/version.txt');
@@ -91,12 +117,7 @@ if(!isset($fofVersion))
 			'date'		=> new JDate('2011-01-01')
 		);
 	}
-	$rawData = JFile::read($source.'/version.txt');
-	$info = explode("\n", $rawData);
-	$fofVersion['package'] = array(
-		'version'	=> trim($info[0]),
-		'date'		=> new JDate(trim($info[1]))
-	);
+
 	$versionSource = 'installed';
 }
 
@@ -117,10 +138,57 @@ if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))
 	}
 }
 
-return true;
+// Module installation - BEGIN
+if(count($installation_queue['modules'])) {
+	foreach($installation_queue['modules'] as $folder => $modules) {
+		if(count($modules)) foreach($modules as $module => $modulePreferences) {
+			// Install the module
+			if(empty($folder)) $folder = 'site';
+			$path = "$src/modules/$folder/$module";
+			if(!is_dir($path)) {
+				$path = "$src/modules/$folder/mod_$module";
+			}
+			if(!is_dir($path)) {
+				$path = "$src/modules/$module";
+			}
+			if(!is_dir($path)) {
+				$path = "$src/modules/mod_$module";
+			}
+			if(!is_dir($path)) continue;
 
+			$installer = new JInstaller;
+			$result = $installer->install($path);
+			$status->modules[] = array('name'=>'mod_'.$module, 'client'=>$folder, 'result'=>$result);
+		}
+	}
+}
+// Module installation - END
 
-///////////////////////////////
+// Plugins installation - BEGIN
+if(count($installation_queue['plugins'])) {
+	foreach($installation_queue['plugins'] as $folder => $plugins) {
+		if(count($plugins)) foreach($plugins as $plugin => $published) {
+			$path = "$src/plugins/$folder/$plugin";
+			if(!is_dir($path)) {
+				$path = "$src/plugins/$folder/plg_$plugin";
+			}
+			if(!is_dir($path)) {
+				$path = "$src/plugins/$plugin";
+			}
+			if(!is_dir($path)) {
+				$path = "$src/plugins/plg_$plugin";
+			}
+			if(!is_dir($path)) continue;
+
+			$installer = new JInstaller;
+			$result = $installer->install($path);
+			$status->plugins[] = array('name'=>'plg_'.$plugin,'group'=>$folder, 'result'=>$result);
+		}
+	}
+}
+
+// Plugin installation - END
+
 $jce = JPluginHelper::isEnabled('editors', 'jce');
 
 //JCE is not installed, let's stop here
@@ -130,7 +198,7 @@ if(!$jce)
 }
 else
 {
-	if(!JArchive::extract($pkg_path.'/'.$files[$i], JPATH_ROOT.'/components/com_jce/editor/tiny_mce/plugins'))
+	if(!JFolder::copy($src.'/plugins/jce/j4schema' , JPATH_ROOT.'/components/com_jce/editor/tiny_mce/plugins/j4schema', '', true))
 	{
 		$jceStatus['error'] = 'There was an error extracting the JCE package. Please re-install J4Schema';
 	}
@@ -170,7 +238,7 @@ else
 		}
 	}
 }
-
+if(function_exists('xdebug_break')) xdebug_break();
 ?>
 	<img src="../media/com_j4schema/images/j4schema_48.png" width="48" height="48" alt="J4Schema" align="right" />
 
@@ -205,8 +273,25 @@ else
 					</span>
 				</strong></td>
 			</tr>
-			<tr class="row0">
-				<td class="key" colspan="2">JCE plugin</td>
+			<?php if (count($status->modules)) : ?>
+			<tr>
+				<th>Module</th>
+				<th>Client</th>
+				<th></th>
+			</tr>
+			<?php foreach ($status->modules as $module) :
+					$color = $module['result'] == 'Installed' ? 'green' : 'red';
+			?>
+			<tr class="row<?php echo (++ $rows % 2); ?>">
+				<td class="key"><?php echo $module['name']; ?></td>
+				<td class="key"><?php echo ucfirst($module['client']); ?></td>
+				<td><strong style="color:<?php echo $color?>"><?php echo ($module['result'])?'Installed':'Not installed'; ?></strong></td>
+			</tr>
+			<?php endforeach;?>
+			<?php endif;?>
+			<tr class="row<?php echo (++ $rows % 2); ?>">
+				<td class="key">JCE plugin</td>
+				<td class="key">JCE editor</td>
 				<td>
 					<?php
 						if    (isset($jceStatus['error']))  $color = 'red';
@@ -216,18 +301,21 @@ else
 					<strong style="color:<?php echo $color?>"><?php echo array_pop($jceStatus)?></strong>
 				</td>
 			</tr>
-		<?php if(J4SCHEMA_PRO):?>
-			<tr class="row1">
-				<td class="key" colspan="2">Joomla integration plugin</td>
-				<td>
-					<?php
-						if    (isset($jintegration['error']))  	$color = 'red';
-						elseif(isset($jintegration['notice'])) 	$color = '#660';
-						else									$color = 'green';
-					?>
-					<strong style="color:<?php echo $color?>"><?php echo array_pop($jintegration)?></strong>
-				</td>
+			<?php if (count($status->plugins)) : ?>
+			<tr>
+				<th>Plugin</th>
+				<th>Group</th>
+				<th></th>
 			</tr>
-		<?php endif;?>
+			<?php foreach ($status->plugins as $plugin) :
+					$color = $plugin['result'] == 'Installed' ? 'green' : 'red';
+			?>
+			<tr class="row<?php echo (++ $rows % 2); ?>">
+				<td class="key"><?php echo ucfirst($plugin['name']); ?></td>
+				<td class="key"><?php echo ucfirst($plugin['group']); ?></td>
+				<td><strong style="color:<?php echo $color?>"><?php echo ($plugin['result'])?'Installed':'Not installed'; ?></strong></td>
+			</tr>
+			<?php endforeach; ?>
+			<?php endif; ?>
 		</tbody>
 	</table>

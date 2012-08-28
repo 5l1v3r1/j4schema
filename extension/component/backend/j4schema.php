@@ -21,8 +21,12 @@ FOFTemplateUtils::addCSS('com_j4schema/css/main.css');
 FOFTemplateUtils::addCSS('com_j4schema/css/classes.css');
 FOFTemplateUtils::addCSS('com_j4schema/css/tree.css');
 
+if(!version_compare(JVERSION, '1.6.0', 'ge')){
+	FOFTemplateUtils::addCSS('com_j4schema/css/compat1.5.css');
+}
+
 if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))	define('J4SCHEMA_PRO', 1);
 else														define('J4SCHEMA_PRO', 0);
-if(function_exists('xdebug_break')) xdebug_break();
+
 // Dispatch
 FOFDispatcher::getAnInstance('com_j4schema')->dispatch();

@@ -55,6 +55,7 @@
 			    </not>
 				<exclude name="backend/language/**" />
 				<exclude name="backend/overrides/**" />
+				<exclude name="plugins/system/j4schema_jintegration/**"/>
 			</fileset>
 		</zip>
 		<delete includeemptydirs="true">

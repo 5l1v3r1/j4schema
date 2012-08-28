@@ -33,7 +33,7 @@
 	<scriptfile>script.com_j4schema.php</scriptfile>
 
 	<administration>
-		<menu view="cpanel" img="../media/com_j4schema/images/j4schema_20.png">COM_J4SCHEMA_MENU</menu>
+		<menu view="cpanel" img="../media/com_j4schema/images/j4schema_20.png">J4Schema</menu>
 		<files folder="backend">
             <folder>controllers</folder>
             <folder>helpers</folder>
