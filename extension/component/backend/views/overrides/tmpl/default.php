@@ -10,7 +10,10 @@
 	$this->loadHelper('html');
 	$this->loadHelper('filesystem');
 
-	$j4s  = J4schemaHelperFilesystem::treeFolder(JPATH_COMPONENT_ADMINISTRATOR.'/overrides');
+	if(version_compare(JVERSION, '1.6.0', 'ge')) $version = '2.5';
+	else										 $version = '1.5';
+
+	$j4s  = J4schemaHelperFilesystem::treeFolder(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/'.$version);
 	$tmpl = J4schemaHelperFilesystem::treeFolder(JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html');
 ?>
 <form id="adminForm" name="adminForm" action="index.php" method="post">

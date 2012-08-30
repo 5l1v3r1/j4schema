@@ -38,6 +38,7 @@
             <folder>controllers</folder>
             <folder>helpers</folder>
             <folder>install</folder>
+            <folder>jce</folder>
             <folder>liveupdate</folder>
             <folder>models</folder>
             <folder>overrides</folder>

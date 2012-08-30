@@ -43,7 +43,7 @@ defined('_JEXEC') or die('Restricted access');
     //EDIT THIS LINE TO ADD YOUR J4SCHEMA TOKEN
     $token = '{VM_PRICE}';
 
-    //manipulate the html text, so I can J4Schema token
+    //manipulate the html text, so I can inject J4Schema token
 	$priceDiv = $this->currency->createPriceDiv('basePriceWithTax', 'COM_VIRTUEMART_PRODUCT_BASEPRICE_WITHTAX', $this->product->prices);
 	echo str_replace('<span', '<span '.$token, $priceDiv);
 

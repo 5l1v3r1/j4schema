@@ -1,3 +1,6 @@
+.fltlft{float:left;}
+.fltrt{float:right;}
+
 /*
  * Buttons on cpanel 
  */
@@ -22,6 +25,11 @@
   text-decoration: none;
   vertical-align: middle;
   width: 108px;
+}
+
+#cpanel img, .cpanel img {
+  margin: 0 auto;
+  padding: 10px 0;
 }
 
 #cpanel span, .cpanel span {

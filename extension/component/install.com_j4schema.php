@@ -191,10 +191,13 @@ if(count($installation_queue['plugins'])) {
 
 $jce = JPluginHelper::isEnabled('editors', 'jce');
 
+// let's copy the JCE plugin, so users can re-install it
+JFolder::copy($src.'/plugins/jce/j4schema', JPATH_ROOT.'/administrator/components/com_j4schema/jce/j4schema', '', true);
+
 //JCE is not installed, let's stop here
 if(!$jce)
 {
-	$jceStatus['error'] = 'JCE plugin editor not installed. Install it and then reinstall J4Schema';
+	$jceStatus['error'] = 'JCE plugin editor not installed. Install it and then reinstall the plugin from J4Schema control panel';
 }
 else
 {
@@ -238,7 +241,7 @@ else
 		}
 	}
 }
-if(function_exists('xdebug_break')) xdebug_break();
+
 ?>
 	<img src="../media/com_j4schema/images/j4schema_48.png" width="48" height="48" alt="J4Schema" align="right" />
 

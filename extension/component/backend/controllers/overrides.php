@@ -16,8 +16,11 @@ class J4schemaControllerOverrides extends FOFController
 		jimport('joomla.filesystem.folder');
 		require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/html.php';
 
-		$keys   = JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides', '.', false, false);
-		$values = JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides', '.', false, true);
+		if(version_compare(JVERSION, '1.6.0', 'ge')) $version = '2.5';
+		else										 $version = '1.5';
+
+		$keys   = JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/'.$version, '.', false, false);
+		$values = JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/'.$version, '.', false, true);
 
 		$j4s = array_combine($keys, $values);
 

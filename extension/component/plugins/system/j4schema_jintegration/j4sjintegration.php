@@ -10,10 +10,20 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 
+if(!file_exists(JPATH_ROOT.'/libraries/fof/include.php'))
+{
+	return;
+}
+
+include_once JPATH_ROOT.'/libraries/fof/include.php' ;
+
 class plgSystemJ4sjintegration extends JPlugin
 {
 	public function onAfterRender()
 	{
+		list($isCLI, $isAdmin) = FOFDispatcher::isCliAdmin();
+		if($isAdmin) return;
+
 		$tokens = $this->getTokens();
 
 		$body = JResponse::getBody();
@@ -69,11 +79,12 @@ class plgSystemJ4sjintegration extends JPlugin
 
 		$userid = preg_replace('#[^\d]#', '', $value[0]);
 
-		$query = $db->getQuery(true)
+		$query = FOFQueryAbstract::getNew()
 					->select('at_profile')
 					->from('#__j4schema_authors')
 					->where('at_userid = '.$userid);
-		$profile = $db->setQuery($query)->loadResult();
+		$db->setQuery($query);
+		$profile = $db->loadResult();
 
 		if(!$profile) 	return '';
 		else			return 'https://plus.google.com/'.$profile.'?rel=author';
@@ -99,11 +110,12 @@ class plgSystemJ4sjintegration extends JPlugin
 	{
 		$db = JFactory::getDbo();
 
-		$query = $db->getQuery(true)
+		$query = FOFQueryAbstract::getNew()
 					->select('*')
 					->from('#__j4schema_tokens')
 					->where('enabled = 1');
-		$rows = $db->setQuery($query)->loadObjectList();
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
 
 		return $rows;
 	}
