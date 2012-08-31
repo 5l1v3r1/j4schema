@@ -2,7 +2,7 @@
 <install type="component" version="1.5.0">
 
 	<name>J4Schema</name>
-	<version>3.2.0</version>
+	<version>4.0.0</version>
 	<creationDate>August 2012</creationDate>
 	<author>Davide Tampellini</author>
     <authorUrl>http://www.fabbricabinaria.it</authorUrl>
@@ -30,6 +30,7 @@
     </files>
 
     <installfile>install.com_j4schema.php</installfile>
+    <uninstallfile>uninstall.com_j4schema.php</uninstallfile>
 	<scriptfile>script.com_j4schema.php</scriptfile>
 
 	<administration>

@@ -42,6 +42,49 @@ jimport('joomla.utilities.date');
 jimport('joomla.plugin.helper');
 jimport('joomla.filesystem.archive');
 
+$db		= JFactory::getDbo();
+$params = JComponentHelper::getParams('com_j4schema');
+
+$version 	  = $this->manifest->get('version');
+$new_version  = $version[0]->data();
+$prev_version = $params->get('lastSchemaUpdate', '3.2.0');
+
+// Schema updates -- BEGIN
+$sqlUpdate = JPATH_ROOT.'/administrator/components/com_j4schema/install/updates';
+$files = str_replace('.sql', '', JFolder::files($sqlUpdate, '\.sql$'));
+usort($files, 'version_compare');
+
+foreach ($files as $file)
+{
+	if (version_compare($file, $prev_version) > 0)
+	{
+		$buffer  = file_get_contents($sqlUpdate.'/'.$file.'.sql');
+		$queries = JInstallerHelper::splitSql($buffer);
+
+		// Process each query in the $queries array (split out of sql file).
+		foreach ($queries as $query)
+		{
+			$query = trim($query);
+			if ($query != '' && $query{0} != '#') {
+				$db->setQuery($query);
+				if (!$db->query()) {
+					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL Error')." ".$db->stderr(true));
+					return false;
+				}
+			}
+		}
+	}
+}
+
+$params->set('lastSchemaUpdate', $new_version);
+$db->setQuery('SELECT id FROM #__components WHERE option = '.$db->quote('com_j4schema'));
+$extension_id = $db->loadResult();
+
+$query = 'UPDATE #__components SET params = '.$db->quote($params->toString()).' WHERE id = '.$extension_id;
+$db->setQuery($query);
+$db->query();
+// Schema updates -- END
+
 $src = $this->parent->getPath('source');
 
 if(file_exists($src.'/media/js/pro.js'))	define('J4SCHEMA_PRO', 1);
@@ -158,7 +201,7 @@ if(count($installation_queue['modules'])) {
 
 			$installer = new JInstaller;
 			$result = $installer->install($path);
-			$status->modules[] = array('name'=>'mod_'.$module, 'client'=>$folder, 'result'=>$result);
+			$status->modules[] = array('name'=>$module, 'client'=>$folder, 'result'=>$result);
 		}
 	}
 }

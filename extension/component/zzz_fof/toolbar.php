@@ -10,11 +10,23 @@ defined('_JEXEC') or die();
 
 class FOFToolbar
 {
+	/** @var array Configuration parameters */
 	protected $config = array();
 
+	/** @var array Input (e.g. request) variables */
 	protected $input = array();
 
+	/** @var arary Permissions map, see the __construct method for more information */
 	public $perms = array();
+	
+	/** @var array The links to be rendered in the toolbar */
+	protected $linkbar = array();
+	
+	/** @var bool Should I render the submenu in the front-end? */
+	protected $renderFrontendSubmenu = false;
+	
+	/** @var bool Should I render buttons in the front-end? */
+	protected $renderFrontendButtons = false;
 
 	/**
 	 *
@@ -100,8 +112,9 @@ class FOFToolbar
 		FOFInput::setVar('option', $this->component, $this->input);
 
 		// Get default permissions (can be overriden by the view)
+		list($isCli, $isAdmin) = FOFDispatcher::isCliAdmin();
+
 		if(version_compare(JVERSION, '1.6.0', 'ge')) {
-			$isAdmin = !JFactory::$application ? false : JFactory::getApplication()->isAdmin();
 			$user = JFactory::getUser();
 			$perms = (object)array(
 				'manage'	=> $user->authorise('core.manage', FOFInput::getCmd('option','com_foobar',$this->input) ),
@@ -111,7 +124,6 @@ class FOFToolbar
 				'delete'	=> $user->authorise('core.delete', FOFInput::getCmd('option','com_foobar',$this->input)),
 			);
 		} else {
-			$isAdmin = JFactory::getApplication()->isAdmin();
 			$perms = (object)array(
 				'manage'	=> true,
 				'create'	=> true,
@@ -121,11 +133,32 @@ class FOFToolbar
 			);
 		}
 
+		// Save front-end toolbar and submenu rendering flags if present in the config
+		if(array_key_exists('renderFrontendButtons', $config)) $this->renderFrontendButtons = $config['renderFrontendButtons'];
+		if(array_key_exists('renderFrontendSubmenu', $config)) $this->renderFrontendSubmenu = $config['renderFrontendSubmenu'];
+		
 		//if not in the administrative area, load the JToolbarHelper
 		if(!$isAdmin)
 		{
 			//pretty ugly require...
 			require_once(JPATH_ROOT.'/administrator/includes/toolbar.php');
+			
+			// Things to do if we have to render a front-end toolbar
+			if($this->renderFrontendButtons) {
+				// Load back-end toolbar language files in front-end
+				$jlang = JFactory::getLanguage();
+				$jlang->load('', JPATH_ADMINISTRATOR, 'en-GB', true);
+				$jlang->load('', JPATH_ADMINISTRATOR, null, true);
+				
+				// Load the core Javascript
+				if(version_compare(JVERSION, '2.5', 'lt')) {
+					JHtml::_('behavior.mootools');
+				} else {
+					JHtml::_('behavior.framework', true);
+				}
+			}
+			
+				
 		}
 
 		// Store permissions in the local toolbar object
@@ -180,12 +213,18 @@ class FOFToolbar
 	public function onCpanelsBrowse()
 	{
 		//on frontend, buttons must be added specifically
-		$isAdmin = version_compare(JVERSION, '1.6.0', 'ge') ? (!JFactory::$application ? false : JFactory::getApplication()->isAdmin()) : JFactory::getApplication()->isAdmin();
-		if(!$isAdmin) return;
+		list($isCli, $isAdmin) = FOFDispatcher::isCliAdmin();
+		
+		if($isAdmin || $this->renderFrontendSubmenu) {
+			$this->renderSubmenu();
+		}
+		
+		if(!$isAdmin && !$this->renderFrontendButtons) return;
 
-		JToolBarHelper::title(JText::_( FOFInput::getCmd('option','com_foobar',$this->input)), str_replace('com_', '', FOFInput::getCmd('option','com_foobar',$this->input)));
-		JToolBarHelper::preferences(FOFInput::getCmd('option','com_foobar',$this->input), 550, 875);
-		$this->renderSubmenu();
+		$option = FOFInput::getCmd('option','com_foobar',$this->input);
+
+		JToolBarHelper::title(JText::_(strtoupper($option)), str_replace('com_', '', $option));
+		JToolBarHelper::preferences($option, 550, 875);
 	}
 
 	/**
@@ -194,12 +233,18 @@ class FOFToolbar
 	public function onBrowse()
 	{
 		//on frontend, buttons must be added specifically
-		$isAdmin = version_compare(JVERSION, '1.6.0', 'ge') ? (!JFactory::$application ? false : JFactory::getApplication()->isAdmin()) : JFactory::getApplication()->isAdmin();
-		if(!$isAdmin) return;
+		list($isCli, $isAdmin) = FOFDispatcher::isCliAdmin();
+		
+		if($isAdmin || $this->renderFrontendSubmenu) {
+			$this->renderSubmenu();
+		}
+		
+		if(!$isAdmin && !$this->renderFrontendButtons) return;
 
 		// Set toolbar title
-		$subtitle_key = FOFInput::getCmd('option','com_foobar',$this->input).'_TITLE_'.strtoupper(FOFInput::getCmd('view','cpanel',$this->input));
-		JToolBarHelper::title(JText::_( FOFInput::getCmd('option','com_foobar',$this->input)).' &ndash; <small>'.JText::_($subtitle_key).'</small>', str_replace('com_', '', FOFInput::getCmd('option','com_foobar',$this->input)));
+		$option = FOFInput::getCmd('option','com_foobar',$this->input);
+		$subtitle_key = strtoupper($option.'_TITLE_'.FOFInput::getCmd('view','cpanel',$this->input));
+		JToolBarHelper::title(JText::_( strtoupper($option)).' &ndash; <small>'.JText::_($subtitle_key).'</small>', str_replace('com_', '', $option));
 
 		// Add toolbar buttons
 		if($this->perms->create) {
@@ -224,13 +269,11 @@ class FOFToolbar
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();
 			JToolBarHelper::divider();
-		} 
+		}
 		if($this->perms->delete) {
 			$msg = JText::_(FOFInput::getCmd('option','com_foobar',$this->input).'_CONFIRM_DELETE');
 			JToolBarHelper::deleteList($msg);
 		}
-
-		$this->renderSubmenu();
 	}
 
 	/**
@@ -239,33 +282,37 @@ class FOFToolbar
 	public function onRead()
 	{
 		//on frontend, buttons must be added specifically
-		$isAdmin = version_compare(JVERSION, '1.6.0', 'ge') ? (!JFactory::$application ? false : JFactory::getApplication()->isAdmin()) : JFactory::getApplication()->isAdmin();
-		if(!$isAdmin) return;
+		list($isCli, $isAdmin) = FOFDispatcher::isCliAdmin();
+		
+		if($isAdmin || $this->renderFrontendSubmenu) {
+			$this->renderSubmenu();
+		}
+		
+		if(!$isAdmin && !$this->renderFrontendButtons) return;
 
 		$option = FOFInput::getCmd('option','com_foobar',$this->input);
 		$componentName = str_replace('com_', '', $option);
 
 		// Set toolbar title
-		$subtitle_key = FOFInput::getCmd('option','com_foobar',$this->input).'_TITLE_'.strtoupper(FOFInput::getCmd('view','cpanel',$this->input)).'_READ';
-		JToolBarHelper::title(JText::_(FOFInput::getCmd('option','com_foobar',$this->input)).' &ndash; <small>'.JText::_($subtitle_key).'</small>', $componentName);
+		$subtitle_key = strtoupper($option.'_TITLE_'.FOFInput::getCmd('view','cpanel',$this->input).'_READ');
+		JToolBarHelper::title(JText::_(strtoupper($option)).' &ndash; <small>'.JText::_($subtitle_key).'</small>', $componentName);
 
 		// Set toolbar icons
 		JToolBarHelper::back();
-		$this->renderSubmenu();
 	}
 
 	public function onAdd()
 	{
 		//on frontend, buttons must be added specifically
-		$isAdmin = version_compare(JVERSION, '1.6.0', 'ge') ? (!JFactory::$application ? false : JFactory::getApplication()->isAdmin()) : JFactory::getApplication()->isAdmin();
-		if(!$isAdmin) return;
+		list($isCli, $isAdmin) = FOFDispatcher::isCliAdmin();
+		if(!$isAdmin && !$this->renderFrontendButtons) return;
 
 		$option = FOFInput::getCmd('option','com_foobar',$this->input);
 		$componentName = str_replace('com_', '', $option);
 
 		// Set toolbar title
-		$subtitle_key = FOFInput::getCmd('option','com_foobar',$this->input).'_TITLE_'.strtoupper(FOFInflector::pluralize(FOFInput::getCmd('view','cpanel',$this->input))).'_EDIT';
-		JToolBarHelper::title(JText::_(FOFInput::getCmd('option','com_foobar',$this->input)).' &ndash; <small>'.JText::_($subtitle_key).'</small>',$componentName);
+		$subtitle_key = strtoupper($option.'_TITLE_'.FOFInflector::pluralize(FOFInput::getCmd('view','cpanel',$this->input))).'_EDIT';
+		JToolBarHelper::title(JText::_(strtoupper($option)).' &ndash; <small>'.JText::_($subtitle_key).'</small>',$componentName);
 
 		// Set toolbar icons
 		JToolBarHelper::apply();
@@ -282,12 +329,67 @@ class FOFToolbar
 	public function onEdit()
 	{
 		//on frontend, buttons must be added specifically
-		$isAdmin = version_compare(JVERSION, '1.6.0', 'ge') ? (!JFactory::$application ? false : JFactory::getApplication()->isAdmin()) : JFactory::getApplication()->isAdmin();
-		if(!$isAdmin) return;
+		list($isCli, $isAdmin) = FOFDispatcher::isCliAdmin();
+		if(!$isAdmin && !$this->renderFrontendButtons) return;
 
 		$this->onAdd();
 	}
 
+	/**
+	 * Removes all links from the link bar
+	 */
+	public function clearLinks()
+	{
+		$this->linkbar = array();
+	}
+	
+	/**
+	 * Get the link bar's link definitions
+	 * @return array
+	 */
+	public function &getLinks()
+	{
+		return $this->linkbar;
+	}
+	
+	/**
+	 * Append a link to the link bar
+	 * 
+	 * @param string $name The text of the link
+	 * @param string|null $link The link to render; set to null to render a separator
+	 * @param bool $active True if it's an active link
+	 * @param srting|null $icon Icon class (used by some renderers, like the Bootstrap renderer)
+	 */
+	public function appendLink($name, $link = null, $active = false, $icon = null)
+	{
+		$linkDefinition = array(
+			'name'		=> $name,
+			'link'		=> $link,
+			'active'	=> $active,
+			'icon'		=> $icon
+		);
+		$this->linkbar[] = $linkDefinition;
+	}
+	
+	/**
+	 * Prefixes (some people erroneously call this "prepend" – there is no such word) a link to the link bar
+	 * 
+	 * @param string $name The text of the link
+	 * @param string|null $link The link to render; set to null to render a separator
+	 * @param bool $active True if it's an active link
+	 * @param srting|null $icon Icon class (used by some renderers, like the Bootstrap renderer)
+	 */
+	public function prefixLink($name, $link = null, $active = false, $icon = null)
+	{
+		$linkDefinition = array(
+			'name'		=> $name,
+			'link'		=> $link,
+			'active'	=> $active,
+			'icon'		=> $icon
+		);
+		array_unshift($this->linkbar[], $linkDefinition);
+	}
+	
 	/**
 	 * Renders the submenu (toolbar links) for all detected views of this component
 	 */
@@ -317,7 +419,7 @@ class FOFToolbar
 
 			$active = $view == $activeView;
 
-			JSubMenuHelper::addEntry($name, $link, $active);
+			$this->appendLink($name, $link, $active);
 		}
 	}
 
@@ -355,5 +457,25 @@ class FOFToolbar
 		}
 
 		return $views;
+	}
+	
+	/**
+	 * Return the front-end toolbar rendering flag
+	 * 
+	 * @return bool
+	 */
+	public function getRenderFrontendButtons()
+	{
+		return $this->renderFrontendButtons;
+	}
+	
+	/**
+	 * Return the front-end submenu rendering flag
+	 * 
+	 * @return bool
+	 */
+	public function getRenderFrontendSubmenu()
+	{
+		return $this->renderFrontendSubmenu;
 	}
 }

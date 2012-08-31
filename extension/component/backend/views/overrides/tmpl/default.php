@@ -42,24 +42,39 @@
 						$layouts = array();
 			?>
 					<tr class="row<?php echo $k?>">
+				<?php
+					if($folder['folder'] == 'com_virtuemart' && version_compare(JVERSION, '1.6', 'l')){
+						$VM_15 = true;
+					} else {
+						$VM_15 = false;
+					}
+				?>
 						<td><?php echo $folder['folder']?></td>
 						<td>
 						<?php
-							foreach($folder['children'] as $view):
-								if(is_array($view))
-								{
-									$views[] = $view;
-									echo $view['folder'].'<br/>';
-								}
-								else
-								{
-									$layouts[] = $view;
-								}
-							endforeach;
+							if($VM_15){
+								echo 'Virtuemart Template';
+							}
+							else{
+								foreach($folder['children'] as $view):
+									if(is_array($view))
+									{
+										$views[] = $view;
+										echo $view['folder'].'<br/>';
+									}
+									else
+									{
+										$layouts[] = $view;
+									}
+								endforeach;
+							}
 						?>
 						</td>
 						<td>
 						<?php
+							if($VM_15){
+								echo JText::_('COM_J4SCHEMA_OVERRIDES_VM_15');
+							}
 							if($layouts) $views[] = array('folder' => '', 'children' => $layouts);
 							foreach($views as $layout):
 								echo '<div><strong>'.$layout['folder'].'</strong></div>';
