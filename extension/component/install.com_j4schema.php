@@ -8,6 +8,9 @@
 
 defined('_JEXEC') or die();
 
+// do not use this file with new Joomla! version
+if(version_compare(JVERSION, '1.6', 'ge')) return true;
+
 $installation_queue = array(
 	// modules => { (folder) => { (module) => { (position), (published) } }* }*
 	'modules' => array(
