@@ -8,7 +8,6 @@
 
 defined('_JEXEC') or die();
 
-if(function_exists('xdebug_break')) xdebug_break();
 $installation_queue = array(
 	// modules => { (folder) => { (module) => { (position), (published) } }* }*
 	'modules' => array(

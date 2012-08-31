@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="1.5.0">
+<install type="component" version="1.5.0" method="upgrade">
 
 	<name>J4Schema</name>
-	<version>4.0.0</version>
+	<version>4.0.1</version>
 	<creationDate>August 2012</creationDate>
 	<author>Davide Tampellini</author>
     <authorUrl>http://www.fabbricabinaria.it</authorUrl>

@@ -1,1 +1,0 @@
-ALTER TABLE `#__j4schema_tokens` ADD `field_330` INT NOT NULL ;

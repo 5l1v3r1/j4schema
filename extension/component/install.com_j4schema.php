@@ -8,7 +8,6 @@
 
 defined('_JEXEC') or die();
 
-if(function_exists('xdebug_break')) xdebug_break();
 $installation_queue = array(
 	// modules => { (folder) => { (module) => { (position), (published) } }* }*
 	'modules' => array(
@@ -47,7 +46,8 @@ $params = JComponentHelper::getParams('com_j4schema');
 
 $version 	  = $this->manifest->get('version');
 $new_version  = $version[0]->data();
-$prev_version = $params->get('lastSchemaUpdate', '3.2.0');
+// default version is the current one, so on new installation I don't run the updates
+$prev_version = $params->get('lastSchemaUpdate', $new_version);
 
 // Schema updates -- BEGIN
 $sqlUpdate = JPATH_ROOT.'/administrator/components/com_j4schema/install/updates';
@@ -77,10 +77,10 @@ foreach ($files as $file)
 }
 
 $params->set('lastSchemaUpdate', $new_version);
-$db->setQuery('SELECT id FROM #__components WHERE option = '.$db->quote('com_j4schema'));
+$db->setQuery('SELECT id FROM #__components WHERE `option` = '.$db->quote('com_j4schema'));
 $extension_id = $db->loadResult();
 
-$query = 'UPDATE #__components SET params = '.$db->quote($params->toString()).' WHERE id = '.$extension_id;
+$query = 'UPDATE #__components SET `params` = '.$db->quote($params->toString()).' WHERE id = '.$extension_id;
 $db->setQuery($query);
 $db->query();
 // Schema updates -- END
@@ -280,6 +280,10 @@ else
 				{
 					$jceStatus['ok'] = 'Installed';
 				}
+			}
+			else
+			{
+				$jceStatus['ok'] = 'Installed';
 			}
 		}
 	}
