@@ -7,6 +7,7 @@
  */
 
 defined('_JEXEC') or die();
+$this->loadHelper('html');
 
 if(version_compare(JVERSION, '1.6.0', 'ge')){
 	$published = 'JPUBLISHED';
@@ -57,7 +58,7 @@ else {
 					<td class="center"><?php echo $row->to_integration?></td>
 					<td class="center"><?php echo $row->to_type?></td>
 					<td class="faux_pre"><?php echo $this->escape($row->to_replace)?></td>
-					<td class="center"><?php echo JHtml::_('grid.published', $row->enabled, $i)?></td>
+					<td class="center"><?php echo J4schemaHelperHtml::createPublishIcon($row->enabled, $i) ?></td>
 				</tr>
 				<?php
 					$k = 1 - $k;
