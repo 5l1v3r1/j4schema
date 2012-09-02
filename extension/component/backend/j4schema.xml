@@ -2,7 +2,7 @@
 <install type="component" version="1.5.0" method="upgrade">
 
 	<name>J4Schema</name>
-	<version>4.0.1</version>
+	<version>4.0.0</version>
 	<creationDate>August 2012</creationDate>
 	<author>Davide Tampellini</author>
     <authorUrl>http://www.fabbricabinaria.it</authorUrl>
@@ -23,6 +23,14 @@
             <file charset="utf8" driver="mysql">install/uninstall.sql</file>
          </sql>
     </uninstall>
+    
+    <!-- With legacy manifest files, updates won't work (sigh!). They're here just as a reminder -->
+    <update>
+        <schemas>
+            <schemapath type="mysql">install/updates</schemapath>
+            <schemapath type="mysqli">install/updates</schemapath> 
+        </schemas>
+    </update>
       
     <files folder="frontend">
         <filename>j4schema.php</filename>

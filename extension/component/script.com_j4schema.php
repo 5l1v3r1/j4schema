@@ -65,39 +65,6 @@ class Com_j4schemaInstallerScript
 		return version_compare(JVERSION, '2.5.0', 'ge');
 	}
 
-	function update($parent)
-	{
-		if(function_exists('xdebug_break')) xdebug_break();
-		$x = 44;
-		return true;
-
-		$db = JFactory::getDBO();
-		if(method_exists($parent, 'extension_root')) {
-			$sqlfile = $parent->getPath('extension_root').DS.'install/install.sql';
-		} else {
-			$sqlfile = $parent->getParent()->getPath('extension_root').DS.'install/install.sql';
-		}
-
-		$buffer = file_get_contents($sqlfile);
-		if ($buffer !== false) {
-			jimport('joomla.installer.helper');
-			$queries = JInstallerHelper::splitSql($buffer);
-			if (count($queries) != 0) {
-				foreach ($queries as $query)
-				{
-					$query = trim($query);
-					if ($query != '' && $query{0} != '#') {
-						$db->setQuery($query);
-						if (!$db->query()) {
-							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
-							return false;
-						}
-					}
-				}
-			}
-		}
-	}
-
 	/**
 	 * Runs after install, update or discover_update
 	 * @param string $type install, update or discover_update
@@ -105,8 +72,6 @@ class Com_j4schemaInstallerScript
 	 */
 	function postflight( $type, $parent )
 	{
-		if(function_exists('xdebug_break')) xdebug_break();
-
 		$this->src = $parent->getParent()->getPath('source');
 
 		$this->fofStatus = $this->_installFOF($parent);
@@ -125,6 +90,21 @@ class Com_j4schemaInstallerScript
 		}
 
 		$this->renderPostInstallation();
+	}
+
+	function uninstall()
+	{
+		$db = JFactory::getDbo();
+
+		$extension = JTable::getInstance('extension');
+		$component_id = $extension->find(array('element' => 'com_j4schema',
+											   'type'    => 'component'));
+
+		// Clean up schema table
+		$query = $db->getQuery(true)
+					->delete('#__schemas')
+					->where('extension_id = '.$component_id);
+		$rc = $db->setQuery($query)->query();
 	}
 
 	protected function installModules()

@@ -50,29 +50,32 @@ $params = JComponentHelper::getParams('com_j4schema');
 $version 	  = $this->manifest->get('version');
 $new_version  = $version[0]->data();
 // default version is the current one, so on new installation I don't run the updates
-$prev_version = $params->get('lastSchemaUpdate', $new_version);
+$prev_version = $params->get('lastSchemaUpdate', null);
 
 // Schema updates -- BEGIN
-$sqlUpdate = JPATH_ROOT.'/administrator/components/com_j4schema/install/updates';
-$files = str_replace('.sql', '', JFolder::files($sqlUpdate, '\.sql$'));
-usort($files, 'version_compare');
-
-foreach ($files as $file)
+if($prev_version)
 {
-	if (version_compare($file, $prev_version) > 0)
-	{
-		$buffer  = file_get_contents($sqlUpdate.'/'.$file.'.sql');
-		$queries = JInstallerHelper::splitSql($buffer);
+	$sqlUpdate = JPATH_ROOT.'/administrator/components/com_j4schema/install/updates';
+	$files = str_replace('.sql', '', JFolder::files($sqlUpdate, '\.sql$'));
+	usort($files, 'version_compare');
 
-		// Process each query in the $queries array (split out of sql file).
-		foreach ($queries as $query)
+	foreach ($files as $file)
+	{
+		if (version_compare($file, $prev_version) > 0)
 		{
-			$query = trim($query);
-			if ($query != '' && $query{0} != '#') {
-				$db->setQuery($query);
-				if (!$db->query()) {
-					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL Error')." ".$db->stderr(true));
-					return false;
+			$buffer  = file_get_contents($sqlUpdate.'/'.$file.'.sql');
+			$queries = JInstallerHelper::splitSql($buffer);
+
+			// Process each query in the $queries array (split out of sql file).
+			foreach ($queries as $query)
+			{
+				$query = trim($query);
+				if ($query != '' && $query{0} != '#') {
+					$db->setQuery($query);
+					if (!$db->query()) {
+						JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL Error')." ".$db->stderr(true));
+						return false;
+					}
 				}
 			}
 		}

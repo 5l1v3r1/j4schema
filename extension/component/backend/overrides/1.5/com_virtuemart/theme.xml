@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <mosinstall type="theme">
-    <name>default</name>
+    <name>J4Schema</name>
     <version>1.0.0</version>
-    <creationDate>29.07.2006</creationDate>
-    <author>soeren</author>
-    <authorEmail>soeren|at|virtuemart.net</authorEmail>
-    <authorUrl>http://www.virtuemart.net</authorUrl>
-    <copyright><![CDATA[&copy; 2006 S&ouml;ren]]></copyright>
+    <creationDate>2012-09-02</creationDate>
+    <author>Davide Tampellini</author>
+    <authorEmail>webmaster@fabbricabinaria.it</authorEmail>
+    <authorUrl>http://www.fabbricabinaria.it</authorUrl>
     <license>GNU/GPL</license>
     <description>
-    The default theme is a clean and basic layout for VirtueMart.
+    The J4Schema theme is optimized for converting your pages in rich snippets.
     </description>
     <params>
 		<param name="productListStyle" type="list" default="browse/includes/browse_layouttable.tpl.php" label="Product List Style" description="Select the style of the product listings (=browse page)">

@@ -1,5 +1,9 @@
 <?php if( !defined( '_VALID_MOS' ) && !defined( '_JEXEC' ) ) die( 'Direct Access to '.basename(__FILE__).' is not allowed.' );
 mm_showMyFileName(__FILE__);
+
+// J4Schema Customizations
+$product_image = str_replace('<img', '<img {VM_MAIN_IMAGE}', urldecode($product_image));
+
  ?>
 
 <?php echo $buttons_header // The PDF, Email and Print buttons ?>
@@ -24,7 +28,7 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	<tr>
 <?php  if( $this->get_cfg('showManufacturerLink') ) { $rowspan = 5; } else { $rowspan = 4; } ?>
 	  <td width="33%" rowspan="<?php echo $rowspan; ?>" valign="top"><br/>
-	  	<div {VM_MAIN_IMAGE}><?php echo urldecode( $product_image ) ?></div><br/><br/>
+	  	<div><?php echo $product_image ?></div><br/><br/>
 	  	<?php echo $this->vmlistAdditionalImages( $product_id, $images ) ?></td>
 	  <td rowspan="1" colspan="2">
 	  <h1 {VM_PRODUCT_NAME}><?php echo $product_name ?> <?php echo $edit_link ?></h1>
@@ -37,7 +41,15 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	<?php } ?>
 	<tr>
       <td width="33%" valign="top" align="left" {VM_PRICE_WRAPPER}>
-      	<?php echo $product_price_lbl ?>
+      	<?php
+      		echo $product_price_lbl;
+			if($this->vars['product_availability_data']['product_in_stock']){
+  				echo '{VM_PRODUCT_IN_STOCK}';
+  			}
+  			else{
+  				echo '{VM_PRODUCT_OUT_STOCK}';
+  			}
+      	?>
       	<?php
 			//EDIT THIS LINE TO ADD YOUR J4SCHEMA TOKEN
     		$token = '{VM_PRICE}';
@@ -57,12 +69,6 @@ if( $this->get_cfg( 'product_navigation', 1 )) {
 	<tr>
 	  <td><?php
 	  		if( $this->get_cfg( 'showAvailability' )) {
-	  			if($this->vars['product_availability_data']['product_in_stock']){
-	  				echo '{VM_PRODUCT_IN_STOCK}';
-	  			}
-	  			else{
-	  				echo '{VM_PRODUCT_OUT_STOCK}';
-	  			}
 	  			echo $product_availability;
 	  		}
 	  		?><br />

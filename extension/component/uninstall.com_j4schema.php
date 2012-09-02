@@ -8,9 +8,6 @@
 
 defined('_JEXEC') or die();
 
-// do not use this file with new Joomla! version
-if(version_compare(JVERSION, '1.6', 'ge')) return true;
-
 $installation_queue = array(
 	// modules => { (folder) => { (module) => { (position), (published) } }* }*
 	'modules' => array(
@@ -39,7 +36,11 @@ if(count($installation_queue['modules'])) {
 	foreach($installation_queue['modules'] as $folder => $modules) {
 		if(count($modules)) foreach($modules as $module => $modulePreferences) {
 			// Find the module ID
-			$db->setQuery('SELECT `id` FROM #__modules WHERE `module` = '.$db->Quote($module));
+			if(version_compare(JVERSION,'1.6.0','ge')) {
+				$db->setQuery('SELECT `extension_id` FROM #__extensions WHERE `element` = '.$db->Quote($module).' AND `type` = "module"');
+			} else {
+				$db->setQuery('SELECT `id` FROM #__modules WHERE `module` = '.$db->Quote($module));
+			}
 
 			$id = $db->loadResult();
 			if($id)
@@ -57,7 +58,11 @@ if(count($installation_queue['modules'])) {
 if(count($installation_queue['plugins'])) {
 	foreach($installation_queue['plugins'] as $folder => $plugins) {
 		if(count($plugins)) foreach($plugins as $plugin => $published) {
-			$db->setQuery('SELECT `id` FROM #__plugins WHERE `element` = '.$db->Quote($plugin).' AND `folder` = '.$db->Quote($folder));
+			if(version_compare(JVERSION,'1.6.0','ge')) {
+				$db->setQuery('SELECT `extension_id` FROM #__extensions WHERE `type` = "plugin" AND `element` = '.$db->Quote($plugin).' AND `folder` = '.$db->Quote($folder));
+			} else {
+				$db->setQuery('SELECT `id` FROM #__plugins WHERE `element` = '.$db->Quote($plugin).' AND `folder` = '.$db->Quote($folder));
+			}
 
 			$id = $db->loadResult();
 			if($id)

@@ -21,7 +21,7 @@ foreach( $reviews as $review ) { // Loop through all reviews
 	?>
 	<div {VM_REVIEW}>
 		{VM_META_REVIEW_PUBLISH_DATE:<?php echo date('Y-m-d H:i', $review["time"])?>}
-		<strong {VM_REVIEW_AUTHOR}><?php echo $review["username"]."&nbsp;&nbsp;($date)" ?></strong>
+		<strong><?php echo '<span {VM_REVIEW_AUTHOR}>'.$review["username"]."</span>&nbsp;&nbsp;($date)" ?></strong>
 		<br />
 		<div {VM_REVIEW_RATING_WRAPPER}>
 			{VM_META_REVIEW_RATING:<?php echo $review['user_rating'] ?>}
