@@ -8,7 +8,7 @@
 defined('_JEXEC') or die();
 JHTML::_('behavior.keepalive');
 
-include_once JPATH_LIBRARIES.'/fof/include.php' ;
+include_once JPATH_ROOT.'/libraries/fof/include.php' ;
 
 FOFTemplateUtils::addCSS('com_j4schema/css/main.css');
 FOFTemplateUtils::addCSS('com_j4schema/css/classes.css');

@@ -10,6 +10,14 @@
 
 	$warnings = J4schemaHelperChecks::fullCheck();
 	$warn_img = FOFTemplateUtils::parsePath('com_j4schema/images/warning_32.png');
+
+	// check if JCE plugin is installed
+	if(is_dir(JPATH_ROOT.'/administrator/components/com_j4schema/jce/j4schema') &&
+	  !is_dir(JPATH_ROOT.'/components/com_jce/editor/tiny_mce/plugins/j4schema')){
+		$reinstallJCE = true;
+	}
+
+	$reinstall = FOFTemplateUtils::parsePath('com_j4schema/images/clear_48.png');
 ?>
 <div class="j4schema">
 	<div class="sx w50_" style="font-family:Helvetica;font-size:14px">
@@ -25,8 +33,18 @@
 
 	<div class="dx w45_">
 		<div class="cpanel">
+		<?php if($reinstallJCE):?>
 			<div class="icon-wrapper">
-			<?php echo LiveUpdate::getIcon(); ?>
+				<div class="icon">
+					<a href="index.php?option=com_j4schema&view=cpanel&task=reinstalljce">
+						<img src="<?php echo $reinstall?>" />
+						<span><?php echo JText::_('COM_J4SCHEMA_JCE_REINSTALL')?></span>
+					</a>
+				</div>
+			</div>
+		<?php endif;?>
+			<div class="icon-wrapper">
+				<?php echo LiveUpdate::getIcon(); ?>
 			</div>
 		</div>
 	<?php if($warnings): ?>

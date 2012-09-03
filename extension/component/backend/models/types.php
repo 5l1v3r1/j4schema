@@ -12,7 +12,7 @@ class J4schemaModelTypes extends FOFModel
 {
 	public function &getItemList($overrideLimits = false, $group = '')
 	{
-		if(FOFInput::getVar('format') == 'json') $overrideLimits = true;
+		if(FOFInput::getVar('format', '', $this->input) == 'json') $overrideLimits = true;
 		return parent::getItemList($overrideLimits, $group);
 	}
 
@@ -82,7 +82,8 @@ class J4schemaModelTypes extends FOFModel
 					->from('#__j4schema_types')
 					->where('ty_parent = '.$db->Quote($parent));
 
-		$rows = $db->setQuery($query)->loadObjectList();
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
 
 		if(!$rows) return "";
 		else
@@ -104,7 +105,7 @@ class J4schemaModelTypes extends FOFModel
 
 	function getDescr()
 	{
-		$id_types = FOFInput::getVar('id_types');
+		$id_types = FOFInput::getVar('id_types', '', $this->input);
 		$table = $this->getTable($this->table);
 		$table->load($id_types);
 

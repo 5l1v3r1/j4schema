@@ -23,7 +23,7 @@ Mif.Tree.implement({
 });
 
 window.addEvent('domready', function(){
-	document.id('values_descr').addEvent('click:relay(.expandToType)', function(event, clicked){	
+	$('values_descr').addEvent('click:relay(.expandToType)', function(event, clicked){	
 		J4Stree.type.customExpandTo(clicked.get('html'));
 	});
 });

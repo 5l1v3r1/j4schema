@@ -34,7 +34,13 @@ class J4schemaViewTypes extends FOFViewJson
 		$document->setMimeEncoding('application/json');
 
 		JError::setErrorHandling(E_ALL,'ignore');
-		if(is_null($tpl)) $tpl = 'descr';
+
+		// I don't know why, but in 1.5 the layout is the correct one, I don't have
+		// to add the template part
+		if(version_compare(JVERSION, '1.6.0', 'ge')){
+			if(is_null($tpl)) $tpl = 'descr';
+		}
+
 		$result = $this->loadTemplate($tpl);
 		JError::setErrorHandling(E_WARNING,'callback');
 

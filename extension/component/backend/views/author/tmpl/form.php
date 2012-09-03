@@ -9,7 +9,7 @@
 defined('_JEXEC') or die();
 ?>
 <div id="j4schema">
-	<form id="adminForm" action="index.php" method="post" autocomplete="off">
+	<form id="adminForm" name="adminForm" action="index.php" method="post" autocomplete="off">
 		<div class="fltlft width-70">
 			<fieldset>
 				<legend><?php echo JText::_('COM_J4SCHEMA_DETAILS')?></legend>

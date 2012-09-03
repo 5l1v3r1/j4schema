@@ -14,7 +14,7 @@ class Com_j4schemaInstallerScript
 	protected $_fabbrica_extension = 'com_j4schema';
 
 	/** @var array */
-	protected $_delete_on_pro_files = array('admin' => array(
+	protected $delete_on_pro_files = array('admin' => array(
 												'views/author/skip.xml',
 												'views/authors/skip.xml',
 												'views/overrides/skip.xml',
@@ -22,6 +22,29 @@ class Com_j4schemaInstallerScript
 												'views/tokens/skip.xml'
 													)
 											);
+	protected $installation_queue = array(
+					// modules => { (folder) => { (module) => { (position), (published) } }* }*
+					'modules' => array(
+						'admin' => array(
+						),
+						'site' => array(
+							'mod_j4srichtools' => array('left', 0)
+						)
+					),
+					// plugins => { (folder) => { (element) => (published) }* }*
+					'plugins' => array(
+						'system' => array(
+							'j4schema_jintegration'	=> 0
+						)
+					)
+				);
+
+	protected $status;
+
+	function __construct()
+	{
+		$this->status = new JObject;
+	}
 
 	/**
 	 * Joomla! pre-flight event
@@ -49,15 +72,146 @@ class Com_j4schemaInstallerScript
 	 */
 	function postflight( $type, $parent )
 	{
-		$fofStatus = $this->_installFOF($parent);
+		$this->src = $parent->getParent()->getPath('source');
+
+		$this->fofStatus = $this->_installFOF($parent);
+		$this->installModules();
+		$this->installPlugins();
+		$this->installJCEPlugin();
 
 		// It's a pro version, let's check if I have to delete skip files coming from the base one
 		if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))
 		{
-			foreach($this->_delete_on_pro_files['admin'] as $file)
+			foreach($this->delete_on_pro_files['admin'] as $file)
 			{
 				$filename = JPATH_ROOT.'/administrator/components/com_j4schema/'.$file;
 				if(file_exists($filename)) @unlink($filename);
+			}
+		}
+
+		$this->renderPostInstallation();
+	}
+
+	function uninstall()
+	{
+		$db = JFactory::getDbo();
+
+		$extension = JTable::getInstance('extension');
+		$component_id = $extension->find(array('element' => 'com_j4schema',
+											   'type'    => 'component'));
+
+		// Clean up schema table
+		$query = $db->getQuery(true)
+					->delete('#__schemas')
+					->where('extension_id = '.$component_id);
+		$rc = $db->setQuery($query)->query();
+	}
+
+	protected function installModules()
+	{
+		if(count($this->installation_queue['modules'])) {
+			foreach($this->installation_queue['modules'] as $folder => $modules) {
+				if(count($modules)) foreach($modules as $module => $modulePreferences) {
+					// Install the module
+					if(empty($folder)) $folder = 'site';
+					$path = "$this->src/modules/$folder/$module";
+					if(!is_dir($path)) {
+						$path = "$this->src/modules/$folder/mod_$module";
+					}
+					if(!is_dir($path)) {
+						$path = "$this->src/modules/$module";
+					}
+					if(!is_dir($path)) {
+						$path = "$this->src/modules/mod_$module";
+					}
+					if(!is_dir($path)) continue;
+
+					$installer = new JInstaller;
+					$result = $installer->install($path);
+					$this->status->modules[] = array('name'=>$module, 'client'=>$folder, 'result'=>$result);
+				}
+			}
+		}
+	}
+
+	protected function installPlugins()
+	{
+		if(count($this->installation_queue['plugins'])) {
+			foreach($this->installation_queue['plugins'] as $folder => $plugins) {
+				if(count($plugins)) foreach($plugins as $plugin => $published) {
+					$path = "$this->src/plugins/$folder/$plugin";
+					if(!is_dir($path)) {
+						$path = "$this->src/plugins/$folder/plg_$plugin";
+					}
+					if(!is_dir($path)) {
+						$path = "$this->src/plugins/$plugin";
+					}
+					if(!is_dir($path)) {
+						$path = "$this->src/plugins/plg_$plugin";
+					}
+					if(!is_dir($path)) continue;
+
+					$installer = new JInstaller;
+					$result = $installer->install($path);
+					$this->status->plugins[] = array('name'=>'plg_'.$plugin,'group'=>$folder, 'result'=>$result);
+				}
+			}
+		}
+	}
+
+	protected function installJCEPlugin()
+	{
+		$jce = JPluginHelper::isEnabled('editors', 'jce');
+
+		// let's copy the JCE plugin, so users can re-install it
+		JFolder::copy($this->src.'/plugins/jce/j4schema', JPATH_ROOT.'/administrator/components/com_j4schema/jce/j4schema', '', true);
+
+		//JCE is not installed, let's stop here
+		if(!$jce)
+		{
+			$this->jceStatus['error'] = 'JCE plugin editor not installed. Install it and then reinstall the plugin from J4Schema control panel';
+		}
+		else
+		{
+			if(!JFolder::copy($this->src.'/plugins/jce/j4schema' , JPATH_ROOT.'/components/com_jce/editor/tiny_mce/plugins/j4schema', '', true))
+			{
+				$this->jceStatus['error'] = 'There was an error extracting the JCE package. Please re-install J4Schema';
+			}
+			else
+			{
+				//automatically add the plugin to the "Default" JCE profile
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+							->select('*')
+							->from('#__wf_profiles')
+							->where('name = '.$db->Quote('default'));
+				$profile = $db->setQuery($query)->loadObject();
+
+				if(!$profile){
+					$this->jceStatus['notice'] = 'JCE default profile not found. You have to manually the J4Schema button to the toolbar';
+				}
+				else
+				{
+					//check if J4Schema JCE plugin is already configurated
+					if(stripos($profile->rows, 'j4schema') === false && stripos($profile->plugins, 'j4schema') === false)
+					{
+						$query = $db->getQuery(true)
+									->update('#__wf_profiles')
+									->set('rows = '.$db->quote($profile->rows.',j4schema'))
+									->set('plugins = '.$db->quote($profile->plugins.',j4schema'))
+									->where('id = '.$profile->id);
+
+						if(!$db->setQuery($query)->query()){
+							$this->jceStatus['notice'] = 'There was an error while adding J4Schema button to JCE toolbar, you have to do that manually.';
+						}
+						else{
+							$this->jceStatus['ok'] = 'Installed';
+						}
+					}
+					else{
+						$this->jceStatus['ok'] = 'Installed';
+					}
+				}
 			}
 		}
 	}
@@ -204,11 +358,8 @@ class Com_j4schemaInstallerScript
 		jimport('joomla.filesystem.file');
 		jimport('joomla.utilities.date');
 		$source = $src.'/zzz_fof';
-		if(!defined('JPATH_LIBRARIES')) {
-			$target = JPATH_ROOT.'/libraries/fof';
-		} else {
-			$target = JPATH_LIBRARIES.'/fof';
-		}
+		$target = JPATH_LIBRARIES.'/fof';
+
 		$haveToInstallFOF = false;
 		if(!JFolder::exists($target)) {
 			$haveToInstallFOF = true;
@@ -218,20 +369,20 @@ class Com_j4schemaInstallerScript
 				$rawData = JFile::read($target.'/version.txt');
 				$info = explode("\n", $rawData);
 				$fofVersion['installed'] = array(
-						'version'	=> trim($info[0]),
-						'date'		=> new JDate(trim($info[1]))
+					'version'	=> trim($info[0]),
+					'date'		=> new JDate(trim($info[1]))
 				);
 			} else {
 				$fofVersion['installed'] = array(
-						'version'	=> '0.0',
-						'date'		=> new JDate('2011-01-01')
+					'version'	=> '0.0',
+					'date'		=> new JDate('2011-01-01')
 				);
 			}
 			$rawData = JFile::read($source.'/version.txt');
 			$info = explode("\n", $rawData);
 			$fofVersion['package'] = array(
-					'version'	=> trim($info[0]),
-					'date'		=> new JDate(trim($info[1]))
+				'version'	=> trim($info[0]),
+				'date'		=> new JDate(trim($info[1]))
 			);
 
 			$haveToInstallFOF = $fofVersion['package']['date']->toUNIX() > $fofVersion['installed']['date']->toUNIX();
@@ -252,20 +403,20 @@ class Com_j4schemaInstallerScript
 				$rawData = JFile::read($target.'/version.txt');
 				$info = explode("\n", $rawData);
 				$fofVersion['installed'] = array(
-						'version'	=> trim($info[0]),
-						'date'		=> new JDate(trim($info[1]))
+					'version'	=> trim($info[0]),
+					'date'		=> new JDate(trim($info[1]))
 				);
 			} else {
 				$fofVersion['installed'] = array(
-						'version'	=> '0.0',
-						'date'		=> new JDate('2011-01-01')
+					'version'	=> '0.0',
+					'date'		=> new JDate('2011-01-01')
 				);
 			}
 			$rawData = JFile::read($source.'/version.txt');
 			$info = explode("\n", $rawData);
 			$fofVersion['package'] = array(
-					'version'	=> trim($info[0]),
-					'date'		=> new JDate(trim($info[1]))
+				'version'	=> trim($info[0]),
+				'date'		=> new JDate(trim($info[1]))
 			);
 			$versionSource = 'installed';
 		}
@@ -275,10 +426,95 @@ class Com_j4schemaInstallerScript
 		}
 
 		return array(
-				'required'	=> $haveToInstallFOF,
-				'installed'	=> $installedFOF,
-				'version'	=> $fofVersion[$versionSource]['version'],
-				'date'		=> $fofVersion[$versionSource]['date']->toFormat('%Y-%m-%d'),
+			'required'	=> $haveToInstallFOF,
+			'installed'	=> $installedFOF,
+			'version'	=> $fofVersion[$versionSource]['version'],
+			'date'		=> $fofVersion[$versionSource]['date']->toFormat('%Y-%m-%d'),
 		);
+	}
+
+	protected function renderPostInstallation()
+	{
+?>
+		<img src="../media/com_j4schema/images/j4schema_48.png" width="48" height="48" alt="J4Schema" align="right" />
+
+		<h2>Welcome to J4Schema!</h2>
+
+		<p>Congratulations! Now you can start using J4Schema!</p>
+
+		<table class="adminlist">
+			<thead>
+				<tr>
+					<th class="title" colspan="2">Extension</th>
+					<th width="30%">Status</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="3"></td>
+				</tr>
+			</tfoot>
+			<tbody>
+				<tr class="row0">
+					<td class="key" colspan="2">J4Schema component</td>
+					<td><strong style="color: green">Installed</strong></td>
+				</tr>
+				<tr class="row1">
+					<td class="key" colspan="2">
+						<strong>Framework on Framework (FOF) <?php echo $this->fofStatus['version']?></strong> [<?php echo $this->fofStatus['date'] ?>]
+					</td>
+					<td><strong>
+						<span style="color: <?php echo $this->fofStatus['required'] ? ($this->fofStatus['installed']?'green':'red') : '#660' ?>; font-weight: bold;">
+							<?php echo $this->fofStatus['required'] ? ($this->fofStatus['installed'] ?'Installed':'Not Installed') : 'Already up-to-date'; ?>
+						</span>
+					</strong></td>
+				</tr>
+				<?php if (count($this->status->modules)) : ?>
+				<tr>
+					<th>Module</th>
+					<th>Client</th>
+					<th></th>
+				</tr>
+				<?php foreach ($this->status->modules as $module) :
+						$color = $module['result'] == 'Installed' ? 'green' : 'red';
+				?>
+				<tr class="row<?php echo (++ $rows % 2); ?>">
+					<td class="key"><?php echo $module['name']; ?></td>
+					<td class="key"><?php echo ucfirst($module['client']); ?></td>
+					<td><strong style="color:<?php echo $color?>"><?php echo ($module['result'])?'Installed':'Not installed'; ?></strong></td>
+				</tr>
+				<?php endforeach;?>
+				<?php endif;?>
+				<tr class="row<?php echo (++ $rows % 2); ?>">
+					<td class="key">JCE plugin</td>
+					<td class="key">JCE editor</td>
+					<td>
+						<?php
+							if    (isset($this->jceStatus['error']))  $color = 'red';
+							elseif(isset($this->jceStatus['notice'])) $color = '#660';
+							else									  $color = 'green';
+						?>
+						<strong style="color:<?php echo $color?>"><?php echo array_pop($this->jceStatus)?></strong>
+					</td>
+				</tr>
+				<?php if (count($this->status->plugins)) : ?>
+				<tr>
+					<th>Plugin</th>
+					<th>Group</th>
+					<th></th>
+				</tr>
+				<?php foreach ($this->status->plugins as $plugin) :
+						$color = $plugin['result'] == 'Installed' ? 'green' : 'red';
+				?>
+				<tr class="row<?php echo (++ $rows % 2); ?>">
+					<td class="key"><?php echo ucfirst($plugin['name']); ?></td>
+					<td class="key"><?php echo ucfirst($plugin['group']); ?></td>
+					<td><strong style="color:<?php echo $color?>"><?php echo ($plugin['result'])?'Installed':'Not installed'; ?></strong></td>
+				</tr>
+				<?php endforeach; ?>
+				<?php endif; ?>
+			</tbody>
+		</table>
+<?php
 	}
 }

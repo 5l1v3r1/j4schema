@@ -20,4 +20,10 @@
             component="com_j4schema"
             section="component" />
     </fieldset>
+    
+    <params>
+       <param name="downloadid" type="text" default="" size="30"
+                  label="Download ID"
+                  description ="COM_J4SCHEMA_DOWNLOADID_DESCR" />
+    </params>
 </config>

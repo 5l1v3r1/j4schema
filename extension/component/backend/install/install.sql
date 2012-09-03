@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `#__j4schema_tokens` (
   PRIMARY KEY (`id_tokens`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
-INSERT INTO `#__j4schema_tokens` (`id_tokens`, `to_integration`, `to_name`, `to_type`, `to_replace`, `enabled`) VALUES
+INSERT IGNORE INTO `#__j4schema_tokens` (`id_tokens`, `to_integration`, `to_name`, `to_type`, `to_replace`, `enabled`) VALUES
 (1, 'joomla', 'ARTICLE_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/WebPage"', 1),
 (2, 'joomla', 'ARTICLE_BODY', 'text', ' itemprop="mainContentOfPage"', 1),
 (3, 'joomla', 'ARTICLE_TITLE', 'text', ' itemprop="name"', 1),
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `#__j4schema_authors` (
   PRIMARY KEY (`id_authors`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__j4schema_properties` (`id_properties`, `pr_comment`, `pr_comment_plain`, `pr_ranges`, `pr_url`) VALUES
+INSERT IGNORE INTO `#__j4schema_properties` (`id_properties`, `pr_comment`, `pr_comment_plain`, `pr_ranges`, `pr_url`) VALUES
 ('about', 'The subject matter of the content.', 'The subject matter of the content.', '', 'http://schema.org/about'),
 ('acceptsReservations', 'Either <code>Yes/No</code>, or a URL at which reservations can be made.', 'Either Yes/No, or a URL at which reservations can be made.', '', 'http://schema.org/acceptsReservations'),
 ('accountablePerson', 'Specifies the Person that is legally accountable for the CreativeWork.', 'Specifies the Person that is legally accountable for the CreativeWork.', '', 'http://schema.org/accountablePerson'),
@@ -331,7 +331,7 @@ INSERT INTO `#__j4schema_properties` (`id_properties`, `pr_comment`, `pr_comment
 ('itemOffered', 'The item being sold.', 'The item being sold.', '', 'http://schema.org/itemOffered'),
 ('itemReviewed', 'The item that is being reviewed/rated.', 'The item that is being reviewed/rated.', '', 'http://schema.org/itemReviewed'),
 ('jobLocation', 'A (typically single) geographic location associated with the job position.', 'A (typically single) geographic location associated with the job position.', '', 'http://schema.org/jobLocation');
-INSERT INTO `#__j4schema_properties` (`id_properties`, `pr_comment`, `pr_comment_plain`, `pr_ranges`, `pr_url`) VALUES
+INSERT IGNORE INTO `#__j4schema_properties` (`id_properties`, `pr_comment`, `pr_comment_plain`, `pr_ranges`, `pr_url`) VALUES
 ('jobTitle', 'The job title of the person (for example, Financial Manager).', 'The job title of the person (for example, Financial Manager).', '', 'http://schema.org/jobTitle'),
 ('keywords', 'The keywords/tags used to describe this content.', 'The keywords/tags used to describe this content.', '', 'http://schema.org/keywords'),
 ('knows', 'The most generic bi-directional social/work relation.', 'The most generic bi-directional social/work relation.', '', 'http://schema.org/knows'),
@@ -587,7 +587,7 @@ INSERT INTO `#__j4schema_properties` (`id_properties`, `pr_comment`, `pr_comment
 ('Clinician', '', '', '', 'Clinician'),
 ('Patient', '', '', '', 'Patient'),
 ('Researcher', '', '', '', 'Researcher');
-INSERT INTO `#__j4schema_properties` (`id_properties`, `pr_comment`, `pr_comment_plain`, `pr_ranges`, `pr_url`) VALUES
+INSERT IGNORE INTO `#__j4schema_properties` (`id_properties`, `pr_comment`, `pr_comment_plain`, `pr_ranges`, `pr_url`) VALUES
 ('Diagnostic', '', '', '', 'Diagnostic'),
 ('Therapeutic', '', '', '', 'Therapeutic'),
 ('EvidenceLevelA', '', '', '', 'EvidenceLevelA'),
@@ -701,7 +701,7 @@ INSERT INTO `#__j4schema_properties` (`id_properties`, `pr_comment`, `pr_comment
 ('False', '', '', '', 'False'),
 ('True', '', '', '', 'True');
 
-INSERT INTO `#__j4schema_prop_values` (`pv_id_properties`, `pv_value`, `pv_enum`) VALUES
+INSERT IGNORE INTO `#__j4schema_prop_values` (`pv_id_properties`, `pv_value`, `pv_enum`) VALUES
 ('about', 'Thing', 0),
 ('acceptsReservations', 'Text', 0),
 ('acceptsReservations', 'URL', 0),
@@ -1360,7 +1360,7 @@ INSERT INTO `#__j4schema_prop_values` (`pv_id_properties`, `pv_value`, `pv_enum`
 ('False', 'Enum', 1),
 ('True', 'Enum', 1);
 
-INSERT INTO `#__j4schema_types` (`id_types`, `ty_parent`, `ty_comment`, `ty_comment_plain`, `ty_label`, `ty_url`, `ty_children`) VALUES
+INSERT IGNORE INTO `#__j4schema_types` (`id_types`, `ty_parent`, `ty_comment`, `ty_comment_plain`, `ty_label`, `ty_url`, `ty_children`) VALUES
 ('AboutPage', 'WebPage', 'Web page type: About page.', 'Web page type: About page.', 'About Page', 'http://schema.org/AboutPage', 0),
 ('AccountingService', 'FinancialService', 'Accountancy business.', 'Accountancy business.', 'Accounting Service', 'http://schema.org/AccountingService', 0),
 ('AdministrativeArea', 'Place', 'A geographical region under the jurisdiction of a particular government.', 'A geographical region under the jurisdiction of a particular government.', 'Administrative Area', 'http://schema.org/AdministrativeArea', 3),
@@ -1570,7 +1570,7 @@ INSERT INTO `#__j4schema_types` (`id_types`, `ty_parent`, `ty_comment`, `ty_comm
 ('MedicalRiskCalculator', 'MedicalRiskEstimator', 'A complex mathematical calculation requiring an online calculator, used to assess prognosis. Note: use the url property of Thing to record any URLs for online calculators.', 'A complex mathematical calculation requiring an online calculator, used to assess prognosis. Note: use the url property of Thing to record any URLs for online calculators.', 'Medical Risk Calculator', 'http://schema.org/MedicalRiskCalculator', 0),
 ('MedicalRiskEstimator', 'MedicalEntity', 'Any rule set or interactive tool for estimating the risk of developing a complication or condition.', 'Any rule set or interactive tool for estimating the risk of developing a complication or condition.', 'Medical Risk Estimator', 'http://schema.org/MedicalRiskEstimator', 2),
 ('MedicalRiskFactor', 'MedicalEntity', 'A risk factor is anything that increases a person''s likelihood of developing or contracting a disease, medical condition, or complication.', 'A risk factor is anything that increases a person''s likelihood of developing or contracting a disease, medical condition, or complication.', 'Medical Risk Factor', 'http://schema.org/MedicalRiskFactor', 0);
-INSERT INTO `#__j4schema_types` (`id_types`, `ty_parent`, `ty_comment`, `ty_comment_plain`, `ty_label`, `ty_url`, `ty_children`) VALUES
+INSERT IGNORE INTO `#__j4schema_types` (`id_types`, `ty_parent`, `ty_comment`, `ty_comment_plain`, `ty_label`, `ty_url`, `ty_children`) VALUES
 ('MedicalRiskScore', 'MedicalRiskEstimator', 'A simple system that adds up the number of risk factors to yield a score that is associated with prognosis, e.g. CHAD score, TIMI risk score.', 'A simple system that adds up the number of risk factors to yield a score that is associated with prognosis, e.g. CHAD score, TIMI risk score.', 'Medical Risk Score', 'http://schema.org/MedicalRiskScore', 0),
 ('MedicalScholarlyArticle', 'ScholarlyArticle', 'A scholarly article in the medical domain.', 'A scholarly article in the medical domain.', 'Medical Scholarly Article', 'http://schema.org/MedicalScholarlyArticle', 0),
 ('MedicalSign', 'MedicalSignOrSymptom', 'Any physical manifestation of a person''s medical condition discoverable by objective diagnostic tests or physical examination.', 'Any physical manifestation of a person''s medical condition discoverable by objective diagnostic tests or physical examination.', 'Medical Sign', 'http://schema.org/MedicalSign', 0),
@@ -1756,7 +1756,7 @@ INSERT INTO `#__j4schema_types` (`id_types`, `ty_parent`, `ty_comment`, `ty_comm
 ('Time', 'DataType', 'A point in time recurring on multiple days in the form hh:mm:ss[Z|(+|-)hh:mm] (see <a href="http://www.w3.org/TR/xmlschema-2/#time">XML schema for details</a>).', 'A point in time recurring on multiple days in the form hh:mm:ss[Z|(+|-)hh:mm] (see XML schema for details).', 'Time', 'http://schema.org/Time', 0),
 ('URL', 'Text', 'Data type: URL.', 'Data type: URL.', 'URL', 'http://schema.org/URL', 0);
 
-INSERT INTO `#__j4schema_type_prop` (`id_type`, `id_property`) VALUES
+INSERT IGNORE INTO `#__j4schema_type_prop` (`id_type`, `id_property`) VALUES
 ('AggregateOffer', 'highPrice'),
 ('AggregateOffer', 'lowPrice'),
 ('AggregateOffer', 'offerCount'),

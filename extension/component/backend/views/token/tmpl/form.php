@@ -14,14 +14,29 @@
 
 	FOFTemplateUtils::addJS('com_j4schema/js/phpjs/get_html_translation_table.js');
 	FOFTemplateUtils::addJS('com_j4schema/js/phpjs/htmlentities.js');
-	FOFTemplateUtils::addJS('com_j4schema/js/helper.js');
-	FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.js');
-	FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Node.js');
-	FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Draw.js');
-	FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Hover.js');
-	FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Load.js');
-	FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Selection.js');
-	FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.CookieStorage.js');
+
+	if(version_compare(JVERSION, '1.6.0', 'ge')){
+		$published = 'JPUBLISHED';
+		FOFTemplateUtils::addJS('com_j4schema/js/helper.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Node.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Draw.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Hover.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Load.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Selection.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.CookieStorage.js');
+	}
+	else {
+		$published = 'PUBLISHED';
+		FOFTemplateUtils::addJS('com_j4schema/js/1.5/helper.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/1.5/tree/Mif.Tree.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/1.5/tree/Mif.Tree.Node.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/1.5/tree/Mif.Tree.Draw.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/1.5/tree/Mif.Tree.Hover.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/1.5/tree/Mif.Tree.Load.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/1.5/tree/Mif.Tree.Selection.js');
+		FOFTemplateUtils::addJS('com_j4schema/js/1.5/tree/Mif.Tree.CookieStorage.js');
+	}
 
 	if(J4SCHEMA_PRO) FOFTemplateUtils::addJS('com_j4schema/js/pro.js');
 
@@ -30,7 +45,7 @@
 	$data = $this->item;
 ?>
 <div id="j4schema">
-	<form id="adminForm" action="index.php" method="post" autocomplete="off">
+	<form id="adminForm" name="adminForm" action="index.php" method="post" autocomplete="off">
 
 		<div class="fltlft width-70">
 			<fieldset>
@@ -47,7 +62,7 @@
 				<?php echo J4schemaHelperSelect::tokenType('to_type', $data->to_type, 'class="w150"')?>
 				<div class="clr"></div>
 
-				<label for="enabled" class="main required"><?php echo JText::_('JPUBLISHED')?></label>
+				<label for="enabled" class="main required"><?php echo JText::_($published)?></label>
 				<?php echo JHTML::_('select.booleanlist', 'enabled', '', $data->enabled)?>
 				<div class="clr"></div>
 
