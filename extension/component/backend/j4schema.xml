@@ -24,7 +24,6 @@
          </sql>
     </uninstall>
     
-    <!-- With legacy manifest files, updates won't work (sigh!). They're here just as a reminder -->
     <update>
         <schemas>
             <schemapath type="mysql">install/updates</schemapath>
