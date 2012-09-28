@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<install version="1.5.0" type="module" client="site"  method="upgrade">
+	<name>J4Schema Rich Tools tester</name>
+	<creationDate>2012-08-31</creationDate>
+	<author>Davide Tampellini</author>
+	<authorEmail>davide.tampellini@fabbricabinaria.it</authorEmail>
+    <version>2.0</version>
+	<description>Create a URL to automatically test your page vs Google Rich Snippets Testing Tool</description>
+
+	<files>
+      <folder>tmpl</folder>
+      <filename module="mod_j4srichtools">mod_j4srichtools.php</filename>
+      <filename>index.html</filename>
+	</files>
+   
+   <params>
+      <param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+   </params>
+   
+    <config>
+      <fields name="params">
+        <fieldset name="basic">
+          <field
+              name="moduleclass_sfx"
+              type="text"
+              label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+              description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+        </fieldset>
+      </fields>
+    </config>
+</install>

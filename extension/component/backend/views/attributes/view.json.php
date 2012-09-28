@@ -34,7 +34,11 @@ class J4schemaViewAttributes extends FOFViewJson
 		$document->setMimeEncoding('application/json');
 
 		JError::setErrorHandling(E_ALL,'ignore');
-		if(is_null($tpl)) $tpl = 'descr';
+
+		if(version_compare(JVERSION, '1.6.0', 'ge')){
+			if(is_null($tpl)) $tpl = 'descr';
+		}
+
 		$result = $this->loadTemplate($tpl);
 		JError::setErrorHandling(E_WARNING,'callback');
 

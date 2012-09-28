@@ -11,17 +11,32 @@ defined('_JEXEC') or die();
 jimport('joomla.application.component.view');
 
 /**
+ * Guess what? JView is an interface in Joomla! 3.0. Holly smoke, Batman! 
+ */
+if(!class_exists('FOFWorksAroundJoomlaToGetAView')) {
+	if(interface_exists('JModel')) {
+		abstract class FOFWorksAroundJoomlaToGetAView extends JViewLegacy {}
+	} else {
+		class FOFWorksAroundJoomlaToGetAView extends JView {}
+	}
+}
+
+/**
  * FrameworkOnFramework View class
  * 
  * FrameworkOnFramework is a set of classes which extend Joomla! 1.5 and later's
  * MVC framework with features making maintaining complex software much easier,
  * without tedious repetitive copying of the same code over and over again.
  */
-abstract class FOFView extends JView
+abstract class FOFView extends FOFWorksAroundJoomlaToGetAView
 {
+	static $renderers = array();
+	
 	protected $config = array();
 	
 	protected $input = array();
+	
+	protected $rendererObject = null;
 	
 	public function  __construct($config = array()) {
 		parent::__construct($config);
@@ -116,16 +131,16 @@ abstract class FOFView extends JView
 		
 		// Get the default paths
 		$paths = array();
-		$paths[] = ($templateParts['admin'] ? JPATH_ADMINISTRATOR : JPATH_SITE).'/components/'.
-			$templateParts['component'].'/views/'.$templateParts['view'].'/tmpl';
 		$paths[] = ($templateParts['admin'] ? JPATH_ADMINISTRATOR : JPATH_SITE).'/templates/'.
 			$template.'/html/'.$templateParts['component'].'/'.$templateParts['view'];
+		$paths[] = ($templateParts['admin'] ? JPATH_ADMINISTRATOR : JPATH_SITE).'/components/'.
+			$templateParts['component'].'/views/'.$templateParts['view'].'/tmpl';
 		
 		// Look for a template override
 		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
 		{
-			$apath = array_pop($paths);
-			$paths[] = str_replace($template, $layoutTemplate, $apath);
+			$apath = array_shift($paths);
+			array_unshift($paths, str_replace($template, $layoutTemplate, $apath));
 		}
 		
 		$filetofind = $templateParts['template'].'.php';
@@ -196,5 +211,72 @@ abstract class FOFView extends JView
 		}
 		
 		return $parts;
+	}
+	
+	/**
+	 * Get the renderer object for this view
+	 * @return FOFRenderAbstract
+	 */
+	public function &getRenderer()
+	{
+		if(!($this->rendererObject instanceof FOFRenderAbstract)) {
+			$this->rendererObject = $this->findRenderer();
+		}
+		return $this->rendererObject;
+	}
+	
+	/**
+	 * Sets the renderer object for this view
+	 * @param FOFRenderAbstract $renderer 
+	 */
+	public function setRenderer(FOFRenderAbstract &$renderer)
+	{
+		$this->rendererObject = $renderer;
+	}
+	
+	/**
+	 * Finds a suitable renderer
+	 * 
+	 * @return FOFRenderAbstract
+	 */
+	protected function findRenderer()
+	{
+		// Try loading the stock renderers shipped with FOF
+		if(empty(self::$renderers) || !class_exists('FOFRenderJoomla', false)) {
+			$path = dirname(__FILE__);
+			$renderFiles = JFolder::files($path, 'render.');
+			if(!empty($renderFiles)) {
+				foreach($renderFiles as $filename) {
+					if($filename == 'render.abstract.php') continue;
+					@include_once $path.'/'.$filename;
+					$camel = FOFInflector::camelize($filename);
+					$className = 'FOFRender'.  ucfirst(FOFInflector::getPart($camel, 1));
+					$o = new $className;
+					self::registerRenderer($o);
+				}
+			}
+		}
+		
+		// Try to detect the most suitable renderer
+		$o = null;
+		$priority = 0;
+		if(!empty(self::$renderers)) {
+			foreach(self::$renderers as $r) {
+				$info = $r->getInformation();
+				if(!$info->enabled) continue;
+				if($info->priority > $priority) {
+					$priority = $info->priority;
+					$o = $r;
+				}
+			}
+		}
+		
+		// Return the current renderer
+		return $o;
+	}
+	
+	public static function registerRenderer(FOFRenderAbstract &$renderer)
+	{
+		self::$renderers[] = $renderer;
 	}
 }

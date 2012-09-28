@@ -39,7 +39,21 @@ abstract class FOFTable_COMMONBASE extends JTable
 	 *
 	 * @var    array
 	 */
-	protected $columnAlias = array();
+	protected $_columnAlias = array();
+
+	/**
+	 * If set to true, it enabled automatic checks on fields based on columns properties
+	 *
+	 * @var boolean
+	 */
+	protected $_autoChecks = false;
+
+	/**
+	 * Array with fields that should be skipped by automatic checks
+	 *
+	 * @var array
+	 */
+	protected $_skipChecks = array();
 
 	/**
 	 * Returns a static object instance of a particular table type
@@ -78,12 +92,7 @@ abstract class FOFTable_COMMONBASE extends JTable
 
 		if(!array_key_exists($tableClass, $instances)) {
 			if (!class_exists( $tableClass )) {
-				$isCLI = version_compare(JVERSION, '1.6.0', 'ge') ? (JFactory::getApplication() instanceof JException) : false;
-				if($isCLI) {
-					$isAdmin = false;
-				} else {
-					$isAdmin = version_compare(JVERSION, '1.6.0', 'ge') ? (!JFactory::$application ? false : JFactory::getApplication()->isAdmin()) : JFactory::getApplication()->isAdmin();
-				}
+				list($isCLI, $isAdmin) = FOFDispatcher::isCliAdmin();
 				if(!$isAdmin) {
 					$basePath = JPATH_SITE;
 				} else {
@@ -189,6 +198,47 @@ abstract class FOFTable_COMMONBASE extends JTable
 	}
 
 	/**
+	 * Sets fields to be skipped from automatic checks.
+	 *
+	 * @param array/string	$skip	Fields to be skipped by automatic checks
+	 */
+	function setSkipChecks($skip)
+	{
+		$this->_skipChecks = (array) $skip;
+	}
+
+	/**
+	 * Based on fields properties (nullable column), checks if the field is required or not
+	 *
+	 * @return boolean
+	 */
+	function check()
+	{
+		if(!$this->_autoChecks)	return parent::check();
+
+		$fields = $this->getTableFields();
+		$result = true;
+
+		foreach($fields as $field)
+		{
+			//primary key, better skip that
+			if($field->Field == $this->_tbl_key) continue;
+
+			$fieldName = $field->Field;
+
+			//field is not nullable but it's null, set error
+			if($field->Null == 'NO' && $this->$fieldName == '' && !in_array($fieldName, $this->_skipChecks))
+			{
+				$text = str_replace('#__', 'COM_', $this->getTableName()).'_ERR_'.$fieldName;
+				$this->setError(JText::_(strtoupper($text)));
+				$result = false;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Method to reset class properties to the defaults set in the class
 	 * definition. It will ignore the primary key as well as any private class
 	 * properties.
@@ -225,6 +275,10 @@ abstract class FOFTable_COMMONBASE extends JTable
 				$query = FOFQueryAbstract::getNew($this->_db)
 					->select($db->qn('master').'.'.$db->qn($k))
 					->from($db->qn($this->_tbl).' AS '.$db->qn('master'));
+			} elseif(version_compare(JVERSION, '1.6.0', 'ge')){
+				$query = FOFQueryAbstract::getNew($this->_db)
+					->select($db->quoteName('master').'.'.$db->quoteName($k))
+					->from($db->quoteName($this->_tbl).' AS '.$db->quoteName('master'));
 			} else {
 				$query = FOFQueryAbstract::getNew($this->_db)
 					->select($db->nameQuote('master').'.'.$db->nameQuote($k))
@@ -244,6 +298,16 @@ abstract class FOFTable_COMMONBASE extends JTable
 							' ON '.$db->qn('t'.$tableNo).'.'.$db->qn($table['joinfield']).
 							' = '.$db->qn('master').'.'.$db->qn($k)
 							);
+				} elseif(version_compare(JVERSION, '1.6.0', 'ge')){
+					$query->select(array(
+						'COUNT(DISTINCT '.$db->quoteName('t'.$tableNo).'.'.$db->quoteName($table['idfield']).') AS '.$db->quoteName($table['idalias'])
+					));
+					$query->join('LEFT',
+							$db->quoteName($table['name']).
+							' AS '.$db->quoteName('t'.$tableNo).
+							' ON '.$db->quoteName('t'.$tableNo).'.'.$db->quoteName($table['joinfield']).
+							' = '.$db->quoteName('master').'.'.$db->quoteName($k)
+							);
 				} else {
 					$query->select(array(
 						'COUNT(DISTINCT '.$db->nameQuote('t'.$tableNo).'.'.$db->nameQuote($table['idfield']).') AS '.$db->nameQuote($table['idalias'])
@@ -255,12 +319,15 @@ abstract class FOFTable_COMMONBASE extends JTable
 							' = '.$db->nameQuote('master').'.'.$db->nameQuote($k)
 							);
 				}
-					
+
 			}
 
 			if(version_compare(JVERSION, '3.0', 'ge')) {
 				$query->where($db->qn('master').'.'.$db->qn($k).' = '.$db->q($this->$k));
 				$query->group($db->qn('master').'.'.$db->qn($k));
+			} elseif(version_compare(JVERSION, '1.6.0', 'ge')){
+				$query->where($db->quoteName('master').'.'.$db->quoteName($k).' = '.$db->quote($this->$k));
+				$query->group($db->quoteName('master').'.'.$db->quoteName($k));
 			} else {
 				$query->where($db->nameQuote('master').'.'.$db->nameQuote($k).' = '.$db->quote($this->$k));
 				$query->group($db->nameQuote('master').'.'.$db->nameQuote($k));
@@ -353,7 +420,7 @@ abstract class FOFTable_COMMONBASE extends JTable
 	{
 		$fldLockedBy = $this->getColumnAlias('locked_by');
 		$fldLockedOn = $this->getColumnAlias('locked_on');
-		
+
 		if (!(
 			in_array( $fldLockedBy, array_keys($this->getProperties()) ) ||
 	 		in_array( $fldLockedOn, array_keys($this->getProperties()) )
@@ -367,7 +434,11 @@ abstract class FOFTable_COMMONBASE extends JTable
 		}
 
 		$date = JFactory::getDate();
-		$time = $date->toMysql();
+		if(version_compare(JVERSION, '3.0', 'ge')) {
+			$time = $date->toSql();
+		} else {
+			$time = $date->toMysql();
+		}
 
 		if(version_compare(JVERSION, '3.0', 'ge')) {
 			$query = FOFQueryAbstract::getNew($this->_db)
@@ -379,12 +450,12 @@ abstract class FOFTable_COMMONBASE extends JTable
 					->where($this->_db->qn($this->_tbl_key).' = '. $this->_db->q($this->$k));
 		} else {
 			$query = FOFQueryAbstract::getNew($this->_db)
-					->update($this->_db->nameQuote( $this->_tbl ))
+					->update($this->_db->quoteName( $this->_tbl ))
 					->set(array(
-						$this->_db->nameQuote($fldLockedBy).' = '.(int)$who,
-						$this->_db->nameQuote($fldLockedOn).' = '.$this->_db->quote($time)
+						$this->_db->quoteName($fldLockedBy).' = '.(int)$who,
+						$this->_db->quoteName($fldLockedOn).' = '.$this->_db->quote($time)
 					))
-					->where($this->_db->nameQuote($this->_tbl_key).' = '. $this->_db->quote($this->$k));
+					->where($this->_db->quoteName($this->_tbl_key).' = '. $this->_db->quote($this->$k));
 		}
 		$this->_db->setQuery( (string)$query );
 
@@ -398,7 +469,7 @@ abstract class FOFTable_COMMONBASE extends JTable
 	{
 		$fldLockedBy = $this->getColumnAlias('locked_by');
 		$fldLockedOn = $this->getColumnAlias('locked_on');
-		
+
 		if (!(
 			in_array( $fldLockedBy, array_keys($this->getProperties()) ) ||
 	 		in_array( $fldLockedOn, array_keys($this->getProperties()) )
@@ -426,12 +497,12 @@ abstract class FOFTable_COMMONBASE extends JTable
 					->where($this->_db->qn($this->_tbl_key).' = '. $this->_db->q($this->$k));
 		} else {
 			$query = FOFQueryAbstract::getNew($this->_db)
-					->update($this->_db->nameQuote( $this->_tbl ))
+					->update($this->_db->quoteName( $this->_tbl ))
 					->set(array(
-						$this->_db->nameQuote($fldLockedBy).' = 0',
-						$this->_db->nameQuote($fldLockedOn).' = '.$this->_db->quote($this->_db->getNullDate())
+						$this->_db->quoteName($fldLockedBy).' = 0',
+						$this->_db->quoteName($fldLockedOn).' = '.$this->_db->quote($this->_db->getNullDate())
 					))
-					->where($this->_db->nameQuote($this->_tbl_key).' = '. $this->_db->quote($this->$k));
+					->where($this->_db->quoteName($this->_tbl_key).' = '. $this->_db->quote($this->$k));
 		}
 		$this->_db->setQuery( (string)$query );
 
@@ -444,7 +515,7 @@ abstract class FOFTable_COMMONBASE extends JTable
 	function isCheckedOut( $with = 0, $against = null)
 	{
 		$fldLockedBy = $this->getColumnAlias('locked_by');
-		
+
 		if(isset($this) && is_a($this, 'JTable') && is_null($against)) {
 			$against = $this->get( $fldLockedBy );
 		}
@@ -484,6 +555,10 @@ abstract class FOFTable_COMMONBASE extends JTable
 			$query = FOFQueryAbstract::getNew($this->_db)
 					->update($this->_db->qn($this->_tbl))
 					->set($this->_db->qn($enabledName).' = '.(int) $publish);
+		} elseif(version_compare(JVERSION, '1.6.0', 'ge')) {
+			$query = FOFQueryAbstract::getNew($this->_db)
+					->update($this->_db->quoteName($this->_tbl))
+					->set($this->_db->quoteName($enabledName).' = '.(int) $publish);
 		} else {
 			$query = FOFQueryAbstract::getNew($this->_db)
 					->update($this->_db->nameQuote($this->_tbl))
@@ -499,6 +574,12 @@ abstract class FOFTable_COMMONBASE extends JTable
 					' = 0 OR '.$this->_db->qn($locked_byName).' = '.(int) $user_id.')',
 					'AND'
 				);
+			} elseif(version_compare(JVERSION, '1.6.0', 'ge')) {
+				$query->where(
+					' ('.$this->_db->quoteName($locked_byName).
+					' = 0 OR '.$this->_db->quoteName($locked_byName).' = '.(int) $user_id.')',
+					'AND'
+				);
 			} else {
 				$query->where(
 					' ('.$this->_db->nameQuote($locked_byName).
@@ -511,10 +592,14 @@ abstract class FOFTable_COMMONBASE extends JTable
 		if(version_compare(JVERSION, '3.0', 'ge')) {
 			$cids = $this->_db->qn($k).' = ' .
 					implode(' OR '.$this->_db->qn($k).' = ',$cid);
+		} elseif(version_compare(JVERSION, '1.6.0', 'ge')){
+			$cids = $this->_db->quoteName($k).' = ' .
+					implode(' OR '.$this->_db->quoteName($k).' = ',$cid);
 		} else {
 			$cids = $this->_db->nameQuote($k).' = ' .
 					implode(' OR '.$this->_db->nameQuote($k).' = ',$cid);
 		}
+
 		$query->where('('.$cids.')');
 
 		$this->_db->setQuery( (string)$query );
@@ -647,15 +732,18 @@ abstract class FOFTable_COMMONBASE extends JTable
 			// Lookup the fields for this table only once.
 			$name	= $this->_tbl;
 			if(version_compare(JVERSION, '3.0', 'ge')) {
-				$fields	= $this->_db->getTableColumns($name, true);
+				$fields	= $this->_db->getTableColumns($name, false);
+				if (empty($fields)) {
+					return false;
+				}
+				$cache[$this->_tbl] = $fields;
 			} else {
 				$fields	= $this->_db->getTableFields($name, false);
+				if (!isset($fields[$name])) {
+					return false;
+				}
+				$cache[$this->_tbl] = $fields[$name];
 			}
-
-			if (!isset($fields[$name])) {
-				return false;
-			}
-			$cache[$this->_tbl] = $fields[$name];
 		}
 
 		return $cache[$this->_tbl];
@@ -672,9 +760,9 @@ abstract class FOFTable_COMMONBASE extends JTable
 	*/
 	public function getColumnAlias($column)
 	{
-		if (isset($this->columnAlias[$column]))
+		if (isset($this->_columnAlias[$column]))
 		{
-			$return = $this->columnAlias[$column];
+			$return = $this->_columnAlias[$column];
 		}
 		else
 		{
@@ -699,11 +787,11 @@ abstract class FOFTable_COMMONBASE extends JTable
 		$column = strtolower($column);
 
 		$column = preg_replace('#[^A-Z0-9_]#i', '', $column);
-		$this->columnAlias[$column] = $columnAlias;
+		$this->_columnAlias[$column] = $columnAlias;
 	}
 
 	/**
-	 * NOTE TO 3RD PART DEVELOPERS:
+	 * NOTE TO 3RD PARTY DEVELOPERS:
 	 *
 	 * When you override the following methods in your child classes,
 	 * be sure to call parent::method *AFTER* your code, otherwise the
@@ -712,8 +800,12 @@ abstract class FOFTable_COMMONBASE extends JTable
 	 * Example:
 	 * protected function onAfterStore(){
 	 * 	   // Your code here
-	 *     return $your_result && parent::onAfterStore();
+	 *     return parent::onAfterStore() && $your_result;
 	 * }
+	 *
+	 * Do not do it the other way around, e.g. return $your_result && parent::onAfterStore()
+	 * Due to  PHP short-circuit boolean evaluation the parent::onAfterStore()
+	 * will not be called if $your_result is false.
 	 */
 	protected function onBeforeBind(&$from)
 	{
@@ -747,21 +839,29 @@ abstract class FOFTable_COMMONBASE extends JTable
 		$locked_by		= $this->getColumnAlias('locked_by');
 		$title			= $this->getColumnAlias('title');
 		$slug			= $this->getColumnAlias('slug');
-		
+
 		if(property_exists($this, $created_on) && property_exists($this, $created_by)) {
 			if(empty($this->$created_by) || ($this->$created_on == '0000-00-00 00:00:00') || empty($this->$created_on)) {
 				$this->$created_by = JFactory::getUser()->id;
 				jimport('joomla.utilities.date');
 				$date = new JDate();
-				$this->$created_on = $date->toMySQL();
+				if(version_compare(JVERSION, '3.0', 'ge')) {
+					$this->$created_on = $date->toSql();
+				} else {
+					$this->$created_on = $date->toMysql();
+				}
 			} elseif(property_exists($this, $modified_on) && property_exists($this, $modified_by)) {
 				$this->$modified_by = JFactory::getUser()->id;
 				jimport('joomla.utilities.date');
 				$date = new JDate();
-				$this->$modified_on = $date->toMySQL();
+				if(version_compare(JVERSION, '3.0', 'ge')) {
+					$this->$modified_on = $date->toSql();
+				} else {
+					$this->$modified_on = $date->toMysql();
+				}
 			}
 		}
-		
+
 		// Do we have a set of title and slug fields?
 		if(property_exists($this, $title) && property_exists($this, $slug)) {
 			if(empty($this->$slug)) {
@@ -780,6 +880,12 @@ abstract class FOFTable_COMMONBASE extends JTable
 					->from($this->_tbl)
 					->where($db->qn($slug).' = '.$db->q($this->$slug))
 					->where('NOT '.$db->qn($this->_tbl_key).' = '.$db->q($this->{$this->_tbl_key}));
+			} elseif(version_compare(JVERSION, '1.6.0', 'ge')) {
+				$query = FOFQueryAbstract::getNew($db)
+					->select($db->quoteName($slug))
+					->from($this->_tbl)
+					->where($db->quoteName($slug).' = '.$db->quote($this->$slug))
+					->where('NOT '.$db->quoteName($this->_tbl_key).' = '.$db->quote($this->{$this->_tbl_key}));
 			} else {
 				$query = FOFQueryAbstract::getNew($db)
 					->select($db->nameQuote($slug))
@@ -801,6 +907,12 @@ abstract class FOFTable_COMMONBASE extends JTable
 						->from($this->_tbl)
 						->where($db->qn($slug).' = '.$db->q($newSlug))
 						->where($db->qn($this->_tbl_key).' = '.$db->q($this->{$this->_tbl_key}), 'AND NOT');
+				} elseif(version_compare(JVERSION, '1.6.0', 'ge')) {
+					$query = FOFQueryAbstract::getNew($db)
+						->select($db->quoteName($slug))
+						->from($this->_tbl)
+						->where($db->quoteName($slug).' = '.$db->quote($newSlug))
+						->where($db->quoteName($this->_tbl_key).' = '.$db->quote($this->{$this->_tbl_key}), 'AND NOT');
 				} else {
 					$query = FOFQueryAbstract::getNew($db)
 						->select($db->nameQuote($slug))

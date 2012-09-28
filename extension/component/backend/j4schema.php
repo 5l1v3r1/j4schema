@@ -9,17 +9,21 @@
 defined('_JEXEC') or die();
 JHTML::_('behavior.keepalive');
 
-if(!file_exists(JPATH_LIBRARIES.'/fof/include.php'))
+if(!file_exists(JPATH_ROOT.'/libraries/fof/include.php'))
 {
 	echo 'FrameworkOnFramework Library not found. <br/>';
 	echo 'Please re-install the package and contact us if you still have this problem';
 	return;
 }
-include_once JPATH_LIBRARIES.'/fof/include.php' ;
+include_once JPATH_ROOT.'/libraries/fof/include.php' ;
 
 FOFTemplateUtils::addCSS('com_j4schema/css/main.css');
 FOFTemplateUtils::addCSS('com_j4schema/css/classes.css');
 FOFTemplateUtils::addCSS('com_j4schema/css/tree.css');
+
+if(!version_compare(JVERSION, '1.6.0', 'ge')){
+	FOFTemplateUtils::addCSS('com_j4schema/css/compat1.5.css');
+}
 
 if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))	define('J4SCHEMA_PRO', 1);
 else														define('J4SCHEMA_PRO', 0);

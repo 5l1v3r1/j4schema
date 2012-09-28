@@ -45,7 +45,7 @@ class J4schemaModelAttributes extends FOFModel
 	 */
 	function onProcessList(&$resultArray)
 	{
-		if(FOFInput::getVar('format') != 'json') return;
+		if(FOFInput::getVar('format', '', $this->input) != 'json') return;
 
 		// put every property inside an associative array
 		// $return[$level]['property']['name']  - Name of the attrib
@@ -100,7 +100,8 @@ class J4schemaModelAttributes extends FOFModel
 				 ->leftJoin('#__j4schema_type_prop ON id_type = id_types')
 				 ->leftJoin('#__j4schema_properties ON id_properties = id_property')
 				 ->where('id_types = '.$db->quote($type));
-		$rows = $db->setQuery($query)->loadObjectList();
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
 
 		if(!$rows) return "";
 		elseif($rows[0]->id_properties)
@@ -132,14 +133,14 @@ class J4schemaModelAttributes extends FOFModel
 	{
 		$db = JFactory::getDbo();
 
-		$id_prop = FOFInput::getVar('id_attributes');
+		$id_prop = FOFInput::getVar('id_attributes', '', $this->input);
 		$query = FOFQueryAbstract::getNew($db)
 					->select('pr_comment_plain as descr, pv_value as value')
 					->from('#__j4schema_properties')
 					->innerJoin('#__j4schema_prop_values ON id_properties = pv_id_properties')
 					->where('id_properties = '.$db->quote($id_prop));
-
-		$rows = $db->setQuery($query)->loadObjectList();
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
 
 		return $rows;
 	}
@@ -147,7 +148,7 @@ class J4schemaModelAttributes extends FOFModel
 	function &getItemList($overrideLimits = false, $group = '')
 	{
 		//if i'm getting values using json, i don't need the pagination
-		if(FOFInput::getVar('format') == 'json')	$overrideLimits = true;
+		if(FOFInput::getVar('format','', $this->input) == 'json')	$overrideLimits = true;
 
 		return parent::getItemList($overrideLimits, $group);
 	}

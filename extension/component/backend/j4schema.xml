@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="1.6.0" method="upgrade">
+<install type="component" version="1.5.0" method="upgrade">
 
 	<name>J4Schema</name>
-	<version>3.1.4</version>
-	<creationDate>July 2012</creationDate>
+	<version>4.0.0</version>
+	<creationDate>2012-09-03</creationDate>
 	<author>Davide Tampellini</author>
-	<authorUrl>http://www.fabbricabinaria.it</authorUrl>
+    <authorUrl>http://www.fabbricabinaria.it</authorUrl>
 	<authorEmail>webmaster@fabbricabinaria.it</authorEmail>
 	<license>http://www.gnu.org/licenses/gpl.html (GNU/GPL)</license>
 	<description>J4Schema.org Extension</description>
@@ -30,20 +30,23 @@
             <schemapath type="mysqli">install/updates</schemapath> 
         </schemas>
     </update>
-        
+      
     <files folder="frontend">
         <filename>j4schema.php</filename>
         <filename>index.html</filename>
     </files>
 
+    <installfile>install.com_j4schema.php</installfile>
+    <uninstallfile>uninstall.com_j4schema.php</uninstallfile>
 	<scriptfile>script.com_j4schema.php</scriptfile>
 
 	<administration>
-		<menu view="cpanel" img="../media/com_j4schema/images/j4schema_20.png">COM_J4SCHEMA_MENU</menu>
+		<menu view="cpanel" img="../media/com_j4schema/images/j4schema_20.png">J4Schema</menu>
 		<files folder="backend">
             <folder>controllers</folder>
             <folder>helpers</folder>
             <folder>install</folder>
+            <folder>jce</folder>
             <folder>liveupdate</folder>
             <folder>models</folder>
             <folder>overrides</folder>
@@ -70,4 +73,4 @@
         <folder>js</folder>
         <filename>index.html</filename>
     </media>
-</extension>
+</install>

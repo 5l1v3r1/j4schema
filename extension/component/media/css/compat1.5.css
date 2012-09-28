@@ -1,0 +1,58 @@
+.fltlft{float:left;}
+.fltrt{float:right;}
+
+/*
+ * Buttons on cpanel 
+ */
+.cpanel div.icon, #cpanel div.icon {
+  float: left;
+  margin-bottom: 15px;
+  margin-right: 15px;
+  text-align: center;
+}
+
+.cpanel div.icon a, #cpanel div.icon a {
+  -moz-transition-duration: 0.8s;
+  -moz-transition-property: background-position, -moz-border-radius-bottomleft, -moz-box-shadow;
+  background-color: #FFFFFF;
+  background-position: -30px center;
+  border: 1px solid #CCCCCC;
+  border-radius: 5px 5px 5px 5px;
+  color: #565656;
+  display: block;
+  float: left;
+  height: 97px;
+  text-decoration: none;
+  vertical-align: middle;
+  width: 108px;
+}
+
+#cpanel img, .cpanel img {
+  margin: 0 auto;
+  padding: 10px 0;
+}
+
+#cpanel span, .cpanel span {
+  display: block;
+  text-align: center;
+}
+
+#cpanel div.icon a:hover, #cpanel div.icon a:focus, #cpanel div.icon a:active, .cpanel div.icon a:hover, .cpanel div.icon a:focus, .cpanel div.icon a:active {
+  background-position: 0 center;
+  border-bottom-left-radius: 50% 20px;
+  box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 10;
+}
+
+/*
+ * Toolbar
+ */
+ 
+.icon-32-refresh {background-image: url("../images/toolbar/icon-32-refresh.png");}
+.icon-32-new-style {background-image: url("../images/toolbar/icon-32-new-style.png");}
+
+#j4schema td.center, th.center, .center {
+  float: none;
+  text-align: center;
+}
