@@ -34,13 +34,13 @@ class plgSystemJ4sjintegration extends JPlugin
 			{
 				case 'date':
 					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*\}#', array($this, 'buildDate'), $body);
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#', array($this, 'buildDate'), $body);
 					$this->token = '';
 				break;
 
 				case 'google+':
 					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*\}#', array($this, 'buildGoogle'), $body);
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#', array($this, 'buildGoogle'), $body);
 					$this->token = '';
 				break;
 
@@ -50,7 +50,7 @@ class plgSystemJ4sjintegration extends JPlugin
 
 				case 'meta':
 					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*\}#', array($this, 'buildMeta'), $body);
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#', array($this, 'buildMeta'), $body);
 					$this->token = '';
 				break;
 

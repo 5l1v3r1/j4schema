@@ -39,9 +39,6 @@
                     <simpara>J4Schema component</simpara>
                 </listitem>
                 <listitem>
-                    <simpara>J4Schema cleanup plugin</simpara>
-                </listitem>
-                <listitem>
                     <simpara>J4Schema JCE plugin</simpara>                  
                 </listitem>
             </itemizedlist>
@@ -52,20 +49,6 @@
                 You should always use the latest version, since we constantly work on fixing bugs and adding new features.
             </para>
         </note>
-        
-        <warning>
-          <para>
-            If you are using any Akeeba extension (ie Admin Tool, Akeeba Backup etc etc), you should pay attention when uninstalling J4Schema, since
-            the FrameworkOnFramework libary is used by both. 
-          </para>
-          <para>
-            If you try to uninstall J4Schema as <emphasis>"package"</emphasis>, Joomla! will remove FOF library too, so your Akeeba extension might stop
-            working.
-          </para>
-          <para>
-            To avoid this, you should uninstall every single part of J4Schema (component, plugins etc etc) manually from Joomla! extension management.
-          </para>
-        </warning>
     </section>
 
     <section id="configuration">
@@ -78,27 +61,9 @@
         </note>
         
         <para>
-            First of all you need to enabled the content plugin <emphasis>J4Schema cleanup</emphasis>, otherwise microdata attributes
-            will not display correctly.
-            
-            <tip>                   
-                <para>
-                    You have to install this plugin since we're adding some non-standard HTML attributes and, sometimes, JCE editor won't
-                    process them in the right way.
-                </para>
-                <para>
-                    For example, when you add the <code>itemscope</code> attribute, JCE will process it as it would be a standard attribute,
-                    adding <code>=""</code>. So, you will have this wrong text: <code>itemscope=""</code>.
-                </para>
-                <para>
-                    Schema.org dictionary, instead, wants it without any quotes, so we have to manipulate it and eliminate them.
-                </para>
-            </tip>
-        </para>
-        
-        <para>
-            After that, you have to add the J4Schema button on JCE editor. To do that, you have to go in <emphasis>JCE Administration</emphasis> &#187; 
-            <emphasis>Edit profile</emphasis> &#187; <emphasis>Features tab</emphasis> and drag&amp;drop the Google button.
+            If you have deleted or you're not using the <emphasis>Default</emphasis> profile, you have to manually add the J4Schema button on 
+            JCE editor. To do that, you have to go in <emphasis>JCE Administration</emphasis> &#187; <emphasis>Edit profile</emphasis> &#187; 
+            <emphasis>Features tab</emphasis> and drag&amp;drop the Google button.
         </para>
         
         <para>
