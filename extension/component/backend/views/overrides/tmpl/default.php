@@ -78,7 +78,17 @@
 							if($layouts) $views[] = array('folder' => '', 'children' => $layouts);
 							foreach($views as $layout):
 								echo '<div><strong>'.$layout['folder'].'</strong></div>';
-								echo implode('<br/>', $layout['children']).'<br/><br/>';
+								foreach ($layout['children'] as $item)
+								{
+									if(is_array($item)){
+										echo '<em>'.$item['folder'].'</em><br/>';
+										echo '&nbsp;&nbsp;'.implode('<br/>&nbsp;&nbsp;',$item['children']).'<br/>';
+									}
+									else{
+										echo $item.'<br/>';
+									}
+								}
+								echo '<br/>';
 							endforeach;
 						?>
 						</td>
@@ -138,7 +148,17 @@
 							if($layouts) $views[] = array('folder' => '', 'children' => $layouts);
 							foreach($views as $layout):
 								echo '<div><strong>'.$layout['folder'].'</strong></div>';
-								echo implode('<br/>', $layout['children']).'<br/><br/>';
+								foreach ($layout['children'] as $item)
+								{
+									if(is_array($item)){
+										echo '<em>'.$item['folder'].'</em><br/>';
+										echo '&nbsp;&nbsp;'.implode('<br/>&nbsp;&nbsp;',$item['children']).'<br/>';
+									}
+									else{
+										echo $item.'<br/>';
+									}
+								}
+								echo '<br/>';
 							endforeach;
 						?>
 						</td>
