@@ -81,7 +81,14 @@ INSERT IGNORE INTO `#__j4schema_tokens` (`id_tokens`, `to_integration`, `to_name
 (33, 'virtuemart', 'VM_META_REVIEW_RATING', 'meta', ' itemprop="ratingValue" ', 1),
 (34, 'virtuemart', 'VM_META_REVIEW_BEST_RATING', 'meta', ' itemprop="bestRating"', 1),
 (35, 'virtuemart', 'VM_META_REVIEW_PUBLISH_DATE', 'meta', ' itemprop="datePublished"', 1),
-(36, 'virtuemart', 'VM_META_RATING_REVIEWS_COUNT', 'meta', ' itemprop="reviewCount"', 1);
+(36, 'virtuemart', 'VM_META_RATING_REVIEWS_COUNT', 'meta', ' itemprop="reviewCount"', 1),
+(NULL, 'jevents', 'JE_EVENT_CONTACT', 'text', 'itemscope itemtype="http://schema.org/ContactPoint"', 1),
+(NULL, 'jevents', 'JE_EVENT_LOCATION', 'text', 'itemprop="location" itemscope itemtype="http://schema.org/PostalAddress"', 1),
+(NULL, 'jevents', 'JE_EVENT_DURATION', 'meta', ' itemprop="duration"', 1),
+(NULL, 'jevents', 'JE_EVENT_ENDTIME', 'meta', ' itemprop="endDate"', 1),
+(NULL, 'jevents', 'JE_EVENT_NAME', 'text', 'itemprop="name"', 1),
+(NULL, 'jevents', 'JE_EVENT_STARTTIME', 'date', ' itemprop="startDate"', 1),
+(NULL, 'jevents', 'JE_EVENT_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/Event"', 1);
 
 CREATE TABLE IF NOT EXISTS `#__j4schema_authors` (
   `id_authors` int(11) NOT NULL AUTO_INCREMENT,

@@ -49,3 +49,6 @@ label.required{
 
 #j4schema input.insert {background: url("../images/buttons.png") repeat scroll 0 -52px transparent;}
 #j4schema input.cancel {background: url("../images/buttons.png") repeat scroll 0 0px transparent;}
+
+#proFeatures{margin:10px 0 0 30px}
+#proFeatures li{list-style:disc;padding:0}

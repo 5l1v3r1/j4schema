@@ -31,7 +31,24 @@
 		?>
 	</div>
 
-	<div class="dx w45_">
+	<div class="fltlft width-50">
+		<?php if(!J4SCHEMA_PRO):?>
+		<div style="margin-bottom:10px; font-size:12px">
+			<fieldset>
+				<legend>Professional Version</legend>
+				<div>
+					Do you think that this extension is useful?<br/>
+					Why don't you try the <a href="http://fabbricabinaria.it/en/solutions/j4schema-pro">Professional version</a>? It has a lot of features, too!
+					<ul id="proFeatures">
+						<li>Ready-to-use Rich snippets</li>
+						<li>Author profile</li>
+						<li>Fast tests</li>
+						<li>Use it anywhere</li>
+					</ul>
+				</div>
+			</fieldset>
+		</div>
+		<?php endif;?>
 		<div class="cpanel">
 		<?php if($reinstallJCE):?>
 			<div class="icon-wrapper">
