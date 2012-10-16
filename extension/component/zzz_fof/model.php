@@ -444,9 +444,26 @@ class FOFModel extends FOFWorksAroundJoomlaToGetAModel
 		return $this;
 	}
 
+	/**
+	 * Clears the input array.
+	 *
+	 * @return FOFModel
+	 */
 	public function clearInput()
 	{
 		$this->input = array();
+
+		return $this;
+	}
+
+	/**
+	 * Resets the saved state for this view
+	 *
+	 * @return FOFModel
+	 */
+	public function resetSavedState()
+	{
+		JFactory::getApplication()->setUserState(substr($this->getHash(),0,-1), null);
 
 		return $this;
 	}
@@ -589,7 +606,31 @@ class FOFModel extends FOFWorksAroundJoomlaToGetAModel
 		$this->otable = $table;
 		return true;
 	}
-	
+
+	/**
+	 * Copy one or more records
+	 */
+	public function copy()
+	{
+		if(is_array($this->id_list) && !empty($this->id_list)) {
+
+			$table = $this->getTable($this->table);
+
+			if(!$this->onBeforeCopy($table)) return false;
+
+			if(!$table->copy($this->id_list) ) {
+				$this->setError($table->getError());
+				return false;
+			} else {
+				// Call our internal event
+				$this->onAfterCopy($table);
+
+				//@TODO Should we fire the content plugin?
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * Returns the table object after the last save() operation
 	 * @return JTable
@@ -909,7 +950,7 @@ class FOFModel extends FOFWorksAroundJoomlaToGetAModel
 	 * @param   string   $prefix   The class prefix. Optional.
 	 * @param   array    $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  FOFTable  A FOFTable object
 	 * @since   11.1
 	 */
 	public function getTable($name = '', $prefix = null, $options = array())
@@ -1301,6 +1342,16 @@ class FOFModel extends FOFWorksAroundJoomlaToGetAModel
 			$this->setError($e->getMessage());
 			return false;
 		}
+	}
+
+	protected function onBeforeCopy(&$table)
+	{
+		return true;
+	}
+
+	protected function onAfterCopy(&$table)
+	{
+		return true;
 	}
 
 	protected function onBeforePublish(&$table)
