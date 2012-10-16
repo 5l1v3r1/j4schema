@@ -22,7 +22,7 @@ $followingWeek = $this->datamodel->getFollowingWeek($this->year, $this->month, $
 $precedingWeek = $this->datamodel->getPrecedingWeek($this->year, $this->month, $this->day);
 
 ?>
-<table class="maintable" align="center" cellpadding="0" cellspacing="0" width="100%">
+<table class="maintable" align="center" cellpadding="0" cellspacing="0" width="100%" {JE_EVENT_WRAPPER}>
 	<tr>
 		<td class="tableh1" colspan="3">
 			<table border="0" cellpadding="0" cellspacing="0" width="100%">

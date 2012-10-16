@@ -74,17 +74,18 @@ for( $d = 0; $d < 7; $d++ ){
 			$row = $data['days'][$d]['rows'][$r];
 
 			$listyle = 'style="border-color:'.$row->bgcolor().';"';
-			echo "<li {JE_EVENT_NAME} class='ev_td_li' $listyle>\n";
+			echo "<li {JE_EVENT_WRAPPER} class='ev_td_li' $listyle>\n";
 
 			$j4sTime = date('Y-m-d H:i:s', $row->_unixstarttime);
-			echo '<time {JE_EVENT_STARTTIME:'.$j4sTime.'}>';
+			echo '<time {JE_EVENT_STARTTIME:'.$j4sTime.'} />';
 
+			echo '<span {JE_EVENT_NAME}>';
 			if (!$this->loadedFromTemplate('icalevent.list_row', $row, 0)){
 				$this->viewEventRowNew ( $row);
 				echo "&nbsp;::&nbsp;";
 				$this->viewEventCatRowNew($row);
 			}
-			echo '</time>';
+			echo '</span>';
 
 			$endTime  = date('Y-m-d H:i:s', $row->_unixendtime);
 			$duration = $row->_unixendtime - $row->_unixstarttime;

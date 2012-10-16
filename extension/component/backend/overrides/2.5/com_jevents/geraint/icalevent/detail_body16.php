@@ -148,14 +148,14 @@ if( array_key_exists('row',$this->data) ){
                         <td class="ev_detail" align="left" valign="top" colspan="4">
                             <?php
                             if( $row->hasLocation() ){
-                            	echo "<b>".JText::_('JEV_EVENT_ADRESSE')." : </b><span {JE_EVENT_LOCATION}>". $row->location().'</span>';
+                            	echo "<b>".JText::_('JEV_EVENT_ADRESSE')." : </b>". $row->location();
                             }
 
                             if( $row->hasContactInfo()){
                             	if(  $row->hasLocation()){
                             		echo "<br/>";
                             	}
-                            	echo "<b>".JText::_('JEV_EVENT_CONTACT')." : </b><span {JE_EVENT_CONTACT}>". $row->contact_info().'</span>';
+                            	echo "<b>".JText::_('JEV_EVENT_CONTACT')." : </b>". $row->contact_info();
                             } ?>
                         </td>
                     </tr>

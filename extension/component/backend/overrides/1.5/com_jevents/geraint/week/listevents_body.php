@@ -10,7 +10,7 @@ $Itemid = JEVHelper::getItemid();
 
 echo '<fieldset><legend class="ev_fieldset">' . JText::_('JEV_EVENTSFOR') . '&nbsp;' . JText::_('JEV_WEEK')
 . ' : </legend><br />' . "\n";
-echo '<table align="center" width="90%" cellspacing="0" cellpadding="5" class="ev_table">' . "\n";
+echo '<table align="center" width="90%" cellspacing="0" cellpadding="5" class="ev_table" {JE_EVENT_WRAPPER}>' . "\n";
 ?>
     <tr valign="top">
         <td colspan="2"  align="center" class="cal_td_daysnames">
