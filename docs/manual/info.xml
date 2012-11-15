@@ -15,6 +15,13 @@
 
     <revhistory>
       <revision>
+        <revnumber>3.2.0</revnumber>
+        <date>November 15th, 2012</date>
+        <author>
+          <personname><firstname>Davide</firstname><surname>Tampellini</surname></personname>
+        </author>
+      </revision>
+      <revision>
         <revnumber>3.1.1</revnumber>
         <date>July 10th, 2012</date>
         <author>

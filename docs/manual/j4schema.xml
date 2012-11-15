@@ -8,6 +8,7 @@
   <xi:include href="chapters/03.00.interface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
   <xi:include href="chapters/04.00.advanced_usage.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
   <xi:include href="chapters/05.00.pro_version.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+  <xi:include href="chapters/06.00.troubleshooting.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
 	
 <appendix id="gpl">
     <title><acronym>GNU</acronym> General Public License version 3</title>

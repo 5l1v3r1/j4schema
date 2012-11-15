@@ -10,9 +10,16 @@
         <title>Requirements</title>
         
         <para>
-            J4Schema is tested on Joomla! 2.5; however it <emphasis>should</emphasis> work on Joomla! 1.7, too. 
+            J4Schema is tested on Joomla! 1.5.26 and 2.5; however it <emphasis>should</emphasis> work on Joomla! 1.7, too. 
             Anyway, we strongly suggest you to always use the latest Joomla! version, since it patches all the known bugs.
         </para>
+        
+        <warning>
+          <title>J4Schema and Joomla 1.5</title>
+          <para>In order to use J4Schema under Joomla 1.5 you <emphasis>must</emphasis> install the latest available version
+            (at this time is 1.5.26) and enable the <emphasis>Mootools upgrade system plugin</emphasis>.</para>
+          <para>J4Schema needs Mootools 1.2+, without it you wouldn't be able to load attributes and types trees.</para>
+        </warning>
         
         <para>
             System requirements are less restrictive than Joomla!, so, if you can run the CMS without problems, you shouldn't have 
