@@ -28,6 +28,7 @@
 
 			<table class="adminlist">
 				<thead>
+					<th>&nbsp;</th>
 					<th><?php echo JText::_('COM_J4SCHEMA_COMPONENT')?></th>
 					<th><?php echo JText::_('COM_J4SCHEMA_VIEW')?></th>
 					<th><?php echo JText::_('COM_J4SCHEMA_LAYOUT')?></th>
@@ -49,6 +50,9 @@
 						$VM_15 = false;
 					}
 				?>
+						<td style="text-align:center">
+							<input type="checkbox" class="fltnone" name="folders[]" value="<?php echo $folder['folder']?>" />
+						</td>
 						<td><?php echo $folder['folder']?></td>
 						<td>
 						<?php

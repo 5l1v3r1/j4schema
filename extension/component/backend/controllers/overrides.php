@@ -25,10 +25,13 @@ class J4schemaControllerOverrides extends FOFController
 		$j4s = array_combine($keys, $values);
 
 		$tmpl_path = JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html/';
+		$folders = FOFInput::getArray('folders', array(), $this->input);
 
 		//let's copy the custom overrides
 		foreach($j4s as $folder => $path)
 		{
+			if(!in_array($folder, $folders)) continue;
+
 			// special case for Virtuemart under Joomla 1.5
 			if($folder == 'com_virtuemart' && version_compare(JVERSION, '1.6', 'l'))
 			{
