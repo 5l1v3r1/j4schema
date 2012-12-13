@@ -319,7 +319,7 @@ var chooseElement = new Class({
 			this.displayWarning('attrib');
 			return;
 		}
-		
+
 		var element = '';
 		var text    = this.selectedText ? this.selectedText : this.options.html_code.value;
 		var holder  = new Element('div').set('html', text);
