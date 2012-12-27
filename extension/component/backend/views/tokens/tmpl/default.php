@@ -8,17 +8,44 @@
 
 defined('_JEXEC') or die();
 $this->loadHelper('html');
+$this->loadHelper('select');
 
 if(version_compare(JVERSION, '1.6.0', 'ge')){
-	$published = 'JPUBLISHED';
+	$published = JText::_('JPUBLISHED');
+	$search	   = JText::_('JSEARCH_FILTER');
+	$reset 	   = JText::_('JSEARCH_RESET');
 }
 else {
-	$published = 'PUBLISHED';
+	$published = JText::_('PUBLISHED');
+	$search	   = JText::_('SEARCH');
+	$reset 	   = JText::_('RESET');
 }
 
 ?>
 <form name="adminForm" id="adminForm" action="index.php" method="post">
-
+	<table style="margin-bottom:10px">
+		<tr>
+			<td>
+				<div>
+					<input type="text" name="search" id="search" size="30"
+						value="<?php echo $this->escape($this->getModel()->getState('search'))?>"
+						class="text_area" onchange="document.adminForm.submit();" />
+					<button onclick="this.form.submit();">
+						<?php echo $search?>
+					</button>
+					<button onclick="document.adminForm.search.value='';this.form.submit();">
+						<?php echo $reset?>
+					</button>
+				</div>
+			</td>
+			<td>
+				<div style="margin-left:20px">
+					<strong><?php echo JText::_('COM_J4SCHEMA_INTEGRATION')?></strong>
+					<?php echo J4schemaHelperSelect::integration('to_integration', $this->escape($this->getModel()->getState('to_integration')), 'class="w150" onchange="this.form.submit();"')?>
+				</div>
+			</td>
+		</tr>
+	</table>
 	<table class="adminlist">
 		<thead>
 			<tr>
@@ -28,7 +55,7 @@ else {
 				<th class="w150"><?php echo JText::_('COM_J4SCHEMA_INTEGRATION')?></th>
 				<th class="w100"><?php echo JText::_('COM_J4SCHEMA_TOKEN_TYPE')?></th>
 				<th><?php echo JText::_('COM_J4SCHEMA_REPLACE')?></th>
-				<th class="w70"><?php echo JText::_($published)?></th>
+				<th class="w70"><?php echo $published ?></th>
 			</tr>
 		</thead>
 		<tfoot>

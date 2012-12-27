@@ -41,6 +41,13 @@ class J4schemaControllerOverrides extends FOFController
 				$tmpl_path = JPATH_ROOT.'/components/com_virtuemart/themes/';
 				$folder    = 'j4schema';
 			}
+			// K2 has no template overrides, but his own template system
+			elseif($folder == 'com_k2')
+			{
+				$orig_path = $tmpl_path;
+				$tmpl_path = JPATH_ROOT.'/components/com_k2/templates/';
+				$folder    = 'j4schema';
+			}
 
 			//uh oh, override folder alredy exists, let's backup it
 			if(JFolder::exists($tmpl_path.$folder))
