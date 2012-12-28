@@ -95,6 +95,9 @@ class J4schemaControllerOverrides extends FOFController
 			if(JFolder::exists(JPATH_ROOT.'/components/com_virtuemart') && version_compare(JVERSION, '1.6', 'l')){
 				$msg .= '. '.JText::_('COM_J4SCHEMA_OVERRIDE_VIRTUEMART_15');
 			}
+			if(JFolder::exists(JPATH_ROOT.'/components/com_k2')){
+				$msg .= '. '.JText::_('COM_J4SCHEMA_OVERRIDES_K2_INSTALLED');
+			}
 		}
 		else	  $type = 'error';
 

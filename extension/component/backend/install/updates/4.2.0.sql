@@ -3,6 +3,33 @@ TRUNCATE `#__j4schema_prop_values`;
 TRUNCATE `#__j4schema_types`;
 TRUNCATE `#__j4schema_type_prop`;
 
+INSERT INTO `#__j4schema_tokens` (`id_tokens`, `to_integration`, `to_name`, `to_type`, `to_replace`, `enabled`) VALUES
+(NULL, 'k2', 'K2_BODY_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/WebPage"', 1),
+(NULL, 'k2', 'K2_CATEGORY_DESCR', 'text', 'itemprop="description"', 1),
+(NULL, 'k2', 'K2_ITEM_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/WebPageElement"', 1),
+(NULL, 'k2', 'K2_CATEGORY_IMAGE', 'text', 'itemprop="primaryImageOfPage"', 1),
+(NULL, 'k2', 'K2_CATEGORY_TITLE', 'text', 'itemprop="name"', 1),
+(NULL, 'k2', 'K2_ITEM_CREATED', 'date', 'itemprop="dateCreated"', 1),
+(NULL, 'k2', 'K2_ITEM_TITLE', 'text', 'itemprop="name"', 1),
+(NULL, 'k2', 'K2_ITEM_IMAGE', 'text', ' itemprop="image"', 1),
+(NULL, 'k2', 'K2_SUBCATEGORY_DESCR', 'text', 'itemprop="description"', 1),
+(NULL, 'k2', 'K2_SUBCATEGORY_IMAGE', 'text', 'itemprop="image"', 1),
+(NULL, 'k2', 'K2_SUBCATEGORIES_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/WebPageElement"', 1),
+(NULL, 'k2', 'K2_SUBCATEGORY_TITLE', 'text', 'itemprop="name"', 1),
+(NULL, 'k2', 'K2_ITEM_DESCR', 'text', ' itemprop="description"', 1),
+(NULL, 'k2', 'K2_ITEM_IMAGE_CAPTION', 'text', 'itemprop="caption"', 1),
+(NULL, 'k2', 'K2_ITEM_IMAGE_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/ImageObject"', 1),
+(NULL, 'k2', 'K2_ITEM_IMAGE_CREDITS', 'text', 'itemprop="creator"', 1),
+(NULL, 'k2', 'K2_ITEM_MODIFIED', 'date', ' itemprop="dateModified"', 1),
+(NULL, 'k2', 'K2_ITEM_COMMENT', 'text', 'itemscope itemtype="http://schema.org/Comment"', 1),
+(NULL, 'k2', 'K2_ITEM_COMMENT_TEXT', 'text', ' itemprop="text"', 1),
+(NULL, 'k2', 'K2_ITEM_COMMENT_DATE', 'date', ' itemprop="dateCreated"', 1),
+(NULL, 'k2', 'K2_ITEM_COMMENT_AUTHOR', 'text', ' itemprop="author"', 1),
+(NULL, 'k2', 'K2_ITEM_RATING_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/AggregateRating"', 1),
+(NULL, 'k2', 'K2_ITEM_RATING_COUNT', 'meta', ' itemprop="ratingCount"', 1),
+(NULL, 'k2', 'K2_ITEM_RATING_AVERAGE', 'meta', ' itemprop="ratingValue"', 1);
+
+
 INSERT IGNORE INTO `#__j4schema_properties` (`id_properties`, `pr_comment`, `pr_comment_plain`, `pr_ranges`, `pr_url`) VALUES
 ('about', 'The subject matter of the content.', 'The subject matter of the content.', '', 'http://schema.org/about'),
 ('acceptedPaymentMethod', 'The payment method(s) accepted by seller for this offer.', 'The payment method(s) accepted by seller for this offer.', '', 'http://schema.org/acceptedPaymentMethod'),

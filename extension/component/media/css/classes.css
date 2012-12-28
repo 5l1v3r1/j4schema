@@ -52,3 +52,5 @@ label.required{
 
 #proFeatures{margin:10px 0 0 30px}
 #proFeatures li{list-style:disc;padding:0}
+#proFeatures li ul{margin-left:20px}
+#proFeatures li ul li{list-style:circle}
