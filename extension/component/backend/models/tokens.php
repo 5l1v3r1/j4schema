@@ -18,6 +18,12 @@ class J4schemaModelTokens extends FOFModel
 					->select('*')
 					->from('#__j4schema_tokens');
 
+		$search = $this->getState('search');
+		if($search) $query->where("to_name LIKE '%".$search."%'");
+
+		$integration = $this->getState('to_integration');
+		if($integration) $query->where('to_integration = '.$db->quote($integration));
+
 		$order = $this->getState('filter_order', 'to_name', 'cmd');
 		if(!in_array($order, array_keys($this->getTable()->getData()))) $order = 'to_name';
 

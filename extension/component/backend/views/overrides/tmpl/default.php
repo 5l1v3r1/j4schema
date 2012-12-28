@@ -28,6 +28,7 @@
 
 			<table class="adminlist">
 				<thead>
+					<th>&nbsp;</th>
 					<th><?php echo JText::_('COM_J4SCHEMA_COMPONENT')?></th>
 					<th><?php echo JText::_('COM_J4SCHEMA_VIEW')?></th>
 					<th><?php echo JText::_('COM_J4SCHEMA_LAYOUT')?></th>
@@ -45,15 +46,26 @@
 				<?php
 					if($folder['folder'] == 'com_virtuemart' && version_compare(JVERSION, '1.6', 'l')){
 						$VM_15 = true;
+						$K2    = false;
+					} elseif($folder['folder'] == 'com_k2') {
+						$VM_15 = false;
+						$K2    = true;
 					} else {
 						$VM_15 = false;
+						$K2    = false;
 					}
 				?>
+						<td style="text-align:center">
+							<input type="checkbox" class="fltnone" name="folders[]" value="<?php echo $folder['folder']?>" />
+						</td>
 						<td><?php echo $folder['folder']?></td>
 						<td>
 						<?php
 							if($VM_15){
 								echo 'Virtuemart Template';
+							}
+							elseif($K2){
+								echo 'K2 Template';
 							}
 							else{
 								foreach($folder['children'] as $view):
@@ -74,6 +86,9 @@
 						<?php
 							if($VM_15){
 								echo JText::_('COM_J4SCHEMA_OVERRIDES_VM_15');
+							}
+							elseif($K2){
+								echo JText::_('COM_J4SCHEMA_OVERRIDES_K2');
 							}
 							if($layouts) $views[] = array('folder' => '', 'children' => $layouts);
 							foreach($views as $layout):

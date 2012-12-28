@@ -25,10 +25,13 @@ class J4schemaControllerOverrides extends FOFController
 		$j4s = array_combine($keys, $values);
 
 		$tmpl_path = JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html/';
+		$folders = FOFInput::getArray('folders', array(), $this->input);
 
 		//let's copy the custom overrides
 		foreach($j4s as $folder => $path)
 		{
+			if(!in_array($folder, $folders)) continue;
+
 			// special case for Virtuemart under Joomla 1.5
 			if($folder == 'com_virtuemart' && version_compare(JVERSION, '1.6', 'l'))
 			{
@@ -36,6 +39,13 @@ class J4schemaControllerOverrides extends FOFController
 				if(!JFolder::exists(JPATH_ROOT.'/components/com_virtuemart')) continue;
 				$orig_path = $tmpl_path;
 				$tmpl_path = JPATH_ROOT.'/components/com_virtuemart/themes/';
+				$folder    = 'j4schema';
+			}
+			// K2 has no template overrides, but his own template system
+			elseif($folder == 'com_k2')
+			{
+				$orig_path = $tmpl_path;
+				$tmpl_path = JPATH_ROOT.'/components/com_k2/templates/';
 				$folder    = 'j4schema';
 			}
 
@@ -84,6 +94,9 @@ class J4schemaControllerOverrides extends FOFController
 			$msg  = JText::_('COM_J4SCHEMA_OVERRIDE_COPY_OK');
 			if(JFolder::exists(JPATH_ROOT.'/components/com_virtuemart') && version_compare(JVERSION, '1.6', 'l')){
 				$msg .= '. '.JText::_('COM_J4SCHEMA_OVERRIDE_VIRTUEMART_15');
+			}
+			if(JFolder::exists(JPATH_ROOT.'/components/com_k2')){
+				$msg .= '. '.JText::_('COM_J4SCHEMA_OVERRIDES_K2_INSTALLED');
 			}
 		}
 		else	  $type = 'error';

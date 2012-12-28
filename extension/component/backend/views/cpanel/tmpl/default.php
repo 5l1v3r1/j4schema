@@ -40,10 +40,17 @@
 					Do you think that this extension is useful?<br/>
 					Why don't you try the <a href="http://fabbricabinaria.it/en/solutions/j4schema-pro">Professional version</a>? It has a lot of features, too!
 					<ul id="proFeatures">
-						<li>Ready-to-use Rich snippets</li>
+						<li>Ready-to-use Rich snippets
+							<ul>
+								<li>Joomla! core layout</li>
+								<li>Virtuemart</li>
+								<li>JEvents</li>
+								<li>K2</li>
+							</ul>
+						</li>
 						<li>Author profile</li>
 						<li>Fast tests</li>
-						<li>Use it anywhere</li>
+						<li>Use it anywhere, not only inside articles</li>
 					</ul>
 				</div>
 			</fieldset>

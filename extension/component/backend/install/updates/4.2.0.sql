@@ -1,94 +1,9 @@
-DROP TABLE IF EXISTS `#__j4s_properties`;
-DROP TABLE IF EXISTS `#__j4s_prop_values`;
-DROP TABLE IF EXISTS `#__j4s_types`;
-DROP TABLE IF EXISTS `#__j4s_type_prop`;
+TRUNCATE `#__j4schema_properties`;
+TRUNCATE `#__j4schema_prop_values`;
+TRUNCATE `#__j4schema_types`;
+TRUNCATE `#__j4schema_type_prop`;
 
-CREATE TABLE IF NOT EXISTS `#__j4schema_properties` (
-  `id_properties` varchar(255) NOT NULL,
-  `pr_comment` text NOT NULL,
-  `pr_comment_plain` text NOT NULL,
-  `pr_ranges` varchar(255) NOT NULL,
-  `pr_url` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_properties`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-CREATE TABLE IF NOT EXISTS `#__j4schema_prop_values` (
-  `pv_id_properties` varchar(50) NOT NULL,
-  `pv_value` varchar(50) NOT NULL,
-  `pv_enum` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`pv_id_properties`,`pv_value`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-CREATE TABLE IF NOT EXISTS `#__j4schema_types` (
-  `id_types` varchar(50) NOT NULL,
-  `ty_parent` varchar(50) NOT NULL,
-  `ty_comment` text NOT NULL,
-  `ty_comment_plain` text NOT NULL,
-  `ty_label` varchar(50) NOT NULL,
-  `ty_url` varchar(100) NOT NULL,
-  `ty_children` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id_types`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-CREATE TABLE IF NOT EXISTS `#__j4schema_type_prop` (
-  `id_type` varchar(50) NOT NULL,
-  `id_property` varchar(50) NOT NULL,
-  PRIMARY KEY (`id_type`,`id_property`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-CREATE TABLE IF NOT EXISTS `#__j4schema_tokens` (
-  `id_tokens` int(11) NOT NULL AUTO_INCREMENT,
-  `to_integration` varchar(15) NOT NULL,
-  `to_name` varchar(50) NOT NULL,
-  `to_type` varchar(10) NOT NULL,
-  `to_replace` varchar(255) NOT NULL,
-  `enabled` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id_tokens`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
-
-INSERT IGNORE INTO `#__j4schema_tokens` (`id_tokens`, `to_integration`, `to_name`, `to_type`, `to_replace`, `enabled`) VALUES
-(1, 'joomla', 'ARTICLE_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/WebPage"', 1),
-(2, 'joomla', 'ARTICLE_BODY', 'text', ' itemprop="mainContentOfPage"', 1),
-(3, 'joomla', 'ARTICLE_TITLE', 'text', ' itemprop="name"', 1),
-(4, 'joomla', 'ARTICLE_LINK', 'text', ' itemprop="url"', 1),
-(5, 'joomla', 'ARTICLE_CATEGORY', 'text', ' itemprop="genre"', 1),
-(6, 'joomla', 'ARTICLE_LINKS', 'text', ' itemprop="significantLinks"', 1),
-(7, 'joomla', 'ARTICLE_PUBLISH_UP', 'date', ' itemprop="datePublished"', 1),
-(11, 'joomla', 'BLOG_ARTICLE_TITLE_LINK', 'text', ' itemprop="url"', 1),
-(9, 'joomla', 'BLOG_ARTICLE_TITLE', 'text', 'itemprop="name"', 1),
-(10, 'joomla', 'BLOG_POSTS_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/BlogPosting" itemprop="mainContentOfPage"', 1),
-(12, 'joomla', 'BLOG_CATEGORY', 'text', ' itemprop="articleSection"', 1),
-(13, 'joomla', 'BLOG_TEXT_WRAPPER', 'text', ' itemprop="articleBody"', 1),
-(14, 'joomla', 'BLOG_LINKS', 'text', ' itemprop="significantLinks"', 1),
-(15, 'joomla', 'BLOG_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/WebPage"', 1),
-(16, 'joomla', 'BLOG_CHILDREN_LINK', 'text', ' itemprop="significantLinks"', 1),
-(17, 'virtuemart', 'VM_PRODUCT_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/Product"', 1),
-(18, 'virtuemart', 'VM_PRODUCT_NAME', 'text', ' itemprop="name"', 1),
-(19, 'virtuemart', 'VM_PRODUCT_DESCR', 'text', ' itemprop="description"', 1),
-(20, 'virtuemart', 'VM_PRICE_WRAPPER', 'text', ' itemscope itemtype="http://schema.org/Offer" itemprop="offers"', 1),
-(21, 'virtuemart', 'VM_PRICE', 'text', ' itemprop="price"', 1),
-(22, 'virtuemart', 'VM_MAIN_IMAGE', 'text', ' itemprop="image"', 1),
-(23, 'virtuemart', 'VM_RATING_WRAPPER', 'text', ' itemscope itemtype="http://schema.org/AggregateRating" itemprop="aggregateRating"', 1),
-(24, 'virtuemart', 'VM_RATING', 'text', ' itemprop="ratingValue"', 1),
-(25, 'virtuemart', 'VM_MAX_RATING', 'text', ' itemprop="bestRating"', 1),
-(26, 'virtuemart', 'VM_REVIEW', 'text', ' itemscope itemtype="http://schema.org/Review" itemprop="reviews"', 1),
-(27, 'virtuemart', 'VM_REVIEW_BODY', 'text', ' itemprop="reviewBody"', 1),
-(28, 'virtuemart', 'VM_REVIEW_RATING_WRAPPER', 'text', ' itemscope itemtype="http://schema.org/Rating" itemprop="reviewRating"', 1),
-(29, 'virtuemart', 'VM_REVIEW_AUTHOR', 'text', ' itemprop="author"', 1),
-(30, 'virtuemart', 'VM_PRODUCT_IN_STOCK', 'link', ' itemprop="availability" href="http://schema.org/InStock"', 1),
-(31, 'virtuemart', 'VM_PRODUCT_OUT_STOCK', 'link', ' itemprop="availability" href="http://schema.org/OutOfStock"', 1),
-(32, 'joomla', 'GOOGLE_PLUS_AUTHOR', 'google+', '', 1),
-(33, 'virtuemart', 'VM_META_REVIEW_RATING', 'meta', ' itemprop="ratingValue" ', 1),
-(34, 'virtuemart', 'VM_META_REVIEW_BEST_RATING', 'meta', ' itemprop="bestRating"', 1),
-(35, 'virtuemart', 'VM_META_REVIEW_PUBLISH_DATE', 'meta', ' itemprop="datePublished"', 1),
-(36, 'virtuemart', 'VM_META_RATING_REVIEWS_COUNT', 'meta', ' itemprop="reviewCount"', 1),
-(NULL, 'jevents', 'JE_EVENT_CONTACT', 'text', 'itemscope itemtype="http://schema.org/ContactPoint"', 1),
-(NULL, 'jevents', 'JE_EVENT_LOCATION', 'text', 'itemprop="location" itemscope itemtype="http://schema.org/PostalAddress"', 1),
-(NULL, 'jevents', 'JE_EVENT_DURATION', 'meta', ' itemprop="duration"', 1),
-(NULL, 'jevents', 'JE_EVENT_ENDTIME', 'meta', ' itemprop="endDate"', 1),
-(NULL, 'jevents', 'JE_EVENT_NAME', 'text', 'itemprop="name"', 1),
-(NULL, 'jevents', 'JE_EVENT_STARTTIME', 'date', ' itemprop="startDate"', 1),
-(NULL, 'jevents', 'JE_EVENT_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/Event"', 1),
+INSERT INTO `#__j4schema_tokens` (`id_tokens`, `to_integration`, `to_name`, `to_type`, `to_replace`, `enabled`) VALUES
 (NULL, 'k2', 'K2_BODY_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/WebPage"', 1),
 (NULL, 'k2', 'K2_CATEGORY_DESCR', 'text', 'itemprop="description"', 1),
 (NULL, 'k2', 'K2_ITEM_WRAPPER', 'text', 'itemscope itemtype="http://schema.org/WebPageElement"', 1),
@@ -114,12 +29,6 @@ INSERT IGNORE INTO `#__j4schema_tokens` (`id_tokens`, `to_integration`, `to_name
 (NULL, 'k2', 'K2_ITEM_RATING_COUNT', 'meta', ' itemprop="ratingCount"', 1),
 (NULL, 'k2', 'K2_ITEM_RATING_AVERAGE', 'meta', ' itemprop="ratingValue"', 1);
 
-CREATE TABLE IF NOT EXISTS `#__j4schema_authors` (
-  `id_authors` int(11) NOT NULL AUTO_INCREMENT,
-  `at_userid` int(11) NOT NULL,
-  `at_profile` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_authors`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 INSERT IGNORE INTO `#__j4schema_properties` (`id_properties`, `pr_comment`, `pr_comment_plain`, `pr_ranges`, `pr_url`) VALUES
 ('about', 'The subject matter of the content.', 'The subject matter of the content.', '', 'http://schema.org/about'),
