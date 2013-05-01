@@ -357,7 +357,7 @@ class Com_j4schemaInstallerScript
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
 		jimport('joomla.utilities.date');
-		$source = $src.'/zzz_fof';
+		$source = $src.'/zzz_fof_2';
 		$target = JPATH_LIBRARIES.'/fof';
 
 		$haveToInstallFOF = false;
