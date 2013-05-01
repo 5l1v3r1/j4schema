@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="J4Schema" default="build" basedir=".">
 	<property name="buildDir"   value="${basedir}/build/"/>
-	<property name="component" value="${basedir}/extension/component" />
-	<property name="modules" value="${basedir}/extension/modules" />
-	<property name="plugins"     value="${basedir}/extension/plugins" />
+	<property name="component" 	value="${basedir}/extension/component" />
+	<property name="modules" 	value="${basedir}/extension/modules" />
+	<property name="plugins"    value="${basedir}/extension/plugins" />
 	<property name="backend"    value="${component}/backend"/>
 	<property name="frontend"   value="${component}/frontend"/>
 
@@ -22,6 +22,7 @@
 	<target name="component">
 		<echo>Component build</echo>
 
+		<move tofile="${component}/legacy.xml" file="${component}/backend/legacy.xml" />
 		<move tofile="${component}/j4schema.xml" file="${component}/backend/j4schema.xml" />
 		
 		<!-- Exclude the language folder in backend, since it's syslinked -->
@@ -69,6 +70,7 @@
 			token="&lt;!--&lt;folder&gt;overrides&lt;/folder&gt;--&gt;"
 			value="&lt;folder&gt;overrides&lt;/folder&gt;"/>
 		
+		<move tofile="${component}/backend/legacy.xml" file="${component}/legacy.xml" />
 		<move tofile="${component}/backend/j4schema.xml" file="${component}/j4schema.xml" />
 	</target>
 	

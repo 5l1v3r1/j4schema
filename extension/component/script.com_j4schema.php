@@ -100,11 +100,14 @@ class Com_j4schemaInstallerScript
 		$component_id = $extension->find(array('element' => 'com_j4schema',
 											   'type'    => 'component'));
 
-		// Clean up schema table
-		$query = $db->getQuery(true)
-					->delete('#__schemas')
-					->where('extension_id = '.$component_id);
-		$rc = $db->setQuery($query)->query();
+		if($component_id)
+		{
+			// Clean up schema table
+			$query = $db->getQuery(true)
+						->delete('#__schemas')
+						->where('extension_id = '.$component_id);
+			$rc = $db->setQuery($query)->query();
+		}
 	}
 
 	protected function installModules()
@@ -429,20 +432,21 @@ class Com_j4schemaInstallerScript
 			'required'	=> $haveToInstallFOF,
 			'installed'	=> $installedFOF,
 			'version'	=> $fofVersion[$versionSource]['version'],
-			'date'		=> $fofVersion[$versionSource]['date']->toFormat('%Y-%m-%d'),
+			'date'		=> $fofVersion[$versionSource]['date']->format('Y-m-d'),
 		);
 	}
 
 	protected function renderPostInstallation()
 	{
 ?>
+	<div>
 		<img src="../media/com_j4schema/images/j4schema_48.png" width="48" height="48" alt="J4Schema" align="right" />
 
 		<h2>Welcome to J4Schema!</h2>
 
 		<p>Congratulations! Now you can start using J4Schema!</p>
 
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 				<tr>
 					<th class="title" colspan="2">Extension</th>
@@ -515,6 +519,7 @@ class Com_j4schemaInstallerScript
 				<?php endif; ?>
 			</tbody>
 		</table>
+	</div>
 <?php
 	}
 }
