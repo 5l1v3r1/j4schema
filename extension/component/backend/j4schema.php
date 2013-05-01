@@ -8,6 +8,7 @@
 
 defined('_JEXEC') or die();
 JHTML::_('behavior.keepalive');
+//ini_set('display_errors', 1);
 
 if(!file_exists(JPATH_ROOT.'/libraries/fof/include.php'))
 {

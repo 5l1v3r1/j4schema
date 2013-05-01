@@ -12,7 +12,12 @@ class J4schemaModelTypes extends FOFModel
 {
 	public function &getItemList($overrideLimits = false, $group = '')
 	{
-		if(FOFInput::getVar('format', '', $this->input) == 'json') $overrideLimits = true;
+		if($this->input instanceof FOFInput) {
+		    $format = $this->input->getString('format', '');
+		} else {
+		    $format = FOFInput::getVar('format');
+		}
+		if($format == 'json') $overrideLimits = true;
 		return parent::getItemList($overrideLimits, $group);
 	}
 
@@ -23,7 +28,12 @@ class J4schemaModelTypes extends FOFModel
 
 		//if i'm getting values in json format, probably i need them for the tree
 		//so i wipe out the select clause and rebuild it
-		if(FOFInput::getVar('format') == 'json')
+		if($this->input instanceof FOFInput) {
+		    $format = $this->input->getString('format', '');
+		} else {
+		    $format = FOFInput::getVar('format');
+		}
+		if($format == 'json')
 		{
 			//on frontend i really don't know why i have var named 'id' initialized on 'index.php' (!!!)
 			$query->select('id_types, ty_children')
@@ -50,7 +60,12 @@ class J4schemaModelTypes extends FOFModel
 	function onProcessList(&$resultArray)
 	{
 		//organize data only if i'm in a json view
-		if(FOFInput::getVar('format') != 'json') return;
+		if($this->input instanceof FOFInput) {
+		    $format = $this->input->getString('format', '');
+		} else {
+		    $format = FOFInput::getVar('format');
+		}
+		if($format != 'json') return;
 
 		$i = 0;
 		foreach($resultArray as $row)
@@ -105,7 +120,12 @@ class J4schemaModelTypes extends FOFModel
 
 	function getDescr()
 	{
-		$id_types = FOFInput::getVar('id_types', '', $this->input);
+		if($this->input instanceof FOFInput) {
+		    $id_types = $this->input->getString('id_types', '');
+		} else {
+		    $id_types = FOFInput::getVar('id_types', '', $this->input);
+		}
+
 		$table = $this->getTable($this->table);
 		$table->load($id_types);
 

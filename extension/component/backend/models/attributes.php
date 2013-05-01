@@ -16,7 +16,13 @@ class J4schemaModelAttributes extends FOFModel
 		$query = FOFQueryAbstract::getNew($db);
 
 		//if i'm getting values in json format, probably i need them for the tree
-		if(FOFInput::getVar('format') == 'json')
+		if($this->input instanceof FOFInput) {
+		    $format = $this->input->getString('format', '');
+		} else {
+		    $format = FOFInput::getVar('format');
+		}
+
+		if($format == 'json')
 		{
 			$query->select('*')
 				  ->from('#__j4schema_types')
@@ -45,7 +51,12 @@ class J4schemaModelAttributes extends FOFModel
 	 */
 	function onProcessList(&$resultArray)
 	{
-		if(FOFInput::getVar('format', '', $this->input) != 'json') return;
+		if($this->input instanceof FOFInput) {
+		    $format = $this->input->getString('format', '');
+		} else {
+		    $format = FOFInput::getVar('format');
+		}
+		if($format != 'json') return;
 
 		// put every property inside an associative array
 		// $return[$level]['property']['name']  - Name of the attrib
@@ -133,7 +144,12 @@ class J4schemaModelAttributes extends FOFModel
 	{
 		$db = JFactory::getDbo();
 
-		$id_prop = FOFInput::getVar('id_attributes', '', $this->input);
+		if($this->input instanceof FOFInput) {
+		    $id_prop = $this->input->getString('id_attributes', '');
+		} else {
+		    $id_prop = FOFInput::getVar('id_attributes', '', $this->input);
+		}
+
 		$query = FOFQueryAbstract::getNew($db)
 					->select('pr_comment_plain as descr, pv_value as value')
 					->from('#__j4schema_properties')
@@ -148,7 +164,12 @@ class J4schemaModelAttributes extends FOFModel
 	function &getItemList($overrideLimits = false, $group = '')
 	{
 		//if i'm getting values using json, i don't need the pagination
-		if(FOFInput::getVar('format','', $this->input) == 'json')	$overrideLimits = true;
+		if($this->input instanceof FOFInput) {
+		    $format = $this->input->getString('format', '');
+		} else {
+		    $format = FOFInput::getVar('format');
+		}
+		if($format == 'json')	$overrideLimits = true;
 
 		return parent::getItemList($overrideLimits, $group);
 	}

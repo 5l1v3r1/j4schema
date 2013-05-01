@@ -25,7 +25,12 @@ class J4schemaControllerOverrides extends FOFController
 		$j4s = array_combine($keys, $values);
 
 		$tmpl_path = JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html/';
-		$folders = FOFInput::getArray('folders', array(), $this->input);
+
+		if($this->input instanceof FOFInput) {
+		    $folders = $this->input->get('folders', array(), 'array', 2);
+		} else {
+		    $folders = FOFInput::getArray('folders', array(), $this->input);
+		}
 
 		//let's copy the custom overrides
 		foreach($j4s as $folder => $path)
