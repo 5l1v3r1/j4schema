@@ -108,6 +108,56 @@ class Com_j4schemaInstallerScript
 						->where('extension_id = '.$component_id);
 			$rc = $db->setQuery($query)->query();
 		}
+
+		// Modules uninstallation
+		if(count($this->installation_queue['modules']))
+		{
+			foreach($this->installation_queue['modules'] as $folder => $modules)
+			{
+				if(count($modules)) foreach($modules as $module => $modulePreferences)
+				{
+					// Find the module ID
+					$db->setQuery('SELECT `extension_id` FROM #__extensions WHERE `element` = '.$db->Quote($module).' AND `type` = "module"');
+					$id = $db->loadResult();
+
+					if($id)
+					{
+						// Uninstall the module
+						$installer = new JInstaller;
+						$result = $installer->uninstall('module',$id,1);
+						$this->status->modules[] = array('name'=>$module,'client'=>$folder, 'result'=>$result);
+					}
+				}
+			}
+		}
+
+		// Plugins uninstallation
+		if(count($this->installation_queue['plugins']))
+		{
+			foreach($this->installation_queue['plugins'] as $folder => $plugins)
+			{
+				if(count($plugins)) foreach($plugins as $plugin => $published)
+				{
+					$db->setQuery('SELECT `extension_id` FROM #__extensions WHERE `type` = "plugin" AND `element` = '.$db->Quote($plugin).' AND `folder` = '.$db->Quote($folder));
+					$id = $db->loadResult();
+
+					if($id)
+					{
+						$installer = new JInstaller;
+						$result = $installer->uninstall('plugin',$id,1);
+						$this->status->plugins[] = array('name'=>'plg_'.$plugin,'group'=>$folder, 'result'=>$result);
+					}
+				}
+			}
+		}
+
+		if(JFolder::exists(JPATH_ROOT.'/components/com_jce/editor/tiny_mce/plugins/j4schema'))
+		{
+			$result = JFolder::delete(JPATH_ROOT.'/components/com_jce/editor/tiny_mce/plugins/j4schema');
+			$this->status->plugins[] = array('name' => 'JCE Plugin', 'group' => 'JCE', 'result' => $result);
+		}
+
+		$this->renderPostUninstallation();
 	}
 
 	protected function installModules()
@@ -520,6 +570,60 @@ class Com_j4schemaInstallerScript
 			</tbody>
 		</table>
 	</div>
+<?php
+	}
+
+	protected function renderPostUninstallation()
+	{
+		$rows = 0;?>
+	<h2><?php echo JText::_('J4Schema Uninstallation Status'); ?></h2>
+	<table class="adminlist table table-striped">
+		<thead>
+			<tr>
+				<th class="title" colspan="2"><?php echo JText::_('Extension'); ?></th>
+				<th width="30%"><?php echo JText::_('Status'); ?></th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="3"></td>
+			</tr>
+		</tfoot>
+		<tbody>
+			<tr class="row0">
+				<td class="key" colspan="2"><?php echo 'J4Schema '.JText::_('Component'); ?></td>
+				<td><strong><?php echo JText::_('Removed'); ?></strong></td>
+			</tr>
+			<?php if (count($this->status->modules)) : ?>
+			<tr>
+				<th><?php echo JText::_('Module'); ?></th>
+				<th><?php echo JText::_('Client'); ?></th>
+				<th></th>
+			</tr>
+			<?php foreach ($this->status->modules as $module) : ?>
+			<tr class="row<?php echo (++ $rows % 2); ?>">
+				<td class="key"><?php echo $module['name']; ?></td>
+				<td class="key"><?php echo ucfirst($module['client']); ?></td>
+				<td><strong><?php echo ($module['result'])?JText::_('Removed'):JText::_('Not removed'); ?></strong></td>
+			</tr>
+			<?php endforeach;?>
+			<?php endif;?>
+			<?php if (count($this->status->plugins)) : ?>
+			<tr>
+				<th><?php echo JText::_('Plugin'); ?></th>
+				<th><?php echo JText::_('Group'); ?></th>
+				<th></th>
+			</tr>
+			<?php foreach ($this->status->plugins as $plugin) : ?>
+			<tr class="row<?php echo (++ $rows % 2); ?>">
+				<td class="key"><?php echo ucfirst($plugin['name']); ?></td>
+				<td class="key"><?php echo ucfirst($plugin['group']); ?></td>
+				<td><strong><?php echo ($plugin['result'])?JText::_('Removed'):JText::_('Not removed'); ?></strong></td>
+			</tr>
+			<?php endforeach; ?>
+			<?php endif; ?>
+		</tbody>
+	</table>
 <?php
 	}
 }
