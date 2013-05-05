@@ -46,7 +46,7 @@ else {
 			</td>
 		</tr>
 	</table>
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<thead>
 			<tr>
 				<th class="w50"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
@@ -98,7 +98,7 @@ else {
 	<input type="hidden" name="option" value="com_j4schema" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="view" value="tokens" />
-	<input type="hidden" name="<?php echo JUtility::getToken();?>" value="1" />
+	<input type="hidden" name="<?php echo J4SchemaHelperBridge::getToken();?>" value="1" />
 	<input type="hidden" name="boxchecked" id="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" id="filter_order" value="<?php echo $this->lists->order ?>" />
 	<input type="hidden" name="filter_order_Dir" id="filter_order_Dir" value="<?php echo $this->lists->order_Dir ?>" />

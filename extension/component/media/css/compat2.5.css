@@ -1,6 +1,10 @@
 .fltlft{float:left;}
 .fltrt{float:right;}
 
+.clr{clear:both}
+
+#j4schema label{float:left;clear:left}
+
 /*
  * Buttons on cpanel 
  */

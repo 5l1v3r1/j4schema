@@ -10,9 +10,9 @@ defined('_JEXEC') or die();
 ?>
 <div id="j4schema">
 	<form id="adminForm" name="adminForm" action="index.php" method="post" autocomplete="off">
-		<div class="fltlft width-70">
+		<div class="fltlft" style="width:70%">
 			<fieldset>
-				<legend><?php echo JText::_('COM_J4SCHEMA_DETAILS')?></legend>
+				<legend style="border:none;width:auto;padding:0 10px"><?php echo JText::_('COM_J4SCHEMA_DETAILS')?></legend>
 
 				<label for="at_userid" class="main required"><?php echo JText::_('COM_J4SCHEMA_AUTHOR')?></label>
 				<?php echo JHTML::_('list.users', 'at_userid', $this->item->at_userid)?>
@@ -27,6 +27,6 @@ defined('_JEXEC') or die();
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="view" value="author" />
 		<input type="hidden" name="id_authors" value="<?php echo $this->item->id_authors?>" />
-		<input type="hidden" name="<?php echo JUtility::getToken();?>" value="1" />
+		<input type="hidden" name="<?php echo J4SchemaHelperBridge::getToken();?>" value="1" />
 	</form>
 </div>

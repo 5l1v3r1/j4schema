@@ -47,7 +47,7 @@
 <div id="j4schema">
 	<form id="adminForm" name="adminForm" action="index.php" method="post" autocomplete="off">
 
-		<div class="fltlft width-70">
+		<div class="fltlft w70_">
 			<fieldset>
 				<legend><?php echo JText::_('COM_J4SCHEMA_DETAILS')?></legend>
 				<label for="to_name" class="main required"><?php echo JText::_('COM_J4SCHEMA_TOKEN_NAME')?></label>
@@ -63,7 +63,9 @@
 				<div class="clr"></div>
 
 				<label for="enabled" class="main required"><?php echo JText::_($published)?></label>
-				<?php echo JHTML::_('select.booleanlist', 'enabled', '', $data->enabled)?>
+				<div style="float:left">
+					<?php echo JHTML::_('select.booleanlist', 'enabled', '', $data->enabled)?>
+				</div>
 				<div class="clr"></div>
 
 				<label for="to_replace" class="main"><?php echo JText::_('COM_J4SCHEMA_REPLACE')?></label>
@@ -152,6 +154,6 @@
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="view" value="token" />
 		<input type="hidden" name="id_tokens" value="<?php echo $this->item->id_tokens?>" />
-		<input type="hidden" name="<?php echo JUtility::getToken();?>" value="1" />
+		<input type="hidden" name="<?php echo J4SchemaHelperBridge::getToken();?>" value="1" />
 	</form>
 </div>

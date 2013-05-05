@@ -10,7 +10,7 @@ defined('_JEXEC') or die();
 
 class J4schemaModelTokens extends FOFModel
 {
-	public function buildQuery($overrideLimits)
+	public function buildQuery($overrideLimits = false)
 	{
 		$db = JFactory::getDbo();
 

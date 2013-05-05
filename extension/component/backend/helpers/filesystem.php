@@ -14,6 +14,7 @@ class J4schemaHelperFilesystem
 	{
 		jimport('joomla.filesystem.folder');
 		$folders = JFolder::folders($path, '.', false, true);
+		$return  = array();
 
 		foreach($folders as $folder)
 		{

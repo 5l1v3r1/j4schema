@@ -10,6 +10,7 @@
 
 	$warnings = J4schemaHelperChecks::fullCheck();
 	$warn_img = FOFTemplateUtils::parsePath('com_j4schema/images/warning_32.png');
+	$reinstallJCE = false;
 
 	// check if JCE plugin is installed
 	if(is_dir(JPATH_ROOT.'/administrator/components/com_j4schema/jce/j4schema') &&
@@ -31,7 +32,7 @@
 		?>
 	</div>
 
-	<div class="fltlft width-50">
+	<div class="sx w50_">
 		<?php if(!J4SCHEMA_PRO):?>
 		<div style="margin-bottom:10px; font-size:12px">
 			<fieldset>
@@ -70,6 +71,7 @@
 			<div class="icon-wrapper">
 				<?php echo LiveUpdate::getIcon(); ?>
 			</div>
+			<div class="clr"></div>
 		</div>
 	<?php if($warnings): ?>
 		<div style="font-family:Helvetica;font-size:14px;margin-bottom:15px">
