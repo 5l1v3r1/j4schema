@@ -4,6 +4,16 @@
 .clr{clear:both}
 
 #j4schema label{float:left;clear:left}
+#j4schema fieldset{padding:5px}
+#j4schema fieldset legend {
+  border: 0 none;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0 10px;
+  width: auto;
+  line-height:100%;
+}
 
 /*
  * Buttons on cpanel 
