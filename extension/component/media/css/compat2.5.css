@@ -18,6 +18,8 @@
 /*
  * Buttons on cpanel 
  */
+ 
+.cpanel .icon-wrapper{width:auto;height:auto}
 .cpanel div.icon, #cpanel div.icon {
   float: left;
   margin-bottom: 15px;

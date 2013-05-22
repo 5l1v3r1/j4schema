@@ -41,18 +41,12 @@
 		FOFTemplateUtils::addJS('com_j4schema/js/1.5/tree/Mif.Tree.CookieStorage.js');
 	}
 
-	$fix30 = '';
-	if(version_compare(JVERSION, '3.0', 'ge'))
-	{
-		$fix30 = 'margin-top:-30px';
-	}
-
 	if(J4SCHEMA_PRO) FOFTemplateUtils::addJS('com_j4schema/js/pro.js');
 
 	FOFTemplateUtils::addJS('com_j4schema/js/tree/editor.js');
 
 ?>
-<div id="j4schema" style="padding:10px;<?php echo $fix30 ?>">
+<div id="j4schema" style="padding:10px;">
 	<form autocomplete="off" style="margin-bottom:10px">
 		<div id="textareaHolder">
 			<textarea id="html_code" style="height:50px;width:98%">&nbsp;</textarea>
