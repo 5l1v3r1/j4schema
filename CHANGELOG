@@ -1,5 +1,7 @@
-4.2.0
+4.2.2
+[HIGH] Fixed JSON requests
 
+4.2.0
 + Added template overrides for k2
 + Added search options on tokens view
 + Now you can choose which template overrides to install
