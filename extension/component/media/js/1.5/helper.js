@@ -191,7 +191,7 @@ var chooseElement = new Class({
 					});
 			}
 		
-		}).post({'ty_parent' : ''});
+		}).get({'ty_parent' : ''});
 	},
 	
 	initAttrib : function()
@@ -497,8 +497,8 @@ var chooseElement = new Class({
 			$('currSelection').set('html', '&nbsp;');}
 	},
 		
-	getAttribDescr 	: function(node){ this.jsonAttrib.post({'id_attributes' : node.name, 'task' : 'getDescr', 'layout' : 'default_descr'})},
-	getTypeDescr 	: function(node){ this.jsonType.post({'id_types' : node.name, 'task' : 'getDescr', 'layout' : 'default_descr'})}
+	getAttribDescr 	: function(node){ this.jsonAttrib.get({'id_attributes' : node.name, 'task' : 'getDescr', 'layout' : 'default_descr'})},
+	getTypeDescr 	: function(node){ this.jsonType.get({'id_types' : node.name, 'task' : 'getDescr', 'layout' : 'default_descr'})}
 });
 
 Element.implement({

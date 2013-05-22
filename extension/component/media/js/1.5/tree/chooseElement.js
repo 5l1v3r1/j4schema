@@ -168,7 +168,7 @@ chooseElement = new Class({
 					});
 			}
 		
-		}).post();
+		}).get();
 	},
 	
 	initAttrib : function()
@@ -406,6 +406,6 @@ chooseElement = new Class({
 			document.id('currSelection').set('html', '&nbsp;');}
 	},
 		
-	getAttribDescr 	: function(node){ this.jsonAttrib.post({'item' : node.name, 'type' : 'attrib'})},
-	getTypeDescr 	: function(node){ this.jsonType.post({'item' : node.name, 'type' : 'type'})}
+	getAttribDescr 	: function(node){ this.jsonAttrib.get({'item' : node.name, 'type' : 'attrib'})},
+	getTypeDescr 	: function(node){ this.jsonType.get({'item' : node.name, 'type' : 'type'})}
 });
