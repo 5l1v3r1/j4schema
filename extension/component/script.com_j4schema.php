@@ -61,8 +61,8 @@ class Com_j4schemaInstallerScript
 			$this->_bugfixCantBuildAdminMenus();
 		}
 
-		// Only allow to install on Joomla! 2.5.0 or later
-		return version_compare(JVERSION, '2.5.0', 'ge');
+		// Only allow to install on Joomla! 2.5.0 (JVERSION < 3.0) or Joomla 3.1+ (JVERSION >= 3.1)
+		return version_compare(JVERSION, '3.0', 'lt') || version_compare(JVERSION, '3.1', 'ge');
 	}
 
 	/**
