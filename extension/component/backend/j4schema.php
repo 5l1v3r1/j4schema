@@ -8,7 +8,6 @@
 
 defined('_JEXEC') or die();
 JHTML::_('behavior.keepalive');
-//ini_set('display_errors', 1);
 
 if(!file_exists(JPATH_ROOT.'/libraries/fof/include.php'))
 {
@@ -17,13 +16,14 @@ if(!file_exists(JPATH_ROOT.'/libraries/fof/include.php'))
 	return;
 }
 include_once JPATH_ROOT.'/libraries/fof/include.php' ;
+include_once JPATH_ROOT.'/administrator/components/com_j4schema/helpers/bridge.php';
 
 FOFTemplateUtils::addCSS('com_j4schema/css/main.css');
 FOFTemplateUtils::addCSS('com_j4schema/css/classes.css');
 FOFTemplateUtils::addCSS('com_j4schema/css/tree.css');
 
-if(!version_compare(JVERSION, '1.6.0', 'ge')){
-	FOFTemplateUtils::addCSS('com_j4schema/css/compat1.5.css');
+if(version_compare(JVERSION, '2.5', 'lt') || version_compare(JVERSION, '3', 'gt') ){
+	FOFTemplateUtils::addCSS('com_j4schema/css/compat2.5.css');
 }
 
 if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))	define('J4SCHEMA_PRO', 1);

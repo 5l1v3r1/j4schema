@@ -10,7 +10,7 @@ defined('_JEXEC') or die();
 
 class J4schemaViewOverrides extends FOFViewHtml
 {
-	function onDisplay()
+	function onDisplay($tpl = null)
 	{
 		return true;
 	}

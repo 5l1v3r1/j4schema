@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install version="1.5" type="plugin" group="system" method="upgrade">
+	<name>System - J4Schema Joomla! integration</name>
+	<creationDate>2012-08-31</creationDate>
+	<author>Davide Tampellini</author>
+	<version>2.0</version>
+    <description>Replaces J4Schema tags with Schema.org urls</description>
+	<files>
+		<filename plugin="j4sjintegration">j4sjintegration.php</filename>
+        <filename plugin="j4sjintegration">index.html</filename>
+	</files>
+</install>

@@ -1,5 +1,6 @@
 <?php
-require_once 'helper.php';
+// ???? HELPER ???
+//require_once 'helper.php';
 
 mysql_connect('localhost', 'root', '');
 mysql_select_db('sviluppo2_5');
@@ -9,6 +10,7 @@ mysql_query('TRUNCATE stnvu_j4schema_type_prop');
 mysql_query('TRUNCATE stnvu_j4schema_properties');
 mysql_query('TRUNCATE stnvu_j4schema_prop_values');
 
+// Il file è reperibile a questo indirizzo: http://schema.rdfs.org/all.json
 $file = file_get_contents('all.json');
 $json = json_decode($file);
 

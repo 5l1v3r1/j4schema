@@ -10,15 +10,16 @@
 	$this->loadHelper('html');
 	$this->loadHelper('filesystem');
 
-	if(version_compare(JVERSION, '1.6.0', 'ge')) $version = '2.5';
-	else										 $version = '1.5';
+	if    (version_compare(JVERSION, '3.0.0', 'ge'))    $version = '3.0';
+	elseif(version_compare(JVERSION, '1.6.0', 'ge')) 	$version = '2.5';
+	else										     	$version = '1.5';
 
 	$j4s  = J4schemaHelperFilesystem::treeFolder(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/'.$version);
 	$tmpl = J4schemaHelperFilesystem::treeFolder(JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html');
 ?>
 <form id="adminForm" name="adminForm" action="index.php" method="post">
 
-	<div class="fltlft width-50">
+	<div class="fltlft width-50 pull-left span6">
 		<fieldset>
 			<legend><?php echo JText::_('COM_J4SCHEMA_CUSTOM_TMPL_OVERRIDES')?></legend>
 
@@ -26,7 +27,7 @@
 				<?php echo JText::_('COM_J4SCHEMA_OVERRIDES_LIST')?>
 			</div>
 
-			<table class="adminlist">
+			<table class="adminlist table table-striped">
 				<thead>
 					<th>&nbsp;</th>
 					<th><?php echo JText::_('COM_J4SCHEMA_COMPONENT')?></th>
@@ -117,7 +118,7 @@
 		</fieldset>
 	</div>
 
-	<div class="fltrt width-45">
+	<div class="fltrt width-45 pull-right span6">
 		<fieldset>
 			<legend><?php echo JText::_('COM_J4SCHEMA_CURRENT_TMPL_OVERRIDES')?></legend>
 
@@ -125,7 +126,7 @@
 				<?php echo JText::_('COM_J4SCHEMA_TMPL_OVERRIDES_LIST')?>
 			</div>
 
-			<table class="adminlist">
+			<table class="adminlist table table-striped">
 				<thead>
 					<th><?php echo JText::_('COM_J4SCHEMA_COMPONENT')?></th>
 					<th><?php echo JText::_('COM_J4SCHEMA_VIEW')?></th>
@@ -190,5 +191,5 @@
 	<input type="hidden" name="option" value="com_j4schema" />
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="view" value="overrides" />
-	<input type="hidden" name="<?php echo JUtility::getToken();?>" value="1" />
+	<input type="hidden" name="<?php echo J4SchemaHelperBridge::getToken();?>" value="1" />
 </form>

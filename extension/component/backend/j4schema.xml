@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="1.5.0" method="upgrade">
+<extension type="component" version="1.6" method="upgrade">
 
 	<name>J4Schema</name>
-	<version>4.2.2</version>
-	<creationDate>2013-05-22</creationDate>
+	<version>5.0.0</version>
+	<creationDate>2013-06-13</creationDate>
 	<author>Davide Tampellini</author>
     <authorUrl>http://www.fabbricabinaria.it</authorUrl>
 	<authorEmail>webmaster@fabbricabinaria.it</authorEmail>
@@ -47,7 +47,7 @@
             <folder>helpers</folder>
             <folder>install</folder>
             <folder>jce</folder>
-            <folder>liveupdate</folder>
+            <folder>liveupdate_2.5</folder>
             <folder>models</folder>
             <folder>overrides</folder>
             <folder>tables</folder>
@@ -73,4 +73,4 @@
         <folder>js</folder>
         <filename>index.html</filename>
     </media>
-</install>
+</extension>

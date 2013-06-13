@@ -11,7 +11,8 @@ class J4schemaHelperChecks
 {
 	public static function fullCheck()
 	{
-		$warning = array();
+		$warning  = array();
+		$mootools = false;
 
 		// On J1.5 Mootools Upgrade plugin must be enabled
 		if(!version_compare(JVERSION, '1.6.0', 'ge')){
@@ -58,6 +59,7 @@ class J4schemaHelperChecks
 	{
 		jimport('joomla.plugin.helper');
 		$jce = JPluginHelper::isEnabled('editors', 'jce');
+		$warning = '';
 
 		if(!$jce)
 		{

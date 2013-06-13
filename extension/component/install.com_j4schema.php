@@ -96,7 +96,7 @@ $src = $this->parent->getPath('source');
 if(file_exists($src.'/media/js/pro.js'))	define('J4SCHEMA_PRO', 1);
 else										define('J4SCHEMA_PRO', 0);
 
-$source = $src.'/zzz_fof';
+$source = $src.'/zzz_fof_1';
 $target = JPATH_ROOT.'/libraries/fof';
 
 $haveToInstallFOF = false;

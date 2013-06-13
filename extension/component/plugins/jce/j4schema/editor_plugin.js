@@ -5,7 +5,7 @@
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('mceJ4schema', function() {
 				ed.windowManager.open({
-					file 	: 'index.php?option=com_j4schema&view=editor&task=read&tmpl=component',
+					file 	: 'index.php?option=com_j4schema&view=editor&task=read&tmpl=component&render.toolbar=0',
 					width 	: 900,
 					height 	: 540,
 					inline 	: 1,

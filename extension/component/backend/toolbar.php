@@ -19,6 +19,11 @@ class J4schemaToolbar extends FOFToolbar
 		parent::onBrowse();
 	}
 
+	function onEditors()
+	{
+		return true;
+	}
+
 	function onOverridesBrowse()
 	{
 		// Set toolbar title

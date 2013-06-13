@@ -61,8 +61,8 @@ class Com_j4schemaInstallerScript
 			$this->_bugfixCantBuildAdminMenus();
 		}
 
-		// Only allow to install on Joomla! 2.5.0 or later
-		return version_compare(JVERSION, '2.5.0', 'ge');
+		// Only allow to install on Joomla! 2.5.0 (JVERSION < 3.0) or Joomla 3.1+ (JVERSION >= 3.1)
+		return version_compare(JVERSION, '3.0', 'lt') || version_compare(JVERSION, '3.1', 'ge');
 	}
 
 	/**
@@ -78,6 +78,14 @@ class Com_j4schemaInstallerScript
 		$this->installModules();
 		$this->installPlugins();
 		$this->installJCEPlugin();
+
+        //Let's rename the liveupdate_2.5 folder to liveupdate
+        if(!file_exists(JPATH_ROOT.'/administrator/components/com_j4schema/liveupdate') &&
+            file_exists(JPATH_ROOT.'/administrator/components/com_j4schema/liveupdate_2.5'))
+        {
+            rename(JPATH_ROOT.'/administrator/components/com_j4schema/liveupdate_2.5',
+                   JPATH_ROOT.'/administrator/components/com_j4schema/liveupdate');
+        }
 
 		// It's a pro version, let's check if I have to delete skip files coming from the base one
 		if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))
@@ -100,11 +108,64 @@ class Com_j4schemaInstallerScript
 		$component_id = $extension->find(array('element' => 'com_j4schema',
 											   'type'    => 'component'));
 
-		// Clean up schema table
-		$query = $db->getQuery(true)
-					->delete('#__schemas')
-					->where('extension_id = '.$component_id);
-		$rc = $db->setQuery($query)->query();
+		if($component_id)
+		{
+			// Clean up schema table
+			$query = $db->getQuery(true)
+						->delete('#__schemas')
+						->where('extension_id = '.$component_id);
+			$rc = $db->setQuery($query)->query();
+		}
+
+		// Modules uninstallation
+		if(count($this->installation_queue['modules']))
+		{
+			foreach($this->installation_queue['modules'] as $folder => $modules)
+			{
+				if(count($modules)) foreach($modules as $module => $modulePreferences)
+				{
+					// Find the module ID
+					$db->setQuery('SELECT `extension_id` FROM #__extensions WHERE `element` = '.$db->Quote($module).' AND `type` = "module"');
+					$id = $db->loadResult();
+
+					if($id)
+					{
+						// Uninstall the module
+						$installer = new JInstaller;
+						$result = $installer->uninstall('module',$id,1);
+						$this->status->modules[] = array('name'=>$module,'client'=>$folder, 'result'=>$result);
+					}
+				}
+			}
+		}
+
+		// Plugins uninstallation
+		if(count($this->installation_queue['plugins']))
+		{
+			foreach($this->installation_queue['plugins'] as $folder => $plugins)
+			{
+				if(count($plugins)) foreach($plugins as $plugin => $published)
+				{
+					$db->setQuery('SELECT `extension_id` FROM #__extensions WHERE `type` = "plugin" AND `element` = '.$db->Quote($plugin).' AND `folder` = '.$db->Quote($folder));
+					$id = $db->loadResult();
+
+					if($id)
+					{
+						$installer = new JInstaller;
+						$result = $installer->uninstall('plugin',$id,1);
+						$this->status->plugins[] = array('name'=>'plg_'.$plugin,'group'=>$folder, 'result'=>$result);
+					}
+				}
+			}
+		}
+
+		if(JFolder::exists(JPATH_ROOT.'/components/com_jce/editor/tiny_mce/plugins/j4schema'))
+		{
+			$result = JFolder::delete(JPATH_ROOT.'/components/com_jce/editor/tiny_mce/plugins/j4schema');
+			$this->status->plugins[] = array('name' => 'JCE Plugin', 'group' => 'JCE', 'result' => $result);
+		}
+
+		$this->renderPostUninstallation();
 	}
 
 	protected function installModules()
@@ -357,7 +418,7 @@ class Com_j4schemaInstallerScript
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
 		jimport('joomla.utilities.date');
-		$source = $src.'/zzz_fof';
+		$source = $src.'/zzz_fof_2';
 		$target = JPATH_LIBRARIES.'/fof';
 
 		$haveToInstallFOF = false;
@@ -429,20 +490,22 @@ class Com_j4schemaInstallerScript
 			'required'	=> $haveToInstallFOF,
 			'installed'	=> $installedFOF,
 			'version'	=> $fofVersion[$versionSource]['version'],
-			'date'		=> $fofVersion[$versionSource]['date']->toFormat('%Y-%m-%d'),
+			'date'		=> $fofVersion[$versionSource]['date']->format('Y-m-d'),
 		);
 	}
 
 	protected function renderPostInstallation()
 	{
+        $rows = 0;
 ?>
+	<div>
 		<img src="../media/com_j4schema/images/j4schema_48.png" width="48" height="48" alt="J4Schema" align="right" />
 
 		<h2>Welcome to J4Schema!</h2>
 
 		<p>Congratulations! Now you can start using J4Schema!</p>
 
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 				<tr>
 					<th class="title" colspan="2">Extension</th>
@@ -515,6 +578,61 @@ class Com_j4schemaInstallerScript
 				<?php endif; ?>
 			</tbody>
 		</table>
+	</div>
+<?php
+	}
+
+	protected function renderPostUninstallation()
+	{
+		$rows = 0;?>
+	<h2><?php echo JText::_('J4Schema Uninstallation Status'); ?></h2>
+	<table class="adminlist table table-striped">
+		<thead>
+			<tr>
+				<th class="title" colspan="2"><?php echo JText::_('Extension'); ?></th>
+				<th width="30%"><?php echo JText::_('Status'); ?></th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="3"></td>
+			</tr>
+		</tfoot>
+		<tbody>
+			<tr class="row0">
+				<td class="key" colspan="2"><?php echo 'J4Schema '.JText::_('Component'); ?></td>
+				<td><strong><?php echo JText::_('Removed'); ?></strong></td>
+			</tr>
+			<?php if (count($this->status->modules)) : ?>
+			<tr>
+				<th><?php echo JText::_('Module'); ?></th>
+				<th><?php echo JText::_('Client'); ?></th>
+				<th></th>
+			</tr>
+			<?php foreach ($this->status->modules as $module) : ?>
+			<tr class="row<?php echo (++ $rows % 2); ?>">
+				<td class="key"><?php echo $module['name']; ?></td>
+				<td class="key"><?php echo ucfirst($module['client']); ?></td>
+				<td><strong><?php echo ($module['result'])?JText::_('Removed'):JText::_('Not removed'); ?></strong></td>
+			</tr>
+			<?php endforeach;?>
+			<?php endif;?>
+			<?php if (count($this->status->plugins)) : ?>
+			<tr>
+				<th><?php echo JText::_('Plugin'); ?></th>
+				<th><?php echo JText::_('Group'); ?></th>
+				<th></th>
+			</tr>
+			<?php foreach ($this->status->plugins as $plugin) : ?>
+			<tr class="row<?php echo (++ $rows % 2); ?>">
+				<td class="key"><?php echo ucfirst($plugin['name']); ?></td>
+				<td class="key"><?php echo ucfirst($plugin['group']); ?></td>
+				<td><strong><?php echo ($plugin['result'])?JText::_('Removed'):JText::_('Not removed'); ?></strong></td>
+			</tr>
+			<?php endforeach; ?>
+			<?php endif; ?>
+		</tbody>
+	</table>
 <?php
 	}
 }

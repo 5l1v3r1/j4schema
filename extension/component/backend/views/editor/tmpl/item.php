@@ -7,7 +7,7 @@
  */
 
 	defined( '_JEXEC' ) or die( 'Restricted access' );
-	JHTML::_('behavior.mootools');
+	J4SchemaHelperBridge::mootools();
 
 	FOFTemplateUtils::addCSS('com_j4schema/css/editor.css');
 
@@ -46,10 +46,10 @@
 	FOFTemplateUtils::addJS('com_j4schema/js/tree/editor.js');
 
 ?>
-<div id="j4schema">
+<div id="j4schema" style="padding:10px;">
 	<form autocomplete="off" style="margin-bottom:10px">
 		<div id="textareaHolder">
-			<textarea id="html_code" class="w100_" style="height:50px;">&nbsp;</textarea>
+			<textarea id="html_code" style="height:50px;width:98%">&nbsp;</textarea>
 		</div>
 		<div class="clr"></div>
 		<div id="j4sSettings" style="margin-top:15px">
@@ -123,7 +123,7 @@
 				<input type="button" class="cancel"  id="remove_schemas" name="remove_schemas" value="<?php echo JText::_('COM_J4SCHEMA_CLEAN_ALL')?>"/>
 			</div>
 		</div>
-		<fieldset class="sx" style="width:600px;min-height:50px">
+		<fieldset class="sx" style="width:600px;min-height:50px;border:1px solid #C8C8C8">
 			<legend><?php echo JText::_('COM_J4SCHEMA_CURRENT_SEL')?></legend>
 			<div id="currSelection" class="italic"></div>
 		</fieldset>

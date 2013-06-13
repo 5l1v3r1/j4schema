@@ -10,7 +10,7 @@ defined('_JEXEC') or die();
 
 class J4schemaModelAttributes extends FOFModel
 {
-	function buildQuery($overridelimits)
+	public function buildQuery($overrideLimits = false)
 	{
 		$db = $this->getDbo();
 		$query = FOFQueryAbstract::getNew($db);
