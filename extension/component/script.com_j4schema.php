@@ -79,6 +79,14 @@ class Com_j4schemaInstallerScript
 		$this->installPlugins();
 		$this->installJCEPlugin();
 
+        //Let's rename the liveupdate_2.5 folder to liveupdate
+        if(!file_exists(JPATH_ROOT.'/administrator/components/com_j4schema/liveupdate') &&
+            file_exists(JPATH_ROOT.'/administrator/components/com_j4schema/liveupdate_2.5'))
+        {
+            rename(JPATH_ROOT.'/administrator/components/com_j4schema/liveupdate_2.5',
+                   JPATH_ROOT.'/administrator/components/com_j4schema/liveupdate');
+        }
+
 		// It's a pro version, let's check if I have to delete skip files coming from the base one
 		if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))
 		{
@@ -488,6 +496,7 @@ class Com_j4schemaInstallerScript
 
 	protected function renderPostInstallation()
 	{
+        $rows = 0;
 ?>
 	<div>
 		<img src="../media/com_j4schema/images/j4schema_48.png" width="48" height="48" alt="J4Schema" align="right" />

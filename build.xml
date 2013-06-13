@@ -45,6 +45,9 @@
 		<replace file="${component}/j4schema.xml" 
 			token="&lt;folder&gt;overrides&lt;/folder&gt;" 
 			value="&lt;!--&lt;folder&gt;overrides&lt;/folder&gt;--&gt;"/>
+		<replace file="${component}/legacy.xml" 
+			token="&lt;folder&gt;overrides&lt;/folder&gt;" 
+			value="&lt;!--&lt;folder&gt;overrides&lt;/folder&gt;--&gt;"/>
 		
 		<!-- Free version, file exclusion -->
 		<zip destfile="${buildDir}/com_j4schema_free.zip">
@@ -67,6 +70,9 @@
 		
 		<!-- Uncomment folders on manifest file -->
 		<replace file="${component}/j4schema.xml" 
+			token="&lt;!--&lt;folder&gt;overrides&lt;/folder&gt;--&gt;"
+			value="&lt;folder&gt;overrides&lt;/folder&gt;"/>
+		<replace file="${component}/legacy.xml" 
 			token="&lt;!--&lt;folder&gt;overrides&lt;/folder&gt;--&gt;"
 			value="&lt;folder&gt;overrides&lt;/folder&gt;"/>
 		

@@ -16,14 +16,7 @@ class J4schemaDispatcher extends FOFDispatcher
 		if(!class_exists('LiveUpdate'))
 		{
 			// Load the correct version of LiveUpdate
-			if(version_compare(JVERSION, '1.6.0', 'ge')){
-				$folder = 'liveupdate_2.5';
-			}
-			else{
-				$folder = 'liveupdate';
-			}
-
-			require_once JPATH_ADMINISTRATOR.'/components/com_j4schema/'.$folder.'/liveupdate.php';
+			require_once JPATH_ADMINISTRATOR.'/components/com_j4schema/liveupdate/liveupdate.php';
 
 			if($this->input instanceof FOFInput) {
 			    $view = $this->input->getString('view', '');
