@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0" method="upgrade">
+
+	<name>J4Schema</name>
+	<version>##VERSION##</version>
+	<creationDate>##DATE##</creationDate>
+	<author>Davide Tampellini</author>
+    <authorUrl>http://www.fabbricabinaria.it</authorUrl>
+	<authorEmail>webmaster@fabbricabinaria.it</authorEmail>
+	<license>http://www.gnu.org/licenses/gpl.html (GNU/GPL)</license>
+	<description>J4Schema.org Extension</description>
+	
+    <!-- SQL query files to execute on installation -->
+    <install>
+        <sql>
+            <file charset="utf8" driver="mysql">install/install.sql</file>
+        </sql>
+    </install>
+    
+    <!-- SQL query files to execute on uninstallation -->
+    <uninstall>
+        <sql>
+            <file charset="utf8" driver="mysql">install/uninstall.sql</file>
+         </sql>
+    </uninstall>
+    
+    <update>
+        <schemas>
+            <schemapath type="mysql">install/updates</schemapath>
+            <schemapath type="mysqli">install/updates</schemapath> 
+        </schemas>
+    </update>
+      
+    <files folder="frontend">
+        <filename>j4schema.php</filename>
+        <filename>index.html</filename>
+    </files>
+
+    <installfile>install.com_j4schema.php</installfile>
+    <uninstallfile>uninstall.com_j4schema.php</uninstallfile>
+	<scriptfile>script.com_j4schema.php</scriptfile>
+
+	<administration>
+		<menu view="cpanel" img="../media/com_j4schema/images/j4schema_20.png">J4Schema</menu>
+		<files folder="backend">
+            <folder>controllers</folder>
+            <folder>helpers</folder>
+            <folder>install</folder>
+            <folder>jce</folder>
+            <folder>liveupdate</folder>
+            <folder>models</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
+            <filename>dispatcher.php</filename>
+			<filename>index.html</filename>
+			<filename>j4schema.php</filename>
+            <filename>toolbar.php</filename>
+		</files>
+
+		<languages folder="language/backend">
+            <language tag="en-GB">en-GB/en-GB.com_j4schema.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_j4schema.sys.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_j4schema.menu.ini</language>
+		</languages>
+	</administration>
+    
+    <media destination="com_j4schema" folder="media">
+        <folder>css</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+        <filename>index.html</filename>
+    </media>
+</install>

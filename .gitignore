@@ -1,5 +1,13 @@
-build/*
 .settings/*
 .buildpath
 .project
 .idea/*
+/build/bin
+/build/build.properties
+/build/buildlang
+/build/phingext
+/build/templates/release.json
+/build/tools
+/extension/component/j4schema.xml
+/extension/component/legacy.xml
+release/*
