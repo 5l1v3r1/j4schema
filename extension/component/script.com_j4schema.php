@@ -447,6 +447,12 @@ class Com_j4schemaInstallerScript
 			);
 
 			$haveToInstallFOF = $fofVersion['package']['date']->toUNIX() > $fofVersion['installed']['date']->toUNIX();
+
+            // Do not install FOF on Joomla! 3.2.0 beta 1 or later
+            if (version_compare(JVERSION, '3.1.999', 'gt'))
+            {
+                $haveToInstallFOF = false;
+            }
 		}
 
 		$installedFOF = false;
