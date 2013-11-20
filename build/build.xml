@@ -65,15 +65,6 @@
             </filterchain>
         </copy>
 
-        <copy file="./templates/legacy.xml" tofile="${dirs.component}/legacy.xml" overwrite="true">
-            <filterchain id="standard-tokens">
-              <replacetokens begintoken="##" endtoken="##">
-                <token key="DATE" value="${build.date}" />
-                <token key="VERSION" value="${version}" />
-              </replacetokens>
-            </filterchain>
-        </copy>
-
         <zipme basedir="${dirs.component}" destFile="${dirs.release}/com_j4schema-${version}_pro.zip" includeEmptyDirs="true">
             <fileset dir="${dirs.component}">
                 <exclude name="backend/language/**" />
@@ -83,15 +74,6 @@
 
         <!-- FREE PACKAGE -->
         <copy file="./templates/j4schema_free.xml" tofile="${dirs.component}/j4schema.xml" overwrite="true">
-          <filterchain id="standard-tokens">
-            <replacetokens begintoken="##" endtoken="##">
-              <token key="DATE" value="${build.date}" />
-              <token key="VERSION" value="${version}" />
-            </replacetokens>
-          </filterchain>
-        </copy>
-
-        <copy file="./templates/legacy_free.xml" tofile="${dirs.component}/legacy.xml" overwrite="true">
           <filterchain id="standard-tokens">
             <replacetokens begintoken="##" endtoken="##">
               <token key="DATE" value="${build.date}" />

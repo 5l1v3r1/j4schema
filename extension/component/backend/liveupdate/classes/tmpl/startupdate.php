@@ -1,7 +1,7 @@
 <?php
 /**
  * @package LiveUpdate
- * @copyright Copyright (c)2010-2012 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license GNU LGPLv3 or later <http://www.gnu.org/copyleft/lesser.html>
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die();
 <div class="liveupdate">
 	<div class="liveupdate-ftp">
 		<p><?php echo JText::_('LIVEUPDATE_FTP_REQUIRED')?></p>
-		<form name="adminForm" action="index.php" method="get">
+		<form name="adminForm" id="adminForm" action="index.php" method="get">
 			<input name="option" value="<?php echo JRequest::getCmd('option','')?>" type="hidden" />
 			<input name="view" value="<?php echo JRequest::getCmd('view','liveupdate')?>" type="hidden" />
 			<input name="task" value="download" type="hidden" />

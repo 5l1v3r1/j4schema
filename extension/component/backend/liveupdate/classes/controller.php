@@ -1,21 +1,27 @@
 <?php
 /**
  * @package LiveUpdate
- * @copyright Copyright (c)2010-2012 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license GNU LGPLv3 or later <http://www.gnu.org/copyleft/lesser.html>
  */
 
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
+
+if(!class_exists('JoomlaCompatController')) {
+	if(interface_exists('JController')) {
+		abstract class JoomlaCompatController extends JControllerLegacy {}
+	} else {
+		class JoomlaCompatController extends JController {}
+	}
+}
 
 /**
  * The Live Update MVC controller
  */
-class LiveUpdateController extends JController
+class LiveUpdateController extends JoomlaCompatController
 {
-	private $jversion = '15';
-
 	/**
 	 * Object contructor 
 	 * @param array $config
@@ -26,18 +32,6 @@ class LiveUpdateController extends JController
 	{
 		parent::__construct();
 
-		// Do we have Joomla! 1.6?
-		if( version_compare( JVERSION, '1.6.0', 'ge' ) ) {
-			$this->jversion = '16';
-		}
-		
-		$basePath = dirname(__FILE__);
-		if($this->jversion == '15') {
-			$this->_basePath = $basePath;
-		} else {
-			$this->basePath = $basePath;
-		}
-		
 		$this->registerDefaultTask('overview');
 	}
 	
@@ -54,6 +48,15 @@ class LiveUpdateController extends JController
 	 */
 	public function startupdate()
 	{
+		$updateInfo = LiveUpdate::getUpdateInformation();
+		if($updateInfo->stability != 'stable') {
+			$skipNag = JRequest::getBool('skipnag', false);
+			if(!$skipNag) {
+				$this->setRedirect('index.php?option='.JRequest::getCmd('option','').'&view='.JRequest::getCmd('view','liveupdate').'&task=nagscreen');
+				$this->redirect();
+			}
+		}
+		
 		$ftp = $this->setCredentialsFromRequest('ftp');
 		if($ftp === true) {
 			// The user needs to supply the FTP credentials
@@ -146,10 +149,8 @@ class LiveUpdateController extends JController
 			$this->redirect();
 		} else {
 			// Installation successful. Show the installation message.
-			if(version_compare(JVERSION,'1.6.0','ge')) {
-				$cache = JFactory::getCache('mod_menu');
-				$cache->clean();				
-			}
+			$cache = JFactory::getCache('mod_menu');
+			$cache->clean();				
 			
 			$this->display();
 		}
@@ -172,7 +173,7 @@ class LiveUpdateController extends JController
 	 * Displays the current view
 	 * @param bool $cachable Ignored!
 	 */
-	public final function display($cachable = false)
+	public final function display($cachable = false, $urlparams = false)
 	{
 		$viewLayout	= JRequest::getCmd( 'layout', 'default' );
 
@@ -183,7 +184,7 @@ class LiveUpdateController extends JController
 		$view->setModel($model, true);
 
 		// Assign the FTP credentials from the request, or return TRUE if they are required
-		jimport('joomla.client.helper');
+		JLoader::import('joomla.client.helper');
 		$ftp	= $this->setCredentialsFromRequest('ftp');
 		$view->assignRef('ftp', $ftp);
 
@@ -200,7 +201,7 @@ class LiveUpdateController extends JController
 		
 		if(is_null($view))
 		{
-			$basePath = ($this->jversion == '15') ? $this->_basePath : $this->basePath;
+			$basePath = $this->basePath;
 			$tPath = dirname(__FILE__).'/tmpl';
 			
 			require_once('view.php');
@@ -218,7 +219,7 @@ class LiveUpdateController extends JController
 		{
 			require_once('model.php');
 			$model = new LiveUpdateModel();
-			$task = ($this->jversion == '15') ? $this->_task : $this->task;
+			$task = $this->task;
 			
 			$model->setState( 'task', $task );
 			
@@ -226,7 +227,8 @@ class LiveUpdateController extends JController
 			$menu	= $app->getMenu();
 			if (is_object( $menu ))
 			{
-				if ($item = $menu->getActive())
+				$item = $menu->getActive();
+				if ($item)
 				{
 					$params	= $menu->getParams($item->id);
 					// Set Default State Data
@@ -242,7 +244,7 @@ class LiveUpdateController extends JController
 	private function setCredentialsFromRequest($client)
 	{
 		// Determine wether FTP credentials have been passed along with the current request
-		jimport('joomla.client.helper');
+		JLoader::import('joomla.client.helper');
 		$user = JRequest::getString('username', null, 'GET', JREQUEST_ALLOWRAW);
 		$pass = JRequest::getString('password', null, 'GET', JREQUEST_ALLOWRAW);
 		if ($user != '' && $pass != '')

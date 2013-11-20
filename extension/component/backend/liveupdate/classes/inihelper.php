@@ -1,7 +1,7 @@
 <?php
 /**
  * @package LiveUpdate
- * @copyright Copyright (c)2010-2012 Nicholas K. Dionysopoulos / AkeebaBackup.com
+ * @copyright Copyright (c)2010-2013 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license GNU LGPLv3 or later <http://www.gnu.org/copyleft/lesser.html>
  */
 
@@ -98,7 +98,7 @@ class LiveUpdateINIHelper
 				if (count($tmp) == 2) {
 					if ((($value{0} != '"') && ($value{0} != "'")) ||
 					preg_match('/^".*"\s*;/', $value) || preg_match('/^".*;[^"]*$/', $value) ||
-					preg_match("/^'.*'\s*;/", $value) || preg_match("/^'.*;[^']*$/", $value) ){
+					preg_match("/^'.*'\\s*;/", $value) || preg_match("/^'.*;[^']*$/", $value) ){
 						$value = $tmp[0];
 					}
 				} else {
