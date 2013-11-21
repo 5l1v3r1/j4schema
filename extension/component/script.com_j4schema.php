@@ -74,7 +74,9 @@ class Com_j4schemaInstallerScript
 	{
 		$this->src = $parent->getParent()->getPath('source');
 
-		$this->fofStatus = $this->_installFOF($parent);
+		$this->fofStatus     = $this->_installFOF($parent);
+        $this->straperStatus = $this->_installStraper($parent);
+
 		$this->installModules();
 		$this->installPlugins();
 		$this->installJCEPlugin();
@@ -500,6 +502,114 @@ class Com_j4schemaInstallerScript
 		);
 	}
 
+    private function _installStraper($parent)
+    {
+        $src = $parent->getParent()->getPath('source');
+
+        // Install the FOF framework
+        JLoader::import('joomla.filesystem.folder');
+        JLoader::import('joomla.filesystem.file');
+        JLoader::import('joomla.utilities.date');
+
+        $source = $src.'/strapper';
+        $target = JPATH_ROOT.'/media/akeeba_strapper';
+
+        $haveToInstallStraper = false;
+
+        if(!JFolder::exists($target))
+        {
+            $haveToInstallStraper = true;
+        }
+        else
+        {
+            $straperVersion = array();
+
+            if(JFile::exists($target.'/version.txt'))
+            {
+                $rawData = JFile::read($target.'/version.txt');
+                $info = explode("\n", $rawData);
+                $straperVersion['installed'] = array(
+                    'version'	=> trim($info[0]),
+                    'date'		=> new JDate(trim($info[1]))
+                );
+            }
+            else
+            {
+                $straperVersion['installed'] = array(
+                    'version'	=> '0.0',
+                    'date'		=> new JDate('2011-01-01')
+                );
+            }
+
+            $rawData = JFile::read($source.'/version.txt');
+            $info = explode("\n", $rawData);
+
+            $straperVersion['package'] = array(
+                'version'	=> trim($info[0]),
+                'date'		=> new JDate(trim($info[1]))
+            );
+
+            $haveToInstallStraper = $straperVersion['package']['date']->toUNIX() > $straperVersion['installed']['date']->toUNIX();
+        }
+
+        $installedStraper = false;
+
+        if($haveToInstallStraper)
+        {
+            $versionSource = 'package';
+            $installer = new JInstaller;
+            $installedStraper = $installer->install($source);
+        }
+        else
+        {
+            $versionSource = 'installed';
+        }
+
+        if(!isset($straperVersion))
+        {
+            $straperVersion = array();
+
+            if(JFile::exists($target.'/version.txt'))
+            {
+                $rawData = JFile::read($target.'/version.txt');
+                $info = explode("\n", $rawData);
+                $straperVersion['installed'] = array(
+                    'version'	=> trim($info[0]),
+                    'date'		=> new JDate(trim($info[1]))
+                );
+            }
+            else
+            {
+                $straperVersion['installed'] = array(
+                    'version'	=> '0.0',
+                    'date'		=> new JDate('2011-01-01')
+                );
+            }
+
+            $rawData = JFile::read($source.'/version.txt');
+            $info = explode("\n", $rawData);
+
+            $straperVersion['package'] = array(
+                'version'	=> trim($info[0]),
+                'date'		=> new JDate(trim($info[1]))
+            );
+
+            $versionSource = 'installed';
+        }
+
+        if(!($straperVersion[$versionSource]['date'] instanceof JDate))
+        {
+            $straperVersion[$versionSource]['date'] = new JDate();
+        }
+
+        return array(
+            'required'	=> $haveToInstallStraper,
+            'installed'	=> $installedStraper,
+            'version'	=> $straperVersion[$versionSource]['version'],
+            'date'		=> $straperVersion[$versionSource]['date']->format('Y-m-d'),
+        );
+    }
+
 	protected function renderPostInstallation()
 	{
         $rows = 0;
@@ -538,6 +648,16 @@ class Com_j4schemaInstallerScript
 						</span>
 					</strong></td>
 				</tr>
+                <tr class="row0">
+                    <td class="key" colspan="2">
+                        <strong>Akeeba Strapper <?php echo $this->straperStatus['version']?></strong> [<?php echo $this->straperStatus['date'] ?>]
+                    </td>
+                    <td><strong>
+				<span style="color: <?php echo $straperStatus['required'] ? ($straperStatus['installed']?'green':'red') : '#660' ?>; font-weight: bold;">
+					<?php echo $this->straperStatus['required'] ? ($this->straperStatus['installed'] ?'Installed':'Not Installed') : 'Already up-to-date'; ?>
+				</span>
+                        </strong></td>
+                </tr>
 				<?php if (count($this->status->modules)) : ?>
 				<tr>
 					<th>Module</th>

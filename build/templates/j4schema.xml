@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="1.6" method="upgrade">
 
-	<name>J4Schema</name>
+	<name>COM_J4SCHEMA</name>
 	<version>##VERSION##</version>
 	<creationDate>##DATE##</creationDate>
 	<author>Davide Tampellini</author>
@@ -36,12 +36,10 @@
         <filename>index.html</filename>
     </files>
 
-    <installfile>install.com_j4schema.php</installfile>
-    <uninstallfile>uninstall.com_j4schema.php</uninstallfile>
-	<scriptfile>script.com_j4schema.php</scriptfile>
+  	<scriptfile>script.com_j4schema.php</scriptfile>
 
 	<administration>
-		<menu view="cpanel" img="../media/com_j4schema/images/j4schema_20.png">J4Schema</menu>
+		<menu view="cpanel" img="../media/com_j4schema/images/j4schema_20.png">COM_J4SCHEMA</menu>
 		<files folder="backend">
             <folder>controllers</folder>
             <folder>helpers</folder>
