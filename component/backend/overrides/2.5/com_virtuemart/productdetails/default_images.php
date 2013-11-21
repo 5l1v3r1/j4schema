@@ -22,8 +22,8 @@ defined('_JEXEC') or die('Restricted access');
 // Product Main Image
 if (!empty($this->product->images[0])) {
     ?>
-    <div class="main-image" {VM_MAIN_IMAGE}>
-	<?php echo $this->product->images[0]->displayMediaFull('class="medium-image" id="medium-image"', false, "class='modal'", true); ?>
+    <div class="main-image">
+        <?php echo $this->product->images[0]->displayMediaFull('class="medium-image" id="medium-image" {VM_MAIN_IMAGE}', false, "class='modal'", true); ?>
     </div>
 <?php } // Product Main Image END ?>
 
