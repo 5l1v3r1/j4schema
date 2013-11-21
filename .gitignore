@@ -9,4 +9,5 @@
 /build/templates/release.json
 /build/tools
 /extension/component/j4schema.xml
+/extension/component/zzz_fof_2
 release/*
