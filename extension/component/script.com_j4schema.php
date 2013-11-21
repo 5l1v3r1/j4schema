@@ -511,7 +511,7 @@ class Com_j4schemaInstallerScript
         JLoader::import('joomla.filesystem.file');
         JLoader::import('joomla.utilities.date');
 
-        $source = $src.'/strapper';
+        $source = $src.'/zzz_strapper';
         $target = JPATH_ROOT.'/media/akeeba_strapper';
 
         $haveToInstallStraper = false;
