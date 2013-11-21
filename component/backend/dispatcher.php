@@ -29,6 +29,8 @@ class J4schemaDispatcher extends FOFDispatcher
 			}
 		}
 
+        AkeebaStrapper::bootstrap();
+
 		parent::dispatch();
 	}
 }

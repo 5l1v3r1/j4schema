@@ -73,7 +73,7 @@ class LiveUpdateModel extends JoomlaCompatModel
 		$session->set('tempdir', $tempdir, 'liveupdate');
 
 		// Let's download!
-		require_once dirname(__FILE__).'/download.php';
+		require_once dirname(__FILE__) . '/download.php';
 		return LiveUpdateDownloadHelper::download($url, $target);
 	}
 
