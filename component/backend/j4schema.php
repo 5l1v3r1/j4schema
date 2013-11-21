@@ -9,6 +9,15 @@
 defined('_JEXEC') or die();
 JHTML::_('behavior.keepalive');
 
+if(version_compare(JVERSION, '3.0', 'ge'))
+{
+    JHTML::_('behavior.framework', true);
+}
+else
+{
+    JHTML::_('behavior.mootools');
+}
+
 if(!file_exists(JPATH_ROOT.'/libraries/fof/include.php'))
 {
 	echo 'FrameworkOnFramework Library not found. <br/>';

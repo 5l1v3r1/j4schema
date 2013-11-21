@@ -29,6 +29,7 @@ class J4schemaDispatcher extends FOFDispatcher
 			}
 		}
 
+        include_once JPATH_ROOT . '/media/akeeba_strapper/strapper.php';
         AkeebaStrapper::bootstrap();
 
 		parent::dispatch();
