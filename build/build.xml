@@ -3,7 +3,7 @@
     <property file="./build.properties" />
     <!-- Default properties, set only if not already assigned in the build.properties file -->
     <property name="dirs.root" value=".." />
-    <property name="dirs.component" value="../extension/component" />
+    <property name="dirs.component" value="../component" />
     <property name="dirs.release" value="../release" />
     <property name="version" value="git" />
 

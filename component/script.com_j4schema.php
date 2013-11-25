@@ -81,14 +81,6 @@ class Com_j4schemaInstallerScript
 		$this->installPlugins();
 		$this->installJCEPlugin();
 
-        //Let's rename the liveupdate_2.5 folder to liveupdate
-        if(!file_exists(JPATH_ROOT.'/administrator/components/com_j4schema/liveupdate') &&
-            file_exists(JPATH_ROOT.'/administrator/components/com_j4schema/liveupdate_2.5'))
-        {
-            rename(JPATH_ROOT.'/administrator/components/com_j4schema/liveupdate_2.5',
-                   JPATH_ROOT.'/administrator/components/com_j4schema/liveupdate');
-        }
-
 		// It's a pro version, let's check if I have to delete skip files coming from the base one
 		if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))
 		{
@@ -653,7 +645,7 @@ class Com_j4schemaInstallerScript
                         <strong>Akeeba Strapper <?php echo $this->straperStatus['version']?></strong> [<?php echo $this->straperStatus['date'] ?>]
                     </td>
                     <td><strong>
-				<span style="color: <?php echo $straperStatus['required'] ? ($straperStatus['installed']?'green':'red') : '#660' ?>; font-weight: bold;">
+				<span style="color: <?php echo $this->straperStatus['required'] ? ($this->straperStatus['installed']?'green':'red') : '#660' ?>; font-weight: bold;">
 					<?php echo $this->straperStatus['required'] ? ($this->straperStatus['installed'] ?'Installed':'Not Installed') : 'Already up-to-date'; ?>
 				</span>
                         </strong></td>

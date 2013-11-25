@@ -7,7 +7,7 @@
 				ed.windowManager.open({
 					file 	: 'index.php?option=com_j4schema&view=editor&task=read&tmpl=component',
 					width 	: 900,
-					height 	: 540,
+					height 	: 700,
 					inline 	: 1,
 					popup_css : false
 				});

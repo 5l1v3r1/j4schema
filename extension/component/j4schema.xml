@@ -45,7 +45,7 @@
             <folder>helpers</folder>
             <folder>install</folder>
             <folder>jce</folder>
-            <folder>liveupdate</folder>
+            <folder>liveupdate_2.5</folder>
             <folder>models</folder>
             <folder>tables</folder>
             <folder>views</folder>

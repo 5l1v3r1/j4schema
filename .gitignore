@@ -8,7 +8,7 @@
 /build/phingext
 /build/templates/release.json
 /build/tools
-/extension/component/j4schema.xml
-/extension/component/zzz_fof_2
-/extension/component/zzz_strapper
+/component/j4schema.xml
+/component/zzz_fof_2
+/component/zzz_strapper
 release/*

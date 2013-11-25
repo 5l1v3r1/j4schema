@@ -98,7 +98,14 @@
 								{
 									if(is_array($item)){
 										echo '<em>'.$item['folder'].'</em><br/>';
-										echo '&nbsp;&nbsp;'.implode('<br/>&nbsp;&nbsp;',$item['children']).'<br/>';
+                                        if(is_array($item['children']))
+                                        {
+                                            echo '&nbsp;&nbsp;<em>Nested folders</em><br/>';
+                                        }
+                                        else
+                                        {
+                                            echo '&nbsp;&nbsp;'.@implode('<br/>&nbsp;&nbsp;',$item['children']).'<br/>';
+                                        }
 									}
 									else{
 										echo $item.'<br/>';
