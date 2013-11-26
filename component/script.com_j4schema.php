@@ -81,6 +81,13 @@ class Com_j4schemaInstallerScript
 		$this->installPlugins();
 		$this->installJCEPlugin();
 
+        $platform = FOFPlatform::getInstance();
+        
+        if (method_exists($platform, 'clearCache'))
+        {
+            FOFPlatform::getInstance()->clearCache();
+        }
+
 		// It's a pro version, let's check if I have to delete skip files coming from the base one
 		if(file_exists(JPATH_ROOT.'/media/com_j4schema/js/pro.js'))
 		{
