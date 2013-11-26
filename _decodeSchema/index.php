@@ -2,8 +2,8 @@
 // ???? HELPER ???
 //require_once 'helper.php';
 
-mysql_connect('localhost', 'root', '');
-mysql_select_db('sviluppo2_5');
+mysql_connect('localhost', 'root', 'root') or die('Connection error');
+mysql_select_db('sviluppo25');
 
 mysql_query('TRUNCATE raw74_j4schema_types');
 mysql_query('TRUNCATE raw74_j4schema_type_prop');
@@ -88,7 +88,7 @@ foreach($types as $type)
 		}
 	}
 
-	if($type->instances){
+	if(property_exists($type, 'instances')){
 		foreach($type->instances as $enum_url)
 		{
 			$enum = str_replace('http://schema.org/', '', $enum_url);
