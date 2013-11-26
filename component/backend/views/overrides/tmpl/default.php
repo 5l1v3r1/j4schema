@@ -17,9 +17,9 @@
 	$j4s  = J4schemaHelperFilesystem::treeFolder(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/'.$version);
 	$tmpl = J4schemaHelperFilesystem::treeFolder(JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html');
 ?>
-<form id="adminForm" name="adminForm" action="index.php" method="post">
+<form id="adminForm" name="adminForm" action="index.php" method="post" class="row-fluid">
 
-	<div class="fltlft width-50 pull-left span6">
+	<div class="span6">
 		<fieldset>
 			<legend><?php echo JText::_('COM_J4SCHEMA_CUSTOM_TMPL_OVERRIDES')?></legend>
 
@@ -125,7 +125,7 @@
 		</fieldset>
 	</div>
 
-	<div class="fltrt width-45 pull-right span6">
+	<div class="span6">
 		<fieldset>
 			<legend><?php echo JText::_('COM_J4SCHEMA_CURRENT_TMPL_OVERRIDES')?></legend>
 
