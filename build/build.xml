@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="J4Schema" default="git">
+    <property file="./build.properties" />
+    <!-- Default properties, set only if not already assigned in the build.properties file -->
+    <property name="dirs.root" value=".." />
+    <property name="dirs.component" value="../component" />
+    <property name="dirs.release" value="../release" />
+    <property name="version" value="git" />
+
+    <resolvepath propertyName="absolute_root" file="${dirs.root}"/>
+
+    <property name="dirs.build" value="${absolute_root}/build" />
+    <property name="dirs.bin" value="${dirs.build}/bin" />
+    <property name="dirs.bin.release" value="../release" />
+
+    <taskdef name="zipme" classname="phingext.ZipmeTask" />
+    <taskdef name="gitversion" classname="phingext.GitVersionTask" />
+
+    <fileset id="skip-file" dir="${dirs.build}/templates">
+      <filename name="skip.xml" />
+    </fileset>
+
+  <target name="git" description="Makes everything except the documentation"
+            depends="new-release,setup-properties,component-package">
+    </target>
+
+    <target name="new-release" description="Empty the release directory">
+        <!-- Recreate the release directory -->
+        <delete quiet="true" includeemptydirs="true">
+            <fileset dir="${dirs.release}">
+                <include name="**" />
+                <exclude name=".svn/**" />
+                <exclude name=".git/**" />
+            </fileset>
+        </delete>
+        <mkdir dir="${dirs.release}" />
+    </target>
+
+    <target name="setup-properties" description="Set up version and build properties">
+        <!-- Initialize the build.date timestamp -->
+        <tstamp>
+            <format property="build.date" pattern="%Y-%m-%d" />
+        </tstamp>
+
+        <!-- Initialize the version if it's not set -->
+        <if>
+            <equals arg1="${version}" arg2="git" />
+            <then>
+                <gitversion workingCopy="${dirs.root}" propertyName="git.lastrevision" />
+                <property name="version" value="rev${git.lastrevision}" override="true" />
+            </then>
+        </if>
+    </target>
+
+    <target name="component-package" description="Component package build"
+            depends="new-release,setup-properties">
+
+        <!-- PRO PACKAGE -->
+        <copy file="./templates/j4schema.xml" tofile="${dirs.component}/j4schema.xml" overwrite="true">
+            <filterchain id="standard-tokens">
+                <replacetokens begintoken="##" endtoken="##">
+                    <token key="DATE" value="${build.date}" />
+                    <token key="VERSION" value="${version}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+
+        <zipme basedir="${dirs.component}" destFile="${dirs.release}/com_j4schema-${version}_pro.zip" includeEmptyDirs="true">
+            <fileset dir="${dirs.component}">
+                <exclude name="backend/language/**" />
+                <exclude name="backend/jce/j4schema/**" />
+            </fileset>
+        </zipme>
+
+        <!-- FREE PACKAGE -->
+        <copy file="./templates/j4schema_free.xml" tofile="${dirs.component}/j4schema.xml" overwrite="true">
+          <filterchain id="standard-tokens">
+            <replacetokens begintoken="##" endtoken="##">
+              <token key="DATE" value="${build.date}" />
+              <token key="VERSION" value="${version}" />
+            </replacetokens>
+          </filterchain>
+        </copy>
+
+        <zipme basedir="${dirs.component}" destFile="${dirs.release}/com_j4schema-${version}_free.zip" includeEmptyDirs="true">
+          <fileset dir="${dirs.component}">
+            <not>
+              <containsregexp expression="@category[ \t]+J4SchemaPro"/>
+            </not>
+
+            <exclude name="backend/language/**" />
+            <exclude name="backend/jce/j4schema/**" />
+            <exclude name="backend/overrides/**" />
+            <exclude name="modules/**" />
+            <exclude name="plugins/system/j4schema_jintegration/**"/>
+          </fileset>
+        </zipme>
+
+      <!-- Adding skip files to free version - START -->
+      <zipme prefix="backend/views/author" destFile="${dirs.release}/com_j4schema-${version}_free.zip">
+        <fileset refid="skip-file"/>
+      </zipme>
+      <zipme prefix="backend/views/authors" destFile="${dirs.release}/com_j4schema-${version}_free.zip">
+        <fileset refid="skip-file"/>
+      </zipme>
+      <zipme prefix="backend/views/overrides" destFile="${dirs.release}/com_j4schema-${version}_free.zip">
+        <fileset refid="skip-file"/>
+      </zipme>
+      <zipme prefix="backend/views/token" destFile="${dirs.release}/com_j4schema-${version}_free.zip">
+        <fileset refid="skip-file"/>
+      </zipme>
+      <zipme prefix="backend/views/tokens" destFile="${dirs.release}/com_j4schema-${version}_free.zip">
+        <fileset refid="skip-file"/>
+      </zipme>
+    </target>
+
+    <!--
+	====================================================================================================
+	Tasks - Project management
+	====================================================================================================
+	-->
+
+    <target name="link" description="Internal linker">
+        <exec command="php ../buildfiles/tools/link.php ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
+        <exec command="php ../buildfiles/tools/langlink.php ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
+    </target>
+
+    <target name="relink" description="Project relinker">
+        <exec command="php ../buildfiles/tools/relink.php ${site} ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
+    </target>
+</project>
