@@ -82,7 +82,7 @@ class Com_j4schemaInstallerScript
 		$this->installJCEPlugin();
 
         $platform = FOFPlatform::getInstance();
-        
+
         if (method_exists($platform, 'clearCache'))
         {
             FOFPlatform::getInstance()->clearCache();
