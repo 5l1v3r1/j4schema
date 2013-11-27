@@ -1,4 +1,14 @@
-build/*
 .settings/*
 .buildpath
 .project
+.idea/*
+/build/bin
+/build/build.properties
+/build/buildlang
+/build/phingext
+/build/templates/release.json
+/build/tools
+/component/j4schema.xml
+/component/zzz_fof_2
+/component/zzz_strapper
+release/*
