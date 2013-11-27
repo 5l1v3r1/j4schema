@@ -57,8 +57,8 @@
 				<div class="clr"></div>
 
 				<label for="to_replace" class="main"><?php echo JText::_('COM_J4SCHEMA_REPLACE')?></label>
-				<input type="text" id="to_replace" class="w500 input_pre" name="to_replace" value='<?php echo $data->to_replace;?>' />
-				<input type="text" id="dummy_disabled" class="w500" value="<?php echo JText::_('COM_J4SCHEMA_DUMMY_DISABLED')?>" style="display:none" disabled="disabled" />
+				<input type="text" id="to_replace" class="input_pre" style="width:500px" name="to_replace" value='<?php echo $data->to_replace;?>' />
+				<input type="text" id="dummy_disabled" value="<?php echo JText::_('COM_J4SCHEMA_DUMMY_DISABLED')?>" style="display:none;width:500px" disabled="disabled" />
 				<div class="clr"></div>
 			</fieldset>
 		</div>
