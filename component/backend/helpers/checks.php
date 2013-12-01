@@ -72,7 +72,25 @@ class J4schemaHelperChecks
 		$params = JComponentHelper::getParams('com_jce');
 		$cleanHTML = $params->get('editor.verify_html');
 
-		if($cleanHTML)
+        $db = JFactory::getDbo();
+
+        // In new JCE versions the verify HTML flag is set inside another extension
+        $query = $db->getQuery(true)
+                    ->select($db->qn('params'))
+                    ->from('#__extensions')
+                    ->where($db->qn('name').' = '.$db->q('plg_editors_jce'));
+        $raw = $db->setQuery($query)->loadResult();
+
+        $paramsAlt = new JRegistry();
+
+        if($raw)
+        {
+            $paramsAlt->loadString($raw);
+        }
+
+        $cleanHTMLAlt = $paramsAlt->get('verify_html');
+
+		if($cleanHTML || $cleanHTMLAlt)
 		{
 			$warning .= '<div style="margin-bottom:5px">JCE is cleaning up your html.<br />
 						 You <strong>MUST</strong> disable it, otherwise JCE will strip out microdata information</div>';

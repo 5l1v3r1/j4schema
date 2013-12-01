@@ -81,6 +81,8 @@ class Com_j4schemaInstallerScript
 		$this->installPlugins();
 		$this->installJCEPlugin();
 
+        require_once JPATH_LIBRARIES.'/fof/include.php';
+
         $platform = FOFPlatform::getInstance();
 
         if (method_exists($platform, 'clearCache'))
