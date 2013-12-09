@@ -12,17 +12,10 @@ class J4schemaHelperChecks
 	public static function fullCheck()
 	{
 		$warning  = array();
-		$mootools = false;
-
-		// On J1.5 Mootools Upgrade plugin must be enabled
-		if(!version_compare(JVERSION, '1.6.0', 'ge')){
-			$mootools = self::checkMootools();
-		}
 
 		$jce 	   = self::checkJCE();
 
 		if($jce)		$warning[] = $jce;
-		if($mootools)	$warning[] = $mootools;
 
 		return $warning;
 	}
@@ -69,8 +62,8 @@ class J4schemaHelperChecks
 			return $warning;
 		}
 
-		$params = JComponentHelper::getParams('com_jce');
-		$cleanHTML = $params->get('editor.verify_html');
+		//$params = JComponentHelper::getParams('com_jce');
+		//$cleanHTML = $params->get('editor.verify_html');
 
         $db = JFactory::getDbo();
 
@@ -90,7 +83,7 @@ class J4schemaHelperChecks
 
         $cleanHTMLAlt = $paramsAlt->get('verify_html');
 
-		if($cleanHTML || $cleanHTMLAlt)
+		if($cleanHTMLAlt)
 		{
 			$warning .= '<div style="margin-bottom:5px">JCE is cleaning up your html.<br />
 						 You <strong>MUST</strong> disable it, otherwise JCE will strip out microdata information</div>';
