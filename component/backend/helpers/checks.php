@@ -62,10 +62,12 @@ class J4schemaHelperChecks
 			return $warning;
 		}
 
+        // Removed HTML cleanup check, since it's creating a lot of false positives
+
 		//$params = JComponentHelper::getParams('com_jce');
 		//$cleanHTML = $params->get('editor.verify_html');
 
-        $db = JFactory::getDbo();
+        /*$db = JFactory::getDbo();
 
         // In new JCE versions the verify HTML flag is set inside another extension
         $query = $db->getQuery(true)
@@ -87,7 +89,7 @@ class J4schemaHelperChecks
 		{
 			$warning .= '<div style="margin-bottom:5px">JCE is cleaning up your html.<br />
 						 You <strong>MUST</strong> disable it, otherwise JCE will strip out microdata information</div>';
-		}
+		}*/
 
 		return $warning;
 	}
