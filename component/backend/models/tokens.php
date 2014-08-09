@@ -14,7 +14,7 @@ class J4schemaModelTokens extends F0FModel
 	{
 		$db = JFactory::getDbo();
 
-		$query = F0FQueryAbstract::getNew($db)
+		$query = $db->getQuery(true)
 					->select('*')
 					->from('#__j4schema_tokens');
 

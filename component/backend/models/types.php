@@ -21,7 +21,7 @@ class J4schemaModelTypes extends F0FModel
 	function buildQuery($overrideLimits = false)
 	{
 		$db = $this->getDbo();
-		$query = F0FQueryAbstract::getNew($db);
+		$query = $db->getQuery(true);
 
 		//if i'm getting values in json format, probably i need them for the tree
 		//so i wipe out the select clause and rebuild it
@@ -83,7 +83,7 @@ class J4schemaModelTypes extends F0FModel
 	{
 		$db = JFactory::getDbo();
 
-		$query = F0FQueryAbstract::getNew($db)
+		$query = $db->getQuery(true)
 					->select('id_types, ty_children')
 					->from('#__j4schema_types')
 					->where('ty_parent = '.$db->Quote($parent));

@@ -79,7 +79,7 @@ class plgSystemJ4sjintegration extends JPlugin
 
 		$userid = preg_replace('#[^\d]#', '', $value[0]);
 
-		$query = F0FQueryAbstract::getNew()
+		$query = $db->getQuery(true)
 					->select('at_profile')
 					->from('#__j4schema_authors')
 					->where('at_userid = '.$userid);
@@ -122,7 +122,7 @@ class plgSystemJ4sjintegration extends JPlugin
 	{
 		$db = JFactory::getDbo();
 
-		$query = F0FQueryAbstract::getNew()
+		$query = $db->getQuery(true)
 					->select('*')
 					->from('#__j4schema_tokens')
 					->where('enabled = 1');

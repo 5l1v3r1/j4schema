@@ -13,7 +13,7 @@ class J4schemaModelAttributes extends F0FModel
 	public function buildQuery($overrideLimits = false)
 	{
 		$db = $this->getDbo();
-		$query = F0FQueryAbstract::getNew($db);
+		$query = $db->getQuery(true);
 
 		//if i'm getting values in json format, probably i need them for the tree
         $format = $this->input->getString('format', '');
@@ -99,7 +99,7 @@ class J4schemaModelAttributes extends F0FModel
 	{
 		$db = JFactory::getDbo();
 
-		$query = F0FQueryAbstract::getNew($db)
+		$query = $db->getQuery(true)
 				 ->select('*')
 				 ->from('#__j4schema_types')
 				 ->leftJoin('#__j4schema_type_prop ON id_type = id_types')
@@ -140,7 +140,7 @@ class J4schemaModelAttributes extends F0FModel
 
 		$id_prop = $this->input->getString('id_attributes', '');
 
-		$query = F0FQueryAbstract::getNew($db)
+		$query = $db->getQuery(true)
 					->select('pr_comment_plain as descr, pv_value as value')
 					->from('#__j4schema_properties')
 					->innerJoin('#__j4schema_prop_values ON id_properties = pv_id_properties')

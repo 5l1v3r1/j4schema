@@ -28,7 +28,7 @@ class J4schemaHelperHtml
 
 		if(version_compare(JVERSION, '1.6.0', 'ge')){
 			//get default template name
-			$query = F0FQueryAbstract::getNew()
+			$query = $db->getQuery(true)
 						->select('template')
 						->from('#__template_styles')
 						->where('client_id = 0')
@@ -37,7 +37,7 @@ class J4schemaHelperHtml
 			return $db->loadResult();
 		}
 		else{
-			$query = F0FQueryAbstract::getNew()
+			$query = $db->getQuery(true)
 						->select('template')
 						->from('#__templates_menu')
 						->where('client_id = 0');

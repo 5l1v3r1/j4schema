@@ -14,7 +14,7 @@ class J4schemaModelAuthors extends F0FModel
 	{
 		$db = JFactory::getDbo();
 
-		$query = F0FQueryAbstract::getNew($db)
+		$query = $db->getQuery(true)
 					->select('authors.*, users.*, COUNT(content.id) as articles')
 					->from('#__j4schema_authors authors')
 					->innerJoin('#__users users ON users.id = at_userid')
@@ -36,7 +36,7 @@ class J4schemaModelAuthors extends F0FModel
 		//(check on installed components)
 		$db = JFactory::getDbo();
 
-		$query = F0FQueryAbstract::getNew($db)
+		$query = $db->getQuery(true)
 					->select('at_userid')
 					->from('#__j4schema_authors');
 		$db->setQuery($query);
