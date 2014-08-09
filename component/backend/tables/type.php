@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die();
 
-class J4schemaTableType extends FOFTable
+class J4schemaTableType extends F0FTable
 {
 	function __construct($table, $key, $db)
 	{

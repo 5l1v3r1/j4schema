@@ -81,13 +81,13 @@ class Com_j4schemaInstallerScript
 		$this->installPlugins();
 		$this->installJCEPlugin();
 
-        require_once JPATH_LIBRARIES.'/fof/include.php';
+        require_once JPATH_LIBRARIES.'/f0f/include.php';
 
-        $platform = FOFPlatform::getInstance();
+        $platform = F0FPlatform::getInstance();
 
         if (method_exists($platform, 'clearCache'))
         {
-            FOFPlatform::getInstance()->clearCache();
+            F0FPlatform::getInstance()->clearCache();
         }
 
 		// It's a pro version, let's check if I have to delete skip files coming from the base one
@@ -417,7 +417,7 @@ class Com_j4schemaInstallerScript
 	{
 		$src = $parent->getParent()->getPath('source');
 
-		// Install the FOF framework
+		// Install the F0F framework
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
 		jimport('joomla.utilities.date');
@@ -641,7 +641,7 @@ class Com_j4schemaInstallerScript
 				</tr>
 				<tr class="row1">
 					<td class="key" colspan="2">
-						<strong>Framework on Framework (FOF) <?php echo $this->fofStatus['version']?></strong> [<?php echo $this->fofStatus['date'] ?>]
+						<strong>Framework on Framework (F0F) <?php echo $this->fofStatus['version']?></strong> [<?php echo $this->fofStatus['date'] ?>]
 					</td>
 					<td><strong>
 						<span style="color: <?php echo $this->fofStatus['required'] ? ($this->fofStatus['installed']?'green':'red') : '#660' ?>; font-weight: bold;">

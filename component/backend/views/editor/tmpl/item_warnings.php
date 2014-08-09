@@ -8,7 +8,7 @@
 
 	defined( '_JEXEC' ) or die( 'Restricted access' );
 
-	$warn_image = FOFTemplateUtils::parsePath('com_j4schema/images/warning_32.png');
+	$warn_image = F0FTemplateUtils::parsePath('com_j4schema/images/warning_32.png');
 ?>
 <div class="">
 	<div style="font-family:Helvetica;font-size:14px;margin-bottom:15px">

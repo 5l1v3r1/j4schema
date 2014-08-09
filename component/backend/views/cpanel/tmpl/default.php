@@ -9,7 +9,7 @@
 	$this->loadHelper('checks');
 
 	$warnings = J4schemaHelperChecks::fullCheck();
-	$warn_img = FOFTemplateUtils::parsePath('com_j4schema/images/warning_32.png');
+	$warn_img = F0FTemplateUtils::parsePath('com_j4schema/images/warning_32.png');
 	$reinstallJCE = false;
 
 	// check if JCE plugin is installed
@@ -18,15 +18,15 @@
 		$reinstallJCE = true;
 	}
 
-	$reinstall = FOFTemplateUtils::parsePath('com_j4schema/images/clear_48.png');
+	$reinstall = F0FTemplateUtils::parsePath('com_j4schema/images/clear_48.png');
 ?>
 <div class="j4schema">
 	<div class="sx w50_" style="font-family:Helvetica;font-size:14px">
 		<?php
 			if(!J4SCHEMA_PRO) echo JText::_('COM_J4SCHEMA_BACKEND_MANAGE_FREE');
 			else{
-				$types 	 = FOFModel::getTmpInstance('Types', 'J4SchemaModel')->getTotal();
-				$attribs = FOFModel::getTmpInstance('Attributes', 'J4SchemaModel')->getTotal();
+				$types 	 = F0FModel::getTmpInstance('Types', 'J4SchemaModel')->getTotal();
+				$attribs = F0FModel::getTmpInstance('Attributes', 'J4SchemaModel')->getTotal();
 				echo JText::sprintf('COM_J4SCHEMA_BACKEND_MANAGE_PRO', $types, $attribs);
 			}
 		?>

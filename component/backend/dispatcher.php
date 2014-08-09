@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die();
 
-class J4schemaDispatcher extends FOFDispatcher
+class J4schemaDispatcher extends F0FDispatcher
 {
 	public function dispatch()
 	{
@@ -26,10 +26,10 @@ class J4schemaDispatcher extends FOFDispatcher
             }
 
 
-			if($this->input instanceof FOFInput) {
+			if($this->input instanceof F0FInput) {
 			    $view = $this->input->getString('view', '');
 			} else {
-			    $view = FOFInput::getCmd('view','',$this->input);
+			    $view = F0FInput::getCmd('view','',$this->input);
 			}
 			if(($view == 'liveupdate')) {
 				LiveUpdate::handleRequest();

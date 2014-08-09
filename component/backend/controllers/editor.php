@@ -9,12 +9,12 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class J4schemaControllerEditor extends FOFController
+class J4schemaControllerEditor extends F0FController
 {
 	/**
 	 * I don't need to fetch data from database
 	 *
-	 * @see FOFController::read()
+	 * @see F0FController::read()
 	 */
 	public function read()
 	{

@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die();
 
-class J4schemaToolbar extends FOFToolbar
+class J4schemaToolbar extends F0FToolbar
 {
 	function onAuthorsBrowse()
 	{
@@ -27,12 +27,12 @@ class J4schemaToolbar extends FOFToolbar
 	function onOverridesBrowse()
 	{
 		// Set toolbar title
-		if($this->input instanceof FOFInput) {
+		if($this->input instanceof F0FInput) {
 		    $option = $this->input->getString('option', 'com_foobar');
 		    $view 	= $this->input->getString('view', 'cpanel');
 		} else {
-		    $option = FOFInput::getCmd('option','com_foobar',$this->input);
-		    $view	= FOFInput::getCmd('view','cpanel',$this->input);
+		    $option = F0FInput::getCmd('option','com_foobar',$this->input);
+		    $view	= F0FInput::getCmd('view','cpanel',$this->input);
 		}
 
 		$subtitle_key = $option.'_TITLE_'.strtoupper($view);

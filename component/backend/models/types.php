@@ -8,14 +8,14 @@
 
 defined('_JEXEC') or die();
 
-class J4schemaModelTypes extends FOFModel
+class J4schemaModelTypes extends F0FModel
 {
 	public function &getItemList($overrideLimits = false, $group = '')
 	{
-		if($this->input instanceof FOFInput) {
+		if($this->input instanceof F0FInput) {
 		    $format = $this->input->getString('format', '');
 		} else {
-		    $format = FOFInput::getVar('format');
+		    $format = F0FInput::getVar('format');
 		}
 		if($format == 'json') $overrideLimits = true;
 		return parent::getItemList($overrideLimits, $group);
@@ -24,14 +24,14 @@ class J4schemaModelTypes extends FOFModel
 	function buildQuery($overrideLimits = false)
 	{
 		$db = $this->getDbo();
-		$query = FOFQueryAbstract::getNew($db);
+		$query = F0FQueryAbstract::getNew($db);
 
 		//if i'm getting values in json format, probably i need them for the tree
 		//so i wipe out the select clause and rebuild it
-		if($this->input instanceof FOFInput) {
+		if($this->input instanceof F0FInput) {
 		    $format = $this->input->getString('format', '');
 		} else {
-		    $format = FOFInput::getVar('format');
+		    $format = F0FInput::getVar('format');
 		}
 		if($format == 'json')
 		{
@@ -55,15 +55,15 @@ class J4schemaModelTypes extends FOFModel
 	/**
 	 * Organize data for tree view
 	 *
-	 * @see FOFModel::onProcessList()
+	 * @see F0FModel::onProcessList()
 	 */
 	function onProcessList(&$resultArray)
 	{
 		//organize data only if i'm in a json view
-		if($this->input instanceof FOFInput) {
+		if($this->input instanceof F0FInput) {
 		    $format = $this->input->getString('format', '');
 		} else {
-		    $format = FOFInput::getVar('format');
+		    $format = F0FInput::getVar('format');
 		}
 		if($format != 'json') return;
 
@@ -92,7 +92,7 @@ class J4schemaModelTypes extends FOFModel
 	{
 		$db = JFactory::getDbo();
 
-		$query = FOFQueryAbstract::getNew($db)
+		$query = F0FQueryAbstract::getNew($db)
 					->select('id_types, ty_children')
 					->from('#__j4schema_types')
 					->where('ty_parent = '.$db->Quote($parent));
@@ -120,10 +120,10 @@ class J4schemaModelTypes extends FOFModel
 
 	function getDescr()
 	{
-		if($this->input instanceof FOFInput) {
+		if($this->input instanceof F0FInput) {
 		    $id_types = $this->input->getString('id_types', '');
 		} else {
-		    $id_types = FOFInput::getVar('id_types', '', $this->input);
+		    $id_types = F0FInput::getVar('id_types', '', $this->input);
 		}
 
 		$table = $this->getTable($this->table);

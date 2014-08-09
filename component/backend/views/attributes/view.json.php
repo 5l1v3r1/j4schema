@@ -8,13 +8,13 @@
 
 defined('_JEXEC') or die();
 
-class J4schemaViewAttributes extends FOFViewJson
+class J4schemaViewAttributes extends F0FViewJson
 {
 	function __construct($config = array())
 	{
 		parent::__construct($config);
 
-		//I add the backend template paths here, so FOF has already did his work
+		//I add the backend template paths here, so F0F has already did his work
 		$this->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.'/views/attributes/tmpl');
 	}
 

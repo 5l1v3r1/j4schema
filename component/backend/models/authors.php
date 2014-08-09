@@ -8,13 +8,13 @@
 
 defined('_JEXEC') or die();
 
-class J4schemaModelAuthors extends FOFModel
+class J4schemaModelAuthors extends F0FModel
 {
 	public function buildQuery($overrideLimits = false)
 	{
 		$db = JFactory::getDbo();
 
-		$query = FOFQueryAbstract::getNew($db)
+		$query = F0FQueryAbstract::getNew($db)
 					->select('authors.*, users.*, COUNT(content.id) as articles')
 					->from('#__j4schema_authors authors')
 					->innerJoin('#__users users ON users.id = at_userid')
@@ -36,7 +36,7 @@ class J4schemaModelAuthors extends FOFModel
 		//(check on installed components)
 		$db = JFactory::getDbo();
 
-		$query = FOFQueryAbstract::getNew($db)
+		$query = F0FQueryAbstract::getNew($db)
 					->select('at_userid')
 					->from('#__j4schema_authors');
 		$db->setQuery($query);
