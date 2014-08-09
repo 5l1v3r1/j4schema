@@ -31,7 +31,7 @@ F0FTemplateUtils::addCSS('com_j4schema/css/main.css');
 F0FTemplateUtils::addCSS('com_j4schema/css/classes.css');
 F0FTemplateUtils::addCSS('com_j4schema/css/tree.css');
 
-if(version_compare(JVERSION, '2.5', 'lt') || version_compare(JVERSION, '3', 'gt') ){
+if(version_compare(JVERSION, '3', 'gt') ){
 	F0FTemplateUtils::addCSS('com_j4schema/css/compat2.5.css');
 }
 

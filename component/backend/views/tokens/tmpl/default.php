@@ -10,16 +10,9 @@ defined('_JEXEC') or die();
 $this->loadHelper('html');
 $this->loadHelper('select');
 
-if(version_compare(JVERSION, '1.6.0', 'ge')){
-	$published = JText::_('JPUBLISHED');
-	$search	   = JText::_('JSEARCH_FILTER');
-	$reset 	   = JText::_('JSEARCH_RESET');
-}
-else {
-	$published = JText::_('PUBLISHED');
-	$search	   = JText::_('SEARCH');
-	$reset 	   = JText::_('RESET');
-}
+$published = JText::_('JPUBLISHED');
+$search	   = JText::_('JSEARCH_FILTER');
+$reset 	   = JText::_('JSEARCH_RESET');
 
 ?>
 <form name="adminForm" id="adminForm" action="index.php" method="post">

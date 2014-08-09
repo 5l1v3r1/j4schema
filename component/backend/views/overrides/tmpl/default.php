@@ -10,9 +10,14 @@
 	$this->loadHelper('html');
 	$this->loadHelper('filesystem');
 
-	if    (version_compare(JVERSION, '3.0.0', 'ge'))    $version = '3.0';
-	elseif(version_compare(JVERSION, '1.6.0', 'ge')) 	$version = '2.5';
-	else										     	$version = '1.5';
+	if(version_compare(JVERSION, '3.0.0', 'ge'))
+    {
+        $version = '3.0';
+    }
+	else
+    {
+        $version = '2.5';
+    }
 
 	$j4s  = J4schemaHelperFilesystem::treeFolder(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/'.$version);
 	$tmpl = J4schemaHelperFilesystem::treeFolder(JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html');
@@ -45,14 +50,9 @@
 			?>
 					<tr class="row<?php echo $k?>">
 				<?php
-					if($folder['folder'] == 'com_virtuemart' && version_compare(JVERSION, '1.6', 'l')){
-						$VM_15 = true;
-						$K2    = false;
-					} elseif($folder['folder'] == 'com_k2') {
-						$VM_15 = false;
+					if($folder['folder'] == 'com_k2') {
 						$K2    = true;
 					} else {
-						$VM_15 = false;
 						$K2    = false;
 					}
 				?>
@@ -62,10 +62,7 @@
 						<td><?php echo $folder['folder']?></td>
 						<td>
 						<?php
-							if($VM_15){
-								echo 'Virtuemart Template';
-							}
-							elseif($K2){
+							if($K2){
 								echo 'K2 Template';
 							}
 							else{
@@ -85,10 +82,7 @@
 						</td>
 						<td>
 						<?php
-							if($VM_15){
-								echo JText::_('COM_J4SCHEMA_OVERRIDES_VM_15');
-							}
-							elseif($K2){
+							if($K2){
 								echo JText::_('COM_J4SCHEMA_OVERRIDES_K2');
 							}
 							if($layouts) $views[] = array('folder' => '', 'children' => $layouts);

@@ -41,12 +41,7 @@ class J4schemaModelAuthors extends F0FModel
 					->from('#__j4schema_authors');
 		$db->setQuery($query);
 
-		if(version_compare(JVERSION, '1.6.0', 'ge')){
-			$authors = $db->loadColumn();
-		}
-		else{
-			$authors = $db->loadResultArray();
-		}
+		$authors = $db->loadColumn();
 
 		$authors[] = 0;
 

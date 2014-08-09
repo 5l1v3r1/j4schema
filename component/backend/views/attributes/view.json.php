@@ -35,14 +35,13 @@ class J4schemaViewAttributes extends F0FViewJson
 
 		JError::setErrorHandling(E_ALL,'ignore');
 
-		if(version_compare(JVERSION, '1.6.0', 'ge')){
-			if(is_null($tpl)) $tpl = 'descr';
-		}
+		if(is_null($tpl)) $tpl = 'descr';
 
 		$result = $this->loadTemplate($tpl);
 		JError::setErrorHandling(E_WARNING,'callback');
 
-		if($result instanceof JException) {
+		if($result instanceof JException)
+        {
 			// Default JSON behaviour in case the template isn't there!
 			echo json_encode($items);
 			return false;
