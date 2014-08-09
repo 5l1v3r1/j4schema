@@ -5,32 +5,32 @@
 	<version>##VERSION##</version>
 	<creationDate>##DATE##</creationDate>
 	<author>Davide Tampellini</author>
-    <authorUrl>http://www.fabbricabinaria.it</authorUrl>
+  <authorUrl>http://www.fabbricabinaria.it</authorUrl>
 	<authorEmail>webmaster@fabbricabinaria.it</authorEmail>
 	<license>http://www.gnu.org/licenses/gpl.html (GNU/GPL)</license>
 	<description>J4Schema.org Extension</description>
-	
+
     <!-- SQL query files to execute on installation -->
     <install>
         <sql>
             <file charset="utf8" driver="mysql">install/install.sql</file>
         </sql>
     </install>
-    
+
     <!-- SQL query files to execute on uninstallation -->
     <uninstall>
         <sql>
             <file charset="utf8" driver="mysql">install/uninstall.sql</file>
          </sql>
     </uninstall>
-    
+
     <update>
         <schemas>
             <schemapath type="mysql">install/updates</schemapath>
-            <schemapath type="mysqli">install/updates</schemapath> 
+            <schemapath type="mysqli">install/updates</schemapath>
         </schemas>
     </update>
-      
+
     <files folder="frontend">
         <filename>j4schema.php</filename>
         <filename>index.html</filename>
@@ -41,20 +41,19 @@
 	<administration>
 		<menu view="cpanel" img="../media/com_j4schema/images/j4schema_20.png">COM_J4SCHEMA</menu>
 		<files folder="backend">
-            <folder>controllers</folder>
-            <folder>helpers</folder>
-            <folder>install</folder>
-            <folder>jce</folder>
-            <folder>liveupdate</folder>
-            <folder>models</folder>
-            <folder>tables</folder>
-            <folder>views</folder>
-            <filename>access.xml</filename>
-            <filename>config.xml</filename>
-            <filename>dispatcher.php</filename>
+      <folder>controllers</folder>
+      <folder>helpers</folder>
+      <folder>install</folder>
+      <folder>jce</folder>
+      <folder>models</folder>
+      <folder>tables</folder>
+      <folder>views</folder>
+      <filename>access.xml</filename>
+      <filename>config.xml</filename>
+      <filename>dispatcher.php</filename>
 			<filename>index.html</filename>
 			<filename>j4schema.php</filename>
-            <filename>toolbar.php</filename>
+      <filename>toolbar.php</filename>
 		</files>
 
 		<languages folder="language/backend">
@@ -63,7 +62,12 @@
 			<language tag="en-GB">en-GB/en-GB.com_j4schema.menu.ini</language>
 		</languages>
 	</administration>
-    
+
+  <!-- Update servers -->
+  <updateservers>
+    <server type="extension" priority="1" name="J4Schema Free"><![CDATA[http://www.fabbricabinaria.it/index.php?option=com_ars&view=update&task=stream&format=xml&id=3]]></server>
+  </updateservers>
+
     <media destination="com_j4schema" folder="media">
         <folder>css</folder>
         <folder>images</folder>

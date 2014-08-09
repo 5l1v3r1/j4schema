@@ -20,6 +20,7 @@
 
 	$reinstall = F0FTemplateUtils::parsePath('com_j4schema/images/clear_48.png');
 ?>
+<div id="updateNotice"></div>
 <div class="j4schema">
 	<div class="sx w50_" style="font-family:Helvetica;font-size:14px">
 		<?php
@@ -68,9 +69,6 @@
 				</div>
 			</div>
 		<?php endif;?>
-			<div class="icon-wrapper">
-				<?php echo LiveUpdate::getIcon(); ?>
-			</div>
 			<div class="clr"></div>
 		</div>
 	<?php if($warnings): ?>
@@ -85,10 +83,32 @@
 
 	<div class="clr"></div>
 	<p>
-		Copyright &copy;2012 <a href="http://www.fabbricabinaria.it">Davide Tampellini</a>. All rights reserved.<br>
+		Copyright &copy;2012-<?php echo date('Y')?> <a href="http://www.fabbricabinaria.it">Davide Tampellini</a>. All rights reserved.<br>
 		If you use J4Schema, please post a rating and a review at the
 		<a target="_blank" href="http://extensions.joomla.org/component/mtree/site-management/seo-a-metadata/meta-data/19961">
 			Joomla! Extension Directory
 		</a>.
 	</p>
 </div>
+<script type="text/javascript">
+    (function ($)
+    {
+        $(document).ready(function ()
+        {
+            $.ajax('index.php?option=com_j4schema&view=cpanels&task=updateinfo&tmpl=component', {
+                success: function (msg, textStatus, jqXHR)
+                {
+                    // Get rid of junk before and after data
+                    var match = msg.match(/###([\s\S]*?)###/);
+                    data = match[1];
+
+                    if (data.length)
+                    {
+                        $('#updateNotice').html(data);
+                    }
+                }
+            })
+        });
+    })(akeeba.jQuery);
+
+</script>
