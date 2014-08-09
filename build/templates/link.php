@@ -8,7 +8,7 @@ $symlink_folders = array(
 	'../buildfiles/tools'						=> 'build/tools',
 
     # FOF
-    '../fof/fof'								=> 'component/zzz_fof_2',
+    '../fof/fof'								=> 'component/zzz_fof',
 
     # Akeeba Strapper
     '../fof/strapper'							=> 'component/zzz_strapper',

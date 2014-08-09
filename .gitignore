@@ -9,6 +9,6 @@
 /build/templates/release.json
 /build/tools
 /component/j4schema.xml
-/component/zzz_fof_2
+/component/zzz_fof
 /component/zzz_strapper
 release/*
