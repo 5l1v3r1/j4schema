@@ -2,7 +2,7 @@
 /**
  * @package    	J4Schema
  * @author     	Davide Tampellini
- * @copyright 	Copyright (c)2011-2012 Davide Tampellini
+ * @copyright 	Copyright (c)2011-2014 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  */
 
