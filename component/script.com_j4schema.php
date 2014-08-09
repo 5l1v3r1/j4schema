@@ -77,9 +77,8 @@ class Com_j4schemaInstallerScript extends F0FUtilsInstallscript
 						)
 					),
 					'plugins' => array(
-						'system' => array(
-							'j4schema_jintegration'	=> 0
-						)
+                        'installer' => array('j4schema'              => 1),
+                        'system'    => array('j4schema_jintegration' => 0)
 					)
 				);
 

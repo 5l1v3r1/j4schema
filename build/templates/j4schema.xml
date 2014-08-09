@@ -64,6 +64,11 @@
 		</languages>
 	</administration>
 
+  <!-- Update servers -->
+  <updateservers>
+    <server type="extension" priority="1" name="J4Schema Pro"><![CDATA[http://www.fabbricabinaria.it/index.php?option=com_ars&view=update&task=stream&format=xml&id=4]]></server>
+  </updateservers>
+
     <media destination="com_j4schema" folder="media">
         <folder>css</folder>
         <folder>images</folder>

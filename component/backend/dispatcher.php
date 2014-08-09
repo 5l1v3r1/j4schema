@@ -12,26 +12,16 @@ class J4schemaDispatcher extends F0FDispatcher
 {
 	public function dispatch()
 	{
-		// Handle Live Update requests
-		if(!class_exists('LiveUpdate'))
-		{
-			// Load the correct version of LiveUpdate (this check is needed for local development only)
-            if(file_exists(JPATH_ADMINISTRATOR.'/components/com_j4schema/liveupdate_2.5/liveupdate.php'))
-            {
-                require_once JPATH_ADMINISTRATOR.'/components/com_j4schema/liveupdate_2.5/liveupdate.php';
-            }
-            else
-            {
-                require_once JPATH_ADMINISTRATOR.'/components/com_j4schema/liveupdate/liveupdate.php';
-            }
+        // Control Check
+        $view = F0FInflector::singularize($this->input->getCmd('view', $this->defaultView));
 
-            $view = $this->input->getString('view', '');
+        if ($view == 'liveupdate')
+        {
+            $url = JUri::base() . 'index.php?option=com_j4schema';
+            JFactory::getApplication()->redirect($url);
 
-			if(($view == 'liveupdate')) {
-				LiveUpdate::handleRequest();
-				return;
-			}
-		}
+            return;
+        }
 
         include_once JPATH_ROOT . '/media/akeeba_strapper/strapper.php';
         AkeebaStrapper::bootstrap();
