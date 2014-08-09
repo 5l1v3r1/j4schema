@@ -8,13 +8,13 @@
 
 defined('_JEXEC') or die();
 
-class J4schemaViewTypes extends FOFViewJson
+class J4schemaViewTypes extends F0FViewJson
 {
 	function __construct($config = array())
 	{
 		parent::__construct($config);
 
-		//I add the backend template paths here, so FOF has already did his work
+		//I add the backend template paths here, so F0F has already did his work
 		$this->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.'/views/types/tmpl');
 	}
 
@@ -35,11 +35,7 @@ class J4schemaViewTypes extends FOFViewJson
 
 		JError::setErrorHandling(E_ALL,'ignore');
 
-		// I don't know why, but in 1.5 the layout is the correct one, I don't have
-		// to add the template part
-		if(version_compare(JVERSION, '1.6.0', 'ge')){
-			if(is_null($tpl)) $tpl = 'descr';
-		}
+		if(is_null($tpl)) $tpl = 'descr';
 
 		$result = $this->loadTemplate($tpl);
 		JError::setErrorHandling(E_WARNING,'callback');

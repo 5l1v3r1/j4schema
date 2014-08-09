@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die();
 
-class J4schemaControllerAuthors extends FOFController
+class J4schemaControllerAuthors extends F0FController
 {
 	public function synchAuthors()
 	{

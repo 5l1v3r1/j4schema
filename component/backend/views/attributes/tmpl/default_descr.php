@@ -11,12 +11,7 @@ defined('_JEXEC') or die();
 $dataTypes = array('text', 'number', 'date', 'duration', 'integer', 'url', 'enum');
 
 $return['descr']  = $this->items[0]->descr ? $this->items[0]->descr : JText::_('COM_J4SCHEMA_NODESCR');
-
-if($this->input instanceof FOFInput) {
-    $return['schema'] = $this->input->getString('id_attributes', '');
-} else {
-    $return['schema'] = FOFInput::getVar('id_attributes');
-}
+$return['schema'] = $this->input->getString('id_attributes', '');
 
 foreach($this->items as $row)
 {

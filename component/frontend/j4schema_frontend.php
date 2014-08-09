@@ -8,12 +8,12 @@
 defined('_JEXEC') or die();
 JHTML::_('behavior.keepalive');
 
-include_once JPATH_ROOT.'/libraries/fof/include.php' ;
+include_once JPATH_ROOT.'/libraries/f0f/include.php' ;
 
-FOFTemplateUtils::addCSS('com_j4schema/css/main.css');
-FOFTemplateUtils::addCSS('com_j4schema/css/classes.css');
-FOFTemplateUtils::addCSS('com_j4schema/css/tree.css');
-FOFTemplateUtils::addCSS('com_j4schema/css/frontend.css');
+F0FTemplateUtils::addCSS('com_j4schema/css/main.css');
+F0FTemplateUtils::addCSS('com_j4schema/css/classes.css');
+F0FTemplateUtils::addCSS('com_j4schema/css/tree.css');
+F0FTemplateUtils::addCSS('com_j4schema/css/frontend.css');
 
 // Dispatch
-FOFDispatcher::getAnInstance('com_j4schema')->dispatch();
+F0FDispatcher::getAnInstance('com_j4schema')->dispatch();

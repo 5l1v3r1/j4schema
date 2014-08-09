@@ -1,3 +1,8 @@
+<?php die();?>
+J4Schema 5.2.0
+================================================================================
+~ Switching from core F-oh-F (FOF) framework to F-zero-F (F0F) framework
+
 4.2.2
 [HIGH] Fixed JSON requests
 

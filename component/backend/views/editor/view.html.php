@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die();
 
-class J4schemaViewEditor extends FOFViewHtml
+class J4schemaViewEditor extends F0FViewHtml
 {
 	function __construct($config = array())
 	{
@@ -16,7 +16,7 @@ class J4schemaViewEditor extends FOFViewHtml
 
 		parent::__construct($config);
 
-		//I add the backend template paths here, so FOF has already did his work
+		//I add the backend template paths here, so F0F has already did his work
 		$this->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.'/views/editor/tmpl');
 	}
 

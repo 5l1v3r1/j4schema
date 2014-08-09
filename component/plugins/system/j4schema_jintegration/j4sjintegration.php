@@ -10,18 +10,18 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 
-if(!file_exists(JPATH_ROOT.'/libraries/fof/include.php'))
+if(!file_exists(JPATH_ROOT.'/libraries/f0f/include.php'))
 {
 	return;
 }
 
-include_once JPATH_ROOT.'/libraries/fof/include.php' ;
+include_once JPATH_ROOT.'/libraries/f0f/include.php' ;
 
 class plgSystemJ4sjintegration extends JPlugin
 {
 	public function onAfterRender()
 	{
-		list($isCLI, $isAdmin) = FOFDispatcher::isCliAdmin();
+		list($isCLI, $isAdmin) = F0FDispatcher::isCliAdmin();
 		if($isAdmin) return;
 
 		$tokens = $this->getTokens();
@@ -79,7 +79,7 @@ class plgSystemJ4sjintegration extends JPlugin
 
 		$userid = preg_replace('#[^\d]#', '', $value[0]);
 
-		$query = FOFQueryAbstract::getNew()
+		$query = $db->getQuery(true)
 					->select('at_profile')
 					->from('#__j4schema_authors')
 					->where('at_userid = '.$userid);
@@ -122,7 +122,7 @@ class plgSystemJ4sjintegration extends JPlugin
 	{
 		$db = JFactory::getDbo();
 
-		$query = FOFQueryAbstract::getNew()
+		$query = $db->getQuery(true)
 					->select('*')
 					->from('#__j4schema_tokens')
 					->where('enabled = 1');

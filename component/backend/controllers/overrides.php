@@ -9,7 +9,7 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class J4schemaControllerOverrides extends FOFController
+class J4schemaControllerOverrides extends F0FController
 {
 	public function copyOverrides()
 	{
@@ -26,11 +26,7 @@ class J4schemaControllerOverrides extends FOFController
 
 		$tmpl_path = JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html/';
 
-		if($this->input instanceof FOFInput) {
-		    $folders = $this->input->get('folders', array(), 'array', 2);
-		} else {
-		    $folders = FOFInput::getArray('folders', array(), $this->input);
-		}
+		$folders = $this->input->get('folders', array(), 'array', 2);
 
 		//let's copy the custom overrides
 		foreach($j4s as $folder => $path)

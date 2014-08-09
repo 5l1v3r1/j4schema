@@ -6,7 +6,7 @@
  * @license 	GNU General Public License version 3, or later
  */
 
-class J4schemaViewTokens extends FOFViewHtml
+class J4schemaViewTokens extends F0FViewHtml
 {
 	function onDisplay($tpl = null)
 	{

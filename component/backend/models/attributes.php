@@ -8,19 +8,16 @@
 
 defined('_JEXEC') or die();
 
-class J4schemaModelAttributes extends FOFModel
+class J4schemaModelAttributes extends F0FModel
 {
 	public function buildQuery($overrideLimits = false)
 	{
 		$db = $this->getDbo();
-		$query = FOFQueryAbstract::getNew($db);
+		$query = $db->getQuery(true);
 
 		//if i'm getting values in json format, probably i need them for the tree
-		if($this->input instanceof FOFInput) {
-		    $format = $this->input->getString('format', '');
-		} else {
-		    $format = FOFInput::getVar('format');
-		}
+        $format = $this->input->getString('format', '');
+
 
 		if($format == 'json')
 		{
@@ -47,15 +44,12 @@ class J4schemaModelAttributes extends FOFModel
 	 * Inside there is a call to a recursive function {@see J4schemaModelAttributes::getAttrib} to fetch
 	 * parents attribs, too
 	 *
-	 * @see FOFModel::onProcessList()
+	 * @see F0FModel::onProcessList()
 	 */
 	function onProcessList(&$resultArray)
 	{
-		if($this->input instanceof FOFInput) {
-		    $format = $this->input->getString('format', '');
-		} else {
-		    $format = FOFInput::getVar('format');
-		}
+	    $format = $this->input->getString('format', '');
+
 		if($format != 'json') return;
 
 		// put every property inside an associative array
@@ -105,7 +99,7 @@ class J4schemaModelAttributes extends FOFModel
 	{
 		$db = JFactory::getDbo();
 
-		$query = FOFQueryAbstract::getNew($db)
+		$query = $db->getQuery(true)
 				 ->select('*')
 				 ->from('#__j4schema_types')
 				 ->leftJoin('#__j4schema_type_prop ON id_type = id_types')
@@ -144,13 +138,9 @@ class J4schemaModelAttributes extends FOFModel
 	{
 		$db = JFactory::getDbo();
 
-		if($this->input instanceof FOFInput) {
-		    $id_prop = $this->input->getString('id_attributes', '');
-		} else {
-		    $id_prop = FOFInput::getVar('id_attributes', '', $this->input);
-		}
+		$id_prop = $this->input->getString('id_attributes', '');
 
-		$query = FOFQueryAbstract::getNew($db)
+		$query = $db->getQuery(true)
 					->select('pr_comment_plain as descr, pv_value as value')
 					->from('#__j4schema_properties')
 					->innerJoin('#__j4schema_prop_values ON id_properties = pv_id_properties')
@@ -164,11 +154,8 @@ class J4schemaModelAttributes extends FOFModel
 	function &getItemList($overrideLimits = false, $group = '')
 	{
 		//if i'm getting values using json, i don't need the pagination
-		if($this->input instanceof FOFInput) {
-		    $format = $this->input->getString('format', '');
-		} else {
-		    $format = FOFInput::getVar('format');
-		}
+        $format = $this->input->getString('format', '');
+
 		if($format == 'json')	$overrideLimits = true;
 
 		return parent::getItemList($overrideLimits, $group);

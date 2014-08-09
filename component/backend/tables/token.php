@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die();
 
-class J4schemaTableToken extends FOFTable
+class J4schemaTableToken extends F0FTable
 {
 	function __construct($table, $key, $db)
 	{

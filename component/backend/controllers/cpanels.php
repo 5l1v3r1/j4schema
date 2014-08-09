@@ -8,7 +8,7 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class J4schemaControllerCpanels extends FOFController
+class J4schemaControllerCpanels extends F0FController
 {
 	public function execute($task) {
 		if($task != 'reinstalljce') $task = 'browse';
