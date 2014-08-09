@@ -16,11 +16,8 @@ class J4schemaModelAttributes extends F0FModel
 		$query = F0FQueryAbstract::getNew($db);
 
 		//if i'm getting values in json format, probably i need them for the tree
-		if($this->input instanceof F0FInput) {
-		    $format = $this->input->getString('format', '');
-		} else {
-		    $format = F0FInput::getVar('format');
-		}
+        $format = $this->input->getString('format', '');
+
 
 		if($format == 'json')
 		{
@@ -51,11 +48,8 @@ class J4schemaModelAttributes extends F0FModel
 	 */
 	function onProcessList(&$resultArray)
 	{
-		if($this->input instanceof F0FInput) {
-		    $format = $this->input->getString('format', '');
-		} else {
-		    $format = F0FInput::getVar('format');
-		}
+	    $format = $this->input->getString('format', '');
+
 		if($format != 'json') return;
 
 		// put every property inside an associative array
@@ -144,11 +138,7 @@ class J4schemaModelAttributes extends F0FModel
 	{
 		$db = JFactory::getDbo();
 
-		if($this->input instanceof F0FInput) {
-		    $id_prop = $this->input->getString('id_attributes', '');
-		} else {
-		    $id_prop = F0FInput::getVar('id_attributes', '', $this->input);
-		}
+		$id_prop = $this->input->getString('id_attributes', '');
 
 		$query = F0FQueryAbstract::getNew($db)
 					->select('pr_comment_plain as descr, pv_value as value')
@@ -164,11 +154,8 @@ class J4schemaModelAttributes extends F0FModel
 	function &getItemList($overrideLimits = false, $group = '')
 	{
 		//if i'm getting values using json, i don't need the pagination
-		if($this->input instanceof F0FInput) {
-		    $format = $this->input->getString('format', '');
-		} else {
-		    $format = F0FInput::getVar('format');
-		}
+        $format = $this->input->getString('format', '');
+
 		if($format == 'json')	$overrideLimits = true;
 
 		return parent::getItemList($overrideLimits, $group);

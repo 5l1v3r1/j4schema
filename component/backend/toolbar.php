@@ -27,13 +27,8 @@ class J4schemaToolbar extends F0FToolbar
 	function onOverridesBrowse()
 	{
 		// Set toolbar title
-		if($this->input instanceof F0FInput) {
-		    $option = $this->input->getString('option', 'com_foobar');
-		    $view 	= $this->input->getString('view', 'cpanel');
-		} else {
-		    $option = F0FInput::getCmd('option','com_foobar',$this->input);
-		    $view	= F0FInput::getCmd('view','cpanel',$this->input);
-		}
+        $option = $this->input->getString('option', 'com_foobar');
+        $view 	= $this->input->getString('view', 'cpanel');
 
 		$subtitle_key = $option.'_TITLE_'.strtoupper($view);
 		JToolBarHelper::title(JText::_($option).' &ndash; <small>'.JText::_($subtitle_key).'</small>', str_replace('com_', '', $option));

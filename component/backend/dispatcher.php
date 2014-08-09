@@ -25,12 +25,8 @@ class J4schemaDispatcher extends F0FDispatcher
                 require_once JPATH_ADMINISTRATOR.'/components/com_j4schema/liveupdate/liveupdate.php';
             }
 
+            $view = $this->input->getString('view', '');
 
-			if($this->input instanceof F0FInput) {
-			    $view = $this->input->getString('view', '');
-			} else {
-			    $view = F0FInput::getCmd('view','',$this->input);
-			}
 			if(($view == 'liveupdate')) {
 				LiveUpdate::handleRequest();
 				return;
