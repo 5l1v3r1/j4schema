@@ -1,7 +1,9 @@
 <?php die();?>
 J4Schema 5.2.0
 ================================================================================
++ [PRO] Updated Virtuemart template overrides
 ~ Switching from core F-oh-F (FOF) framework to F-zero-F (F0F) framework
+~ Use Joomla update system instead of Live Update
 
 4.2.2
 [HIGH] Fixed JSON requests

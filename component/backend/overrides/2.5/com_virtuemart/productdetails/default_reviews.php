@@ -28,8 +28,8 @@ if ($this->allowRating || $this->showReview) {
 	$ratingWidth = $maxrating * 24;
 	for ($num = 0; $num <= $maxrating; $num++) {
 
-        $stars[]='
-				<span title="'.(JText::_("COM_VIRTUEMART_RATING_TITLE") . $num . '/' . $maxrating).'" class="vmicon ratingbox" style="display:inline-block;width:'. 24 * $maxrating .'px;">
+		$stars[] = '
+				<span title="' . (JText::_ ("COM_VIRTUEMART_RATING_TITLE") . $num . '/' . $maxrating) . '" class="vmicon ratingbox" style="display:inline-block;width:' . 24 * $maxrating . 'px;">
 					{VM_META_REVIEW_RATING:'.$num.'}
 					{VM_META_REVIEW_BEST_RATING:'.$maxrating.'}
 					<span class="stars-orange" style="width:'. (24 * $num).'px">

@@ -39,7 +39,7 @@ $MailLink = 'index.php?option=com_virtuemart&view=productdetails&task=recommend&
 
 $boxFuncReco = '';
 $boxFuncAsk = '';
-if(VmConfig::get('usefancy',0)){
+if(VmConfig::get('usefancy',1)){
 	vmJsApi::js( 'fancybox/jquery.fancybox-1.3.4.pack');
 	vmJsApi::css('jquery.fancybox-1.3.4');
 	if(VmConfig::get('show_emailfriend',0)){
