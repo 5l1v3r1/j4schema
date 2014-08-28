@@ -1,9 +1,9 @@
 <?php
 /**
- * @version		$Id: category_item_links.php 1618 2012-09-21 11:23:08Z lefteris.kavadas $
+ * @version		2.6.x
  * @package		K2
  * @author		JoomlaWorks http://www.joomlaworks.net
- * @copyright	Copyright (c) 2006 - 2012 JoomlaWorks Ltd. All rights reserved.
+ * @copyright	Copyright (c) 2006 - 2014 JoomlaWorks Ltd. All rights reserved.
  * @license		GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -28,7 +28,7 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
 	  	<?php echo $this->item->title; ?>
 	  	<?php endif; ?>
 	  </h3>
-	  
+
 	  <?php if($this->item->params->get('catItemImage') && !empty($this->item->image)): ?>
 	  <!-- Item Image -->
 	  <div class="catItemImageBlock">
@@ -40,7 +40,7 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
 		  <div class="clr"></div>
 	  </div>
 	  <?php endif; ?>
-	  
+
 	  <?php endif; ?>
 </div>
 <!-- End K2 Item Layout (links) -->

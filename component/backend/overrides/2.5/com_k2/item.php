@@ -1,9 +1,9 @@
 <?php
 /**
- * @version		$Id: item.php 1709 2012-10-06 01:46:10Z joomlaworks $
+ * @version		2.6.x
  * @package		K2
  * @author		JoomlaWorks http://www.joomlaworks.net
- * @copyright	Copyright (c) 2006 - 2012 JoomlaWorks Ltd. All rights reserved.
+ * @copyright	Copyright (c) 2006 - 2014 JoomlaWorks Ltd. All rights reserved.
  * @license		GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -73,7 +73,7 @@ defined('_JEXEC') or die;
 			<?php echo K2HelperUtilities::writtenBy($this->item->author->profile->gender); ?>&nbsp;
 			<a href="{GOOGLE_PLUS_AUTHOR:<?php echo $this->item->created_by?>}"><?php echo $this->item->author->name; ?></a>
 			<?php if(empty($this->item->created_by_alias)): ?>
-			<a rel="author" href="<?php echo $this->item->author->link; ?>"> (Profile) </a>
+			<a rel="author" href="<?php echo $this->item->author->link; ?>"><?php echo $this->item->author->name; ?></a>
 			<?php else: ?>
 			<?php echo $this->item->author->name; ?>
 			<?php endif; ?>
@@ -184,13 +184,13 @@ defined('_JEXEC') or die;
 		<div class="itemRatingForm" {K2_ITEM_RATING_WRAPPER}>
 			<ul class="itemRatingList">
 				<li class="itemCurrentRating" id="itemCurrentRating<?php echo $this->item->id; ?>" style="width:<?php echo $this->item->votingPercentage; ?>%;"></li>
-				<li><a href="#" rel="<?php echo $this->item->id; ?>" title="<?php echo JText::_('K2_1_STAR_OUT_OF_5'); ?>" class="one-star">1</a></li>
-				<li><a href="#" rel="<?php echo $this->item->id; ?>" title="<?php echo JText::_('K2_2_STARS_OUT_OF_5'); ?>" class="two-stars">2</a></li>
-				<li><a href="#" rel="<?php echo $this->item->id; ?>" title="<?php echo JText::_('K2_3_STARS_OUT_OF_5'); ?>" class="three-stars">3</a></li>
-				<li><a href="#" rel="<?php echo $this->item->id; ?>" title="<?php echo JText::_('K2_4_STARS_OUT_OF_5'); ?>" class="four-stars">4</a></li>
-				<li><a href="#" rel="<?php echo $this->item->id; ?>" title="<?php echo JText::_('K2_5_STARS_OUT_OF_5'); ?>" class="five-stars">5</a></li>
+				<li><a href="#" data-id="<?php echo $this->item->id; ?>" title="<?php echo JText::_('K2_1_STAR_OUT_OF_5'); ?>" class="one-star">1</a></li>
+				<li><a href="#" data-id="<?php echo $this->item->id; ?>" title="<?php echo JText::_('K2_2_STARS_OUT_OF_5'); ?>" class="two-stars">2</a></li>
+				<li><a href="#" data-id="<?php echo $this->item->id; ?>" title="<?php echo JText::_('K2_3_STARS_OUT_OF_5'); ?>" class="three-stars">3</a></li>
+				<li><a href="#" data-id="<?php echo $this->item->id; ?>" title="<?php echo JText::_('K2_4_STARS_OUT_OF_5'); ?>" class="four-stars">4</a></li>
+				<li><a href="#" data-id="<?php echo $this->item->id; ?>" title="<?php echo JText::_('K2_5_STARS_OUT_OF_5'); ?>" class="five-stars">5</a></li>
 			</ul>
-			{K2_ITEM_RATING_COUNT:<?php echo preg_replace('#[^\d]#', '' ,$this->item->numOfvotes) ?>}		
+			{K2_ITEM_RATING_COUNT:<?php echo preg_replace('#[^\d]#', '' ,$this->item->numOfvotes) ?>}
 			{K2_ITEM_RATING_AVERAGE:<?php echo round($this->item->votingPercentage * 5 / 100, 2)?>}
 			<div id="itemRatingLog<?php echo $this->item->id; ?>" class="itemRatingLog"><?php echo $this->item->numOfvotes; ?></div>
 			<div class="clr"></div>
@@ -258,10 +258,14 @@ defined('_JEXEC') or die;
 	  	<h3><?php echo JText::_('K2_ADDITIONAL_INFO'); ?></h3>
 	  	<ul>
 			<?php foreach ($this->item->extra_fields as $key=>$extraField): ?>
-			<?php if($extraField->value): ?>
+			<?php if($extraField->value != ''): ?>
 			<li class="<?php echo ($key%2) ? "odd" : "even"; ?> type<?php echo ucfirst($extraField->type); ?> group<?php echo $extraField->group; ?>">
+				<?php if($extraField->type == 'header'): ?>
+				<h4 class="itemExtraFieldsHeader"><?php echo $extraField->name; ?></h4>
+				<?php else: ?>
 				<span class="itemExtraFieldsLabel"><?php echo $extraField->name; ?>:</span>
 				<span class="itemExtraFieldsValue"><?php echo $extraField->value; ?></span>
+				<?php endif; ?>
 			</li>
 			<?php endif; ?>
 			<?php endforeach; ?>

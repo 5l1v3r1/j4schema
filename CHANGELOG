@@ -1,8 +1,9 @@
 <?php die();?>
 J4Schema 5.2.0
 ================================================================================
++ [PRO] Updated K2 template overrides
 + [PRO] Updated Virtuemart template overrides
-+ [PRO] Update Joomla 2.5 template overrides
++ [PRO] Updated Joomla 2.5 template overrides
 - [PRO] Removed JEvents template overrides
 ~ Switching from core F-oh-F (FOF) framework to F-zero-F (F0F) framework
 ~ Use Joomla update system instead of Live Update

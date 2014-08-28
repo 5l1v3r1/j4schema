@@ -1,9 +1,9 @@
 <?php
 /**
- * @version		$Id: category.php 1618 2012-09-21 11:23:08Z lefteris.kavadas $
+ * @version		2.6.x
  * @package		K2
  * @author		JoomlaWorks http://www.joomlaworks.net
- * @copyright	Copyright (c) 2006 - 2012 JoomlaWorks Ltd. All rights reserved.
+ * @copyright	Copyright (c) 2006 - 2014 JoomlaWorks Ltd. All rights reserved.
  * @license		GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 ?>
+
 <!-- Start K2 Category Layout -->
 <div {K2_BODY_WRAPPER} id="k2Container" class="itemListView<?php if($this->params->get('pageclass_sfx')) echo ' '.$this->params->get('pageclass_sfx'); ?>">
 
@@ -105,7 +106,7 @@ defined('_JEXEC') or die;
 
 					<?php if($this->params->get('subCatDescription')): ?>
 					<!-- Subcategory description -->
-					<div {K2_SUBCATEGORY_DESCR}><?php echo $subCategory->description; ?></div>
+					<p {K2_SUBCATEGORY_DESCR}><?php echo $subCategory->description; ?></p>
 					<?php endif; ?>
 
 					<!-- Subcategory more... -->
@@ -250,7 +251,7 @@ defined('_JEXEC') or die;
 	</div>
 
 	<!-- Pagination -->
-	<?php if(count($this->pagination->getPagesLinks())): ?>
+	<?php if($this->pagination->getPagesLinks()): ?>
 	<div class="k2Pagination">
 		<?php if($this->params->get('catPagination')) echo $this->pagination->getPagesLinks(); ?>
 		<div class="clr"></div>

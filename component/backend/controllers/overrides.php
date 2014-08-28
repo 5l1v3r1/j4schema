@@ -31,8 +31,10 @@ class J4schemaControllerOverrides extends F0FController
 		//let's copy the custom overrides
 		foreach($j4s as $folder => $path)
 		{
-			if(!in_array($folder, $folders)) continue;
-
+			if(!in_array($folder, $folders))
+            {
+                continue;
+            }
 			// K2 has no template overrides, but his own template system
 			elseif($folder == 'com_k2')
 			{

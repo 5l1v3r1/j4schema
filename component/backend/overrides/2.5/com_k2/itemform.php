@@ -1,9 +1,9 @@
 <?php
 /**
- * @version		$Id: itemform.php 1643 2012-09-26 13:10:26Z lefteris.kavadas $
+ * @version		2.6.x
  * @package		K2
  * @author		JoomlaWorks http://www.joomlaworks.net
- * @copyright	Copyright (c) 2006 - 2012 JoomlaWorks Ltd. All rights reserved.
+ * @copyright	Copyright (c) 2006 - 2014 JoomlaWorks Ltd. All rights reserved.
  * @license		GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -25,8 +25,11 @@ $document->addScriptDeclaration("
 		}
 		else {
 			syncExtraFieldsEditor();
-			\$K2('#selectedTags option').attr('selected', 'selected');
-			submitform( pressbutton );
+			var validation = validateExtraFields();
+			if(validation === true) {
+				\$K2('#selectedTags option').attr('selected', 'selected');
+				submitform( pressbutton );
+			}
 		}
 	}
 ");
@@ -40,7 +43,7 @@ $document->addScriptDeclaration("
 			<table class="k2FrontendToolbar" cellpadding="2" cellspacing="4">
 				<tr>
 					<td id="toolbar-save" class="button">
-						<a class="toolbar" href="#" onclick="javascript: submitbutton('save'); return false;"> <span title="<?php echo JText::_('K2_SAVE'); ?>" class="icon-32-save icon-save"></span> <?php echo JText::_('K2_SAVE'); ?> </a>
+						<a class="toolbar" href="#" onclick="Joomla.submitbutton('save'); return false;"> <span title="<?php echo JText::_('K2_SAVE'); ?>" class="icon-32-save icon-save"></span> <?php echo JText::_('K2_SAVE'); ?> </a>
 					</td>
 					<td id="toolbar-cancel" class="button">
 						<a class="toolbar" href="#"> <span title="<?php echo JText::_('K2_CANCEL'); ?>" class="icon-32-cancel icon-cancel"></span> <?php echo JText::_('K2_CLOSE'); ?> </a>
@@ -54,11 +57,9 @@ $document->addScriptDeclaration("
 			</div>
 			<div class="clr"></div>
 			<hr class="sep" />
-			<?php if(!$this->permissions->get('publish')): ?>
 			<div id="k2FrontendPermissionsNotice">
-				<p><?php echo JText::_('K2_FRONTEND_PERMISSIONS_NOTICE'); ?></p>
+				<p><?php echo $this->permissionsMessage; ?></p>
 			</div>
-			<?php endif; ?>
 			<?php endif; ?>
 			<div id="k2ToggleSidebarContainer"> <a href="#" id="k2ToggleSidebar"><?php echo JText::_('K2_TOGGLE_SIDEBAR'); ?></a> </div>
 			<table cellspacing="0" cellpadding="0" border="0" class="adminFormK2Container table">
@@ -143,7 +144,8 @@ $document->addScriptDeclaration("
 										<?php endif; ?>
 									</td>
 								</tr>
-								<?php if($this->mainframe->isAdmin() || ($this->mainframe->isSite() && $this->permissions->get('publish'))): ?>
+								<?php if($this->mainframe->isAdmin() || ($this->mainframe->isSite() && $this->permissions->get('publish')  || ($this->permissions->get('editPublished') && $this->row->id && $this->row->published)  )): ?>
+								<?php if($this->permissions->get('publish')): ?>
 								<tr>
 									<td class="adminK2LeftCol">
 										<label for="featured"><?php echo JText::_('K2_IS_IT_FEATURED'); ?></label>
@@ -152,6 +154,7 @@ $document->addScriptDeclaration("
 										<?php echo $this->lists['featured']; ?>
 									</td>
 								</tr>
+								<?php endif; ?>
 								<tr>
 									<td class="adminK2LeftCol">
 										<label><?php echo JText::_('K2_PUBLISHED'); ?></label>
@@ -162,7 +165,15 @@ $document->addScriptDeclaration("
 								</tr>
 								<?php endif; ?>
 							</table>
-							
+
+							<!-- Required extra field warning -->
+							<div id="k2ExtraFieldsValidationResults">
+								<h3><?php echo JText::_('K2_THE_FOLLOWING_FIELDS_ARE_REQUIRED'); ?></h3>
+								<ul id="k2ExtraFieldsMissing">
+									<li><?php echo JText::_('K2_LOADING'); ?></li>
+								</ul>
+							</div>
+
 							<!-- Tabs start here -->
 							<div class="simpleTabs" id="k2Tabs">
 								<ul class="simpleTabsNavigation">
@@ -186,7 +197,7 @@ $document->addScriptDeclaration("
 									<li id="tabPlugins"><a href="#k2Tab7"><?php echo JText::_('K2_PLUGINS'); ?></a></li>
 									<?php endif; ?>
 								</ul>
-								
+
 								<!-- Tab content -->
 								<div class="simpleTabsContent" id="k2Tab1">
 									<?php if($this->params->get('mergeEditors')): ?>
@@ -286,19 +297,27 @@ $document->addScriptDeclaration("
 								<!-- Tab image gallery -->
 								<div class="simpleTabsContent" id="k2Tab3">
 									<?php if ($this->lists['checkSIG']): ?>
-									<table class="admintable" id="item_gallery_content">
+									<table class="admintable table" id="item_gallery_content">
 										<tr>
 											<td align="right" valign="top" class="key">
-												<?php echo JText::_('K2_UPLOAD_A_ZIP_FILE_WITH_IMAGES'); ?>
+												<?php echo JText::_('K2_COM_BE_ITEM_ITEM_IMAGE_GALLERY'); ?>
 											</td>
 											<td valign="top">
-												<input type="file" name="gallery" class="fileUpload" />
-												<i>(<?php echo JText::_('K2_MAX_UPLOAD_SIZE'); ?>: <?php echo ini_get('upload_max_filesize'); ?>)</i>
+												<?php if($this->sigPro): ?>
+												<a class="modal" rel="{handler: 'iframe', size: {x: 940, y: 560}}" href="index.php?option=com_sigpro&view=galleries&task=create&newFolder=<?php echo $this->sigProFolder; ?>&type=k2&tmpl=component&template=system"><?php echo JText::_('K2_COM_BE_ITEM_SIGPRO_UPLOAD'); ?></a> <i>(<?php echo JText::_('K2_COM_BE_ITEM_SIGPRO_UPLOAD_NOTE'); ?>)</i>
+												<input name="sigProFolder" type="hidden" value="<?php echo $this->sigProFolder; ?>" />
 												<br />
 												<br />
-												<?php echo JText::_('K2_OR_ENTER_A_FLICKR_SET_URL'); ?>
-												<input type="text" name="flickrGallery" size="50" value="<?php echo ($this->row->galleryType == 'flickr') ? $this->row->galleryValue : ''; ?>" />
+												<?php echo JText::_('K2_OR'); ?>
+												<?php endif; ?>
+												<?php echo JText::_('K2_UPLOAD_A_ZIP_FILE_WITH_IMAGES'); ?> <input type="file" name="gallery" class="fileUpload" /> <span class="hasTip k2GalleryNotice" title="<?php echo JText::_('K2_UPLOAD_A_ZIP_FILE_HELP_HEADER'); ?>::<?php echo JText::_('K2_UPLOAD_A_ZIP_FILE_HELP_TEXT'); ?>"><?php echo JText::_('K2_UPLOAD_A_ZIP_FILE_HELP'); ?></span> <i>(<?php echo JText::_('K2_MAX_UPLOAD_SIZE'); ?>: <?php echo ini_get('upload_max_filesize'); ?>)</i>
+												<br />
+												<br />
+												<?php echo JText::_('K2_OR_ENTER_A_FLICKR_SET_URL'); ?><?php echo JText::_('K2_OR_ENTER_A_FLICKR_SET_URL'); ?>
+												<input type="text" name="flickrGallery" size="50" value="<?php echo ($this->row->galleryType == 'flickr') ? $this->row->galleryValue : ''; ?>" /> <span class="hasTip k2GalleryNotice" title="<?php echo JText::_('K2_VALID_FLICK_API_KEY_HELP_HEADER'); ?>::<?php echo JText::_('K2_VALID_FLICK_API_KEY_HELP_TEXT'); ?>"><?php echo JText::_('K2_UPLOAD_A_ZIP_FILE_HELP'); ?></span>
+
 												<?php if (!empty($this->row->gallery)): ?>
+												<!-- Preview -->
 												<div id="itemGallery">
 													<?php echo $this->row->gallery; ?>
 													<br />
@@ -310,14 +329,32 @@ $document->addScriptDeclaration("
 										</tr>
 									</table>
 									<?php else: ?>
-									<dl id="system-message">
-										<dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
-										<dd class="notice message fade">
-											<ul>
-												<li><?php echo JText::_('K2_NOTICE_PLEASE_INSTALL_JOOMLAWORKS_SIMPLE_IMAGE_GALLERY_PRO_PLUGIN_IF_YOU_WANT_TO_USE_THE_IMAGE_GALLERY_FEATURES_OF_K2'); ?></li>
-											</ul>
-										</dd>
-									</dl>
+										<?php if (K2_JVERSION == '15'): ?>
+										<dl id="system-message">
+											<dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
+											<dd class="notice message fade">
+												<ul>
+													<li><?php echo JText::_('K2_NOTICE_PLEASE_INSTALL_JOOMLAWORKS_SIMPLE_IMAGE_GALLERY_PRO_PLUGIN_IF_YOU_WANT_TO_USE_THE_IMAGE_GALLERY_FEATURES_OF_K2'); ?></li>
+												</ul>
+											</dd>
+										</dl>
+										<?php elseif(K2_JVERSION == '25'): ?>
+										<div id="system-message-container">
+											<dl id="system-message">
+												<dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
+												<dd class="notice message">
+													<ul>
+														<li><?php echo JText::_('K2_NOTICE_PLEASE_INSTALL_JOOMLAWORKS_SIMPLE_IMAGE_GALLERY_PRO_PLUGIN_IF_YOU_WANT_TO_USE_THE_IMAGE_GALLERY_FEATURES_OF_K2'); ?></li>
+													</ul>
+												</dd>
+											</dl>
+										</div>
+										<?php else: ?>
+										<div class="alert">
+											<h4 class="alert-heading"><?php echo JText::_('K2_NOTICE'); ?></h4>
+											<div><p><?php echo JText::_('K2_NOTICE_PLEASE_INSTALL_JOOMLAWORKS_SIMPLE_IMAGE_GALLERY_PRO_PLUGIN_IF_YOU_WANT_TO_USE_THE_IMAGE_GALLERY_FEATURES_OF_K2'); ?></p></div>
+										</div>
+										<?php endif; ?>
 									<?php endif; ?>
 									<?php if (count($this->K2PluginsItemGallery)): ?>
 									<div class="itemPlugins">
@@ -410,14 +447,32 @@ $document->addScriptDeclaration("
 										<?php endif; ?>
 									</table>
 									<?php else: ?>
-									<dl id="system-message">
-										<dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
-										<dd class="notice message fade">
-											<ul>
-												<li><?php echo JText::_('K2_NOTICE_PLEASE_INSTALL_JOOMLAWORKS_ALLVIDEOS_PLUGIN_IF_YOU_WANT_TO_USE_THE_FULL_VIDEO_FEATURES_OF_K2'); ?></li>
-											</ul>
-										</dd>
-									</dl>
+										<?php if (K2_JVERSION == '15'): ?>
+										<dl id="system-message">
+											<dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
+											<dd class="notice message fade">
+												<ul>
+													<li><?php echo JText::_('K2_NOTICE_PLEASE_INSTALL_JOOMLAWORKS_ALLVIDEOS_PLUGIN_IF_YOU_WANT_TO_USE_THE_FULL_VIDEO_FEATURES_OF_K2'); ?></li>
+												</ul>
+											</dd>
+										</dl>
+										<?php elseif(K2_JVERSION == '25'): ?>
+										<div id="system-message-container">
+											<dl id="system-message">
+												<dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
+												<dd class="notice message">
+													<ul>
+														<li><?php echo JText::_('K2_NOTICE_PLEASE_INSTALL_JOOMLAWORKS_ALLVIDEOS_PLUGIN_IF_YOU_WANT_TO_USE_THE_FULL_VIDEO_FEATURES_OF_K2'); ?></li>
+													</ul>
+												</dd>
+											</dl>
+										</div>
+										<?php else: ?>
+										<div class="alert">
+											<h4 class="alert-heading"><?php echo JText::_('K2_NOTICE'); ?></h4>
+											<div><p><?php echo JText::_('K2_NOTICE_PLEASE_INSTALL_JOOMLAWORKS_ALLVIDEOS_PLUGIN_IF_YOU_WANT_TO_USE_THE_FULL_VIDEO_FEATURES_OF_K2'); ?></p></div>
+										</div>
+										<?php endif; ?>
 									<table class="admintable" id="item_video_content">
 										<tr>
 											<td align="right" class="key">
@@ -490,25 +545,51 @@ $document->addScriptDeclaration("
 										<?php if (count($this->extraFields)): ?>
 										<table class="admintable" id="extraFields">
 											<?php foreach($this->extraFields as $extraField): ?>
+											<?php if($extraField->type == 'header'): ?>
+											<tr>
+												<td colspan="2" ><h4 class="k2ExtraFieldHeader"><?php echo $extraField->name; ?></h4></td>
+											</tr>
+											<?php else: ?>
 											<tr>
 												<td align="right" class="key">
-													<?php echo $extraField->name; ?>
+													<label for="K2ExtraField_<?php echo $extraField->id; ?>"><?php echo $extraField->name; ?></label>
 												</td>
 												<td>
 													<?php echo $extraField->element; ?>
 												</td>
 											</tr>
+											<?php endif; ?>
 											<?php endforeach; ?>
 										</table>
 										<?php else: ?>
-										<dl id="system-message">
-											<dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
-											<dd class="notice message fade">
-												<ul>
-													<li><?php echo JText::_('K2_PLEASE_SELECT_A_CATEGORY_FIRST_TO_RETRIEVE_ITS_RELATED_EXTRA_FIELDS'); ?></li>
-												</ul>
-											</dd>
-										</dl>
+											<?php if (K2_JVERSION == '15'): ?>
+												<dl id="system-message">
+													<dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
+													<dd class="notice message fade">
+														<ul>
+															<li><?php echo JText::_('K2_PLEASE_SELECT_A_CATEGORY_FIRST_TO_RETRIEVE_ITS_RELATED_EXTRA_FIELDS'); ?></li>
+														</ul>
+													</dd>
+												</dl>
+											<?php elseif (K2_JVERSION == '25'): ?>
+											<div id="system-message-container">
+												<dl id="system-message">
+													<dt class="notice"><?php echo JText::_('K2_NOTICE'); ?></dt>
+													<dd class="notice message">
+														<ul>
+															<li><?php echo JText::_('K2_PLEASE_SELECT_A_CATEGORY_FIRST_TO_RETRIEVE_ITS_RELATED_EXTRA_FIELDS'); ?></li>
+														</ul>
+													</dd>
+												</dl>
+											</div>
+											<?php else: ?>
+											<div class="alert">
+												<h4 class="alert-heading"><?php echo JText::_('K2_NOTICE'); ?></h4>
+												<div>
+													<p><?php echo JText::_('K2_PLEASE_SELECT_A_CATEGORY_FIRST_TO_RETRIEVE_ITS_RELATED_EXTRA_FIELDS'); ?></p>
+												</div>
+											</div>
+											<?php endif; ?>
 										<?php endif; ?>
 									</div>
 									<?php if (count($this->K2PluginsItemExtraFields)): ?>
@@ -605,7 +686,7 @@ $document->addScriptDeclaration("
 								<?php endif; ?>
 							</div>
 							<!-- Tabs end here -->
-							
+
 							<input type="hidden" name="isSite" value="<?php echo (int)$this->mainframe->isSite(); ?>" />
 							<?php if($this->mainframe->isSite()): ?>
 							<input type="hidden" name="lang" value="<?php echo JRequest::getCmd('lang'); ?>" />
