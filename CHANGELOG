@@ -1,6 +1,7 @@
 <?php die();?>
 J4Schema 5.2.0
 ================================================================================
++ Use HTTPS for Schema.org URLs
 + [PRO] Updated K2 template overrides
 + [PRO] Updated Virtuemart template overrides
 + [PRO] Updated Joomla 2.5 template overrides
