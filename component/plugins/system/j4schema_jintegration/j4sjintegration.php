@@ -34,28 +34,28 @@ class plgSystemJ4sjintegration extends JPlugin
 			{
 				case 'date':
 					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#', array($this, 'buildDate'), $body);
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#i', array($this, 'buildDate'), $body);
 					$this->token = '';
 				break;
 
 				case 'google+':
 					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#', array($this, 'buildGoogle'), $body);
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#i', array($this, 'buildGoogle'), $body);
 					$this->token = '';
 				break;
 
 				case 'link':
-					$body = str_replace('{'.$token->to_name.'}', '<link '.$token->to_replace.' />', $body);
+					$body = str_ireplace('{'.$token->to_name.'}', '<link '.$token->to_replace.' />', $body);
 				break;
 
 				case 'meta':
 					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#', array($this, 'buildMeta'), $body);
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#i', array($this, 'buildMeta'), $body);
 					$this->token = '';
 				break;
 
 				case 'text':
-					$body = str_replace('{'.$token->to_name.'}', $token->to_replace, $body);
+					$body = str_ireplace('{'.$token->to_name.'}', $token->to_replace, $body);
 				break;
 			}
 		}
@@ -65,8 +65,8 @@ class plgSystemJ4sjintegration extends JPlugin
 
 	function buildDate($value)
 	{
-		$datetime = str_replace('{'.$this->token->to_name.':', '', $value[0]);
-		$datetime = str_replace('}', '', $datetime);
+		$datetime = str_ireplace('{'.$this->token->to_name.':', '', $value[0]);
+		$datetime = str_ireplace('}', '', $datetime);
 
 		$iso = $this->timeToISO($datetime);
 
@@ -92,8 +92,8 @@ class plgSystemJ4sjintegration extends JPlugin
 
 	function buildMeta($value)
 	{
-		$content = str_replace('{'.$this->token->to_name.':', '', $value[0]);
-		$content = str_replace('}', '', $content);
+		$content = str_ireplace('{'.$this->token->to_name.':', '', $value[0]);
+		$content = str_ireplace('}', '', $content);
 
 		if    (preg_match('#^(\d{4})\-(\d{2})\-(\d{2})#', $content))	$content = $this->timeToISO($content);
 		elseif(preg_match('#^P[\d]#', $content))						$content = $this->isoDuration($content);
