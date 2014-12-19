@@ -32,6 +32,7 @@ if ($this->allowRating || $this->allowReview || $this->showRating || $this->show
 		$stars[] = '
 				<span title="'.(vmText::_( "COM_VIRTUEMART_RATING_TITLE" ).$num.'/'.$maxrating).'" class="vmicon ratingbox" style="display:inline-block;width:'. 24*$maxrating.'px;">
 					{VM_META_REVIEW_RATING:'.$num.'}
+					{VM_META_REVIEW_WORST_RATING:0}
 					{VM_META_REVIEW_BEST_RATING:'.$maxrating.'}
 					<span class="stars-orange" style="width:'.(24*$num).'px">
 					</span>
