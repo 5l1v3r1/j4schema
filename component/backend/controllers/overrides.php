@@ -22,6 +22,10 @@ class J4schemaControllerOverrides extends F0FController
 		$keys   = JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/'.$version, '.', false, false);
 		$values = JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/'.$version, '.', false, true);
 
+		// Manually inject Virtuemart template overrides, since they are both for J2.5 and J3.x
+		$keys   = array_merge($keys, JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/virtuemart', '.', false, false));
+		$values = array_merge($values, JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/virtuemart', '.', false, true));
+
 		$j4s = array_combine($keys, $values);
 
 		$tmpl_path = JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html/';
