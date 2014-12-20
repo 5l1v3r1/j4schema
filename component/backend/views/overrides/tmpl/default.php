@@ -25,8 +25,6 @@
 
 
 	$tmpl = J4schemaHelperFilesystem::treeFolder(JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html');
-
-
 ?>
 <form id="adminForm" name="adminForm" action="index.php" method="post" class="row-fluid">
 

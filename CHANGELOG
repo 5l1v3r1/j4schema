@@ -2,6 +2,8 @@
 J4Schema 5.3.0
 ================================================================================
 + Tokens now are case insensitive
++ [PRO] Updated K2 template overrides
++ [PRO] Updated Virtuemart template overrides
 
 J4Schema 5.2.0
 ================================================================================
