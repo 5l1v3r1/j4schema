@@ -28,7 +28,7 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
 	  	<?php echo $this->item->title; ?>
 	  	<?php endif; ?>
 	  </h3>
-
+	  
 	  <?php if($this->item->params->get('catItemImage') && !empty($this->item->image)): ?>
 	  <!-- Item Image -->
 	  <div class="catItemImageBlock">
@@ -40,7 +40,7 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
 		  <div class="clr"></div>
 	  </div>
 	  <?php endif; ?>
-
+	  
 	  <?php endif; ?>
 </div>
 <!-- End K2 Item Layout (links) -->

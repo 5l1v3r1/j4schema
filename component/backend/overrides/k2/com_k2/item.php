@@ -36,7 +36,7 @@ defined('_JEXEC') or die;
 		<!-- Date created -->
 		<span class="itemDateCreated">
 			<time {K2_ITEM_CREATED:<?php echo $this->item->created?>}>
-				<?php echo JHTML::_('date', $this->item->created , JText::_('K2_DATE_FORMAT_LC2')); ?>
+			    <?php echo JHTML::_('date', $this->item->created , JText::_('K2_DATE_FORMAT_LC2')); ?>
 			</time>
 		</span>
 		<?php endif; ?>
@@ -288,7 +288,7 @@ defined('_JEXEC') or die;
 			<!-- Item date modified -->
 			<span class="itemDateModified">
 				<time {K2_ITEM_MODIFIED:<?php echo $this->item->modified?>}>
-					<?php echo JText::_('K2_LAST_MODIFIED_ON'); ?> <?php echo JHTML::_('date', $this->item->modified, JText::_('K2_DATE_FORMAT_LC2')); ?>
+				    <?php echo JText::_('K2_LAST_MODIFIED_ON'); ?> <?php echo JHTML::_('date', $this->item->modified, JText::_('K2_DATE_FORMAT_LC2')); ?>
 				</time>
 			</span>
 			<?php endif; ?>

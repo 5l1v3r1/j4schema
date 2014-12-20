@@ -61,7 +61,7 @@ defined('_JEXEC') or die;
 
 			<?php if($this->params->get('catDescription')): ?>
 			<!-- Category description -->
-			<div {K2_CATEGORY_DESCR}><?php echo $this->category->description; ?></div>
+			<p {K2_CATEGORY_DESCR}><?php echo $this->category->description; ?></p>
 			<?php endif; ?>
 
 			<!-- K2 Plugins: K2CategoryDisplay -->
