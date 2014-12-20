@@ -26,6 +26,9 @@ class J4schemaControllerOverrides extends F0FController
 		$keys   = array_merge($keys, JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/virtuemart', '.', false, false));
 		$values = array_merge($values, JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/virtuemart', '.', false, true));
 
+		$keys   = array_merge($keys, JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/k2', '.', false, false));
+		$values = array_merge($values, JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/k2', '.', false, true));
+
 		$j4s = array_combine($keys, $values);
 
 		$tmpl_path = JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html/';

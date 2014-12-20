@@ -20,9 +20,13 @@
     }
 
 	$j4s   = J4schemaHelperFilesystem::treeFolder(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/'.$version);
-	// Manually inject Virtuemart template overrides, since they are both for J2.5 and J3.x
 	$j4s  = array_merge($j4s, J4schemaHelperFilesystem::treeFolder(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/virtuemart'));
+	$j4s  = array_merge($j4s, J4schemaHelperFilesystem::treeFolder(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/k2'));
+
+
 	$tmpl = J4schemaHelperFilesystem::treeFolder(JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html');
+
+
 ?>
 <form id="adminForm" name="adminForm" action="index.php" method="post" class="row-fluid">
 
