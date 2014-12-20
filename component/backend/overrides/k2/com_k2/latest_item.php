@@ -35,7 +35,7 @@ defined('_JEXEC') or die;
 	  </h2>
 	  <?php endif; ?>
   </div>
-
+  
 	<?php if($this->item->params->get('latestItemDateCreated')): ?>
 	<!-- Date created -->
 	<span class="latestItemDateCreated">
