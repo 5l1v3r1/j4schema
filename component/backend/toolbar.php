@@ -1,13 +1,13 @@
 <?php
 /**
  * @package 	J4Schema
- * @copyright 	Copyright (c)2011 Davide Tampellini
+ * @copyright 	Copyright (c)2011-2014 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  */
 
 defined('_JEXEC') or die();
 
-class J4schemaToolbar extends FOFToolbar
+class J4schemaToolbar extends F0FToolbar
 {
 	function onAuthorsBrowse()
 	{
@@ -27,13 +27,8 @@ class J4schemaToolbar extends FOFToolbar
 	function onOverridesBrowse()
 	{
 		// Set toolbar title
-		if($this->input instanceof FOFInput) {
-		    $option = $this->input->getString('option', 'com_foobar');
-		    $view 	= $this->input->getString('view', 'cpanel');
-		} else {
-		    $option = FOFInput::getCmd('option','com_foobar',$this->input);
-		    $view	= FOFInput::getCmd('view','cpanel',$this->input);
-		}
+        $option = $this->input->getString('option', 'com_foobar');
+        $view 	= $this->input->getString('view', 'cpanel');
 
 		$subtitle_key = $option.'_TITLE_'.strtoupper($view);
 		JToolBarHelper::title(JText::_($option).' &ndash; <small>'.JText::_($subtitle_key).'</small>', str_replace('com_', '', $option));

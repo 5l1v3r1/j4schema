@@ -2,14 +2,14 @@
 /**
  * @package 	J4Schema
  * @category	J4SchemaPro
- * @copyright 	Copyright (c)2011 Davide Tampellini
+ * @copyright 	Copyright (c)2011-2014 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  * @since 		1.0
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class J4schemaControllerOverrides extends FOFController
+class J4schemaControllerOverrides extends F0FController
 {
 	public function copyOverrides()
 	{
@@ -22,21 +22,26 @@ class J4schemaControllerOverrides extends FOFController
 		$keys   = JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/'.$version, '.', false, false);
 		$values = JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/'.$version, '.', false, true);
 
+		// Manually inject Virtuemart template overrides, since they are both for J2.5 and J3.x
+		$keys   = array_merge($keys, JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/virtuemart', '.', false, false));
+		$values = array_merge($values, JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/virtuemart', '.', false, true));
+
+		$keys   = array_merge($keys, JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/k2', '.', false, false));
+		$values = array_merge($values, JFolder::folders(JPATH_COMPONENT_ADMINISTRATOR.'/overrides/k2', '.', false, true));
+
 		$j4s = array_combine($keys, $values);
 
 		$tmpl_path = JPATH_ROOT.'/templates/'.J4schemaHelperHtml::getFrontendTemplate().'/html/';
 
-		if($this->input instanceof FOFInput) {
-		    $folders = $this->input->get('folders', array(), 'array', 2);
-		} else {
-		    $folders = FOFInput::getArray('folders', array(), $this->input);
-		}
+		$folders = $this->input->get('folders', array(), 'array', 2);
 
 		//let's copy the custom overrides
 		foreach($j4s as $folder => $path)
 		{
-			if(!in_array($folder, $folders)) continue;
-
+			if(!in_array($folder, $folders))
+            {
+                continue;
+            }
 			// K2 has no template overrides, but his own template system
 			elseif($folder == 'com_k2')
 			{

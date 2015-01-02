@@ -2,7 +2,7 @@
 /**
  * @package 	J4Schema
  * @category	J4SchemaPro
- * @copyright 	Copyright (c)2011 Davide Tampellini
+ * @copyright 	Copyright (c)2011-2014 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  */
 
@@ -10,25 +10,25 @@
 	JHTML::_('behavior.keepalive');
 	$this->loadHelper('select');
 
-	FOFTemplateUtils::addCSS('com_j4schema/css/editor.css');
+	F0FTemplateUtils::addCSS('com_j4schema/css/editor.css');
 
-	FOFTemplateUtils::addJS('com_j4schema/js/phpjs/get_html_translation_table.js');
-	FOFTemplateUtils::addJS('com_j4schema/js/phpjs/htmlentities.js');
+	F0FTemplateUtils::addJS('com_j4schema/js/phpjs/get_html_translation_table.js');
+	F0FTemplateUtils::addJS('com_j4schema/js/phpjs/htmlentities.js');
 
     $published = 'JPUBLISHED';
-    FOFTemplateUtils::addJS('com_j4schema/js/helper.js');
-    FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.js');
-    FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Node.js');
-    FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Draw.js');
-    FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Hover.js');
-    FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Load.js');
-    FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Selection.js');
-    FOFTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.CookieStorage.js');
+    F0FTemplateUtils::addJS('com_j4schema/js/helper.js');
+    F0FTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.js');
+    F0FTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Node.js');
+    F0FTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Draw.js');
+    F0FTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Hover.js');
+    F0FTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Load.js');
+    F0FTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.Selection.js');
+    F0FTemplateUtils::addJS('com_j4schema/js/tree/Mif.Tree.CookieStorage.js');
 
 
-	if(J4SCHEMA_PRO) FOFTemplateUtils::addJS('com_j4schema/js/pro.js');
+	if(J4SCHEMA_PRO) F0FTemplateUtils::addJS('com_j4schema/js/pro.js');
 
-	FOFTemplateUtils::addJS('com_j4schema/js/token_edit.js');
+	F0FTemplateUtils::addJS('com_j4schema/js/token_edit.js');
 
 	$data = $this->item;
 ?>

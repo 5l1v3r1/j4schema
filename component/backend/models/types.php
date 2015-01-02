@@ -1,22 +1,19 @@
 <?php
 /**
  * @package 	J4Schema
- * @copyright 	Copyright (c)2011 Davide Tampellini
+ * @copyright 	Copyright (c)2011-2014 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  * @since 		1.0
  */
 
 defined('_JEXEC') or die();
 
-class J4schemaModelTypes extends FOFModel
+class J4schemaModelTypes extends F0FModel
 {
 	public function &getItemList($overrideLimits = false, $group = '')
 	{
-		if($this->input instanceof FOFInput) {
-		    $format = $this->input->getString('format', '');
-		} else {
-		    $format = FOFInput::getVar('format');
-		}
+	    $format = $this->input->getString('format', '');
+
 		if($format == 'json') $overrideLimits = true;
 		return parent::getItemList($overrideLimits, $group);
 	}
@@ -24,15 +21,12 @@ class J4schemaModelTypes extends FOFModel
 	function buildQuery($overrideLimits = false)
 	{
 		$db = $this->getDbo();
-		$query = FOFQueryAbstract::getNew($db);
+		$query = $db->getQuery(true);
 
 		//if i'm getting values in json format, probably i need them for the tree
 		//so i wipe out the select clause and rebuild it
-		if($this->input instanceof FOFInput) {
-		    $format = $this->input->getString('format', '');
-		} else {
-		    $format = FOFInput::getVar('format');
-		}
+        $format = $this->input->getString('format', '');
+
 		if($format == 'json')
 		{
 			//on frontend i really don't know why i have var named 'id' initialized on 'index.php' (!!!)
@@ -55,16 +49,13 @@ class J4schemaModelTypes extends FOFModel
 	/**
 	 * Organize data for tree view
 	 *
-	 * @see FOFModel::onProcessList()
+	 * @see F0FModel::onProcessList()
 	 */
 	function onProcessList(&$resultArray)
 	{
 		//organize data only if i'm in a json view
-		if($this->input instanceof FOFInput) {
-		    $format = $this->input->getString('format', '');
-		} else {
-		    $format = FOFInput::getVar('format');
-		}
+		$format = $this->input->getString('format', '');
+
 		if($format != 'json') return;
 
 		$i = 0;
@@ -92,7 +83,7 @@ class J4schemaModelTypes extends FOFModel
 	{
 		$db = JFactory::getDbo();
 
-		$query = FOFQueryAbstract::getNew($db)
+		$query = $db->getQuery(true)
 					->select('id_types, ty_children')
 					->from('#__j4schema_types')
 					->where('ty_parent = '.$db->Quote($parent));
@@ -120,11 +111,7 @@ class J4schemaModelTypes extends FOFModel
 
 	function getDescr()
 	{
-		if($this->input instanceof FOFInput) {
-		    $id_types = $this->input->getString('id_types', '');
-		} else {
-		    $id_types = FOFInput::getVar('id_types', '', $this->input);
-		}
+		$id_types = $this->input->getString('id_types', '');
 
 		$table = $this->getTable($this->table);
 		$table->load($id_types);

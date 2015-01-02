@@ -2,7 +2,7 @@
 /**
  * @package 	J4Schema
  * @category	J4SchemaPro
- * @copyright 	Copyright (c)2011 Davide Tampellini
+ * @copyright 	Copyright (c)2011-2014 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  */
 
@@ -10,18 +10,18 @@
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.plugin.plugin');
 
-if(!file_exists(JPATH_ROOT.'/libraries/fof/include.php'))
+if(!file_exists(JPATH_ROOT.'/libraries/f0f/include.php'))
 {
 	return;
 }
 
-include_once JPATH_ROOT.'/libraries/fof/include.php' ;
+include_once JPATH_ROOT.'/libraries/f0f/include.php' ;
 
 class plgSystemJ4sjintegration extends JPlugin
 {
 	public function onAfterRender()
 	{
-		list($isCLI, $isAdmin) = FOFDispatcher::isCliAdmin();
+		list($isCLI, $isAdmin) = F0FDispatcher::isCliAdmin();
 		if($isAdmin) return;
 
 		$tokens = $this->getTokens();
@@ -34,28 +34,28 @@ class plgSystemJ4sjintegration extends JPlugin
 			{
 				case 'date':
 					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#', array($this, 'buildDate'), $body);
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#i', array($this, 'buildDate'), $body);
 					$this->token = '';
 				break;
 
 				case 'google+':
 					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#', array($this, 'buildGoogle'), $body);
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#i', array($this, 'buildGoogle'), $body);
 					$this->token = '';
 				break;
 
 				case 'link':
-					$body = str_replace('{'.$token->to_name.'}', '<link '.$token->to_replace.' />', $body);
+					$body = str_ireplace('{'.$token->to_name.'}', '<link '.$token->to_replace.' />', $body);
 				break;
 
 				case 'meta':
 					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#', array($this, 'buildMeta'), $body);
+					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#i', array($this, 'buildMeta'), $body);
 					$this->token = '';
 				break;
 
 				case 'text':
-					$body = str_replace('{'.$token->to_name.'}', $token->to_replace, $body);
+					$body = str_ireplace('{'.$token->to_name.'}', $token->to_replace, $body);
 				break;
 			}
 		}
@@ -65,8 +65,8 @@ class plgSystemJ4sjintegration extends JPlugin
 
 	function buildDate($value)
 	{
-		$datetime = str_replace('{'.$this->token->to_name.':', '', $value[0]);
-		$datetime = str_replace('}', '', $datetime);
+		$datetime = str_ireplace('{'.$this->token->to_name.':', '', $value[0]);
+		$datetime = str_ireplace('}', '', $datetime);
 
 		$iso = $this->timeToISO($datetime);
 
@@ -79,7 +79,7 @@ class plgSystemJ4sjintegration extends JPlugin
 
 		$userid = preg_replace('#[^\d]#', '', $value[0]);
 
-		$query = FOFQueryAbstract::getNew()
+		$query = $db->getQuery(true)
 					->select('at_profile')
 					->from('#__j4schema_authors')
 					->where('at_userid = '.$userid);
@@ -92,8 +92,8 @@ class plgSystemJ4sjintegration extends JPlugin
 
 	function buildMeta($value)
 	{
-		$content = str_replace('{'.$this->token->to_name.':', '', $value[0]);
-		$content = str_replace('}', '', $content);
+		$content = str_ireplace('{'.$this->token->to_name.':', '', $value[0]);
+		$content = str_ireplace('}', '', $content);
 
 		if    (preg_match('#^(\d{4})\-(\d{2})\-(\d{2})#', $content))	$content = $this->timeToISO($content);
 		elseif(preg_match('#^P[\d]#', $content))						$content = $this->isoDuration($content);
@@ -122,7 +122,7 @@ class plgSystemJ4sjintegration extends JPlugin
 	{
 		$db = JFactory::getDbo();
 
-		$query = FOFQueryAbstract::getNew()
+		$query = $db->getQuery(true)
 					->select('*')
 					->from('#__j4schema_tokens')
 					->where('enabled = 1');

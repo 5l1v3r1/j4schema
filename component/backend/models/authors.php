@@ -2,19 +2,19 @@
 /**
  * @package 	J4Schema
  * @category	J4SchemaPro
- * @copyright 	Copyright (c)2011 Davide Tampellini
+ * @copyright 	Copyright (c)2011-2014 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  */
 
 defined('_JEXEC') or die();
 
-class J4schemaModelAuthors extends FOFModel
+class J4schemaModelAuthors extends F0FModel
 {
 	public function buildQuery($overrideLimits = false)
 	{
 		$db = JFactory::getDbo();
 
-		$query = FOFQueryAbstract::getNew($db)
+		$query = $db->getQuery(true)
 					->select('authors.*, users.*, COUNT(content.id) as articles')
 					->from('#__j4schema_authors authors')
 					->innerJoin('#__users users ON users.id = at_userid')
@@ -36,17 +36,12 @@ class J4schemaModelAuthors extends FOFModel
 		//(check on installed components)
 		$db = JFactory::getDbo();
 
-		$query = FOFQueryAbstract::getNew($db)
+		$query = $db->getQuery(true)
 					->select('at_userid')
 					->from('#__j4schema_authors');
 		$db->setQuery($query);
 
-		if(version_compare(JVERSION, '1.6.0', 'ge')){
-			$authors = $db->loadColumn();
-		}
-		else{
-			$authors = $db->loadResultArray();
-		}
+		$authors = $db->loadColumn();
 
 		$authors[] = 0;
 

@@ -2,14 +2,14 @@
 /**
  * @package 	J4Schema
  * @category	J4SchemaPro
- * @copyright 	Copyright (c)2011 Davide Tampellini
+ * @copyright 	Copyright (c)2011-2014 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  * @since 		1.0
  */
 
 defined('_JEXEC') or die();
 
-class J4schemaTableToken extends FOFTable
+class J4schemaTableToken extends F0FTable
 {
 	function __construct($table, $key, $db)
 	{

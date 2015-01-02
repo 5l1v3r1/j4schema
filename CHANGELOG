@@ -1,3 +1,22 @@
+<?php die();?>
+J4Schema 5.3.0
+================================================================================
++ Tokens now are case insensitive
+- Removed Joomla 3.x template overrides, since microdata info are now inside the core
++ [PRO] Updated K2 template overrides
++ [PRO] Updated Virtuemart template overrides
+
+J4Schema 5.2.0
+================================================================================
++ Use HTTPS for Schema.org URLs
++ [PRO] Updated K2 template overrides
++ [PRO] Updated Virtuemart template overrides
++ [PRO] Updated Joomla 2.5 template overrides
++ [PRO] Updated Joomla 3.x template overrides
+- [PRO] Removed JEvents template overrides
+~ Switching from core F-oh-F (FOF) framework to F-zero-F (F0F) framework
+~ Use Joomla update system instead of Live Update
+
 4.2.2
 [HIGH] Fixed JSON requests
 

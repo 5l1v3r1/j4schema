@@ -2,7 +2,7 @@
 /**
  * @package 	J4Schema
  * @category	J4SchemaPro
- * @copyright 	Copyright (c)2011 Davide Tampellini
+ * @copyright 	Copyright (c)2011-2014 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  */
 
@@ -10,16 +10,9 @@ defined('_JEXEC') or die();
 $this->loadHelper('html');
 $this->loadHelper('select');
 
-if(version_compare(JVERSION, '1.6.0', 'ge')){
-	$published = JText::_('JPUBLISHED');
-	$search	   = JText::_('JSEARCH_FILTER');
-	$reset 	   = JText::_('JSEARCH_RESET');
-}
-else {
-	$published = JText::_('PUBLISHED');
-	$search	   = JText::_('SEARCH');
-	$reset 	   = JText::_('RESET');
-}
+$published = JText::_('JPUBLISHED');
+$search	   = JText::_('JSEARCH_FILTER');
+$reset 	   = JText::_('JSEARCH_RESET');
 
 ?>
 <form name="adminForm" id="adminForm" action="index.php" method="post">

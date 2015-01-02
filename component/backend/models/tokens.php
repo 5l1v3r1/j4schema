@@ -2,19 +2,19 @@
 /**
  * @package 	J4Schema
  * @category	J4SchemaPro
- * @copyright 	Copyright (c)2011 Davide Tampellini
+ * @copyright 	Copyright (c)2011-2014 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  */
 
 defined('_JEXEC') or die();
 
-class J4schemaModelTokens extends FOFModel
+class J4schemaModelTokens extends F0FModel
 {
 	public function buildQuery($overrideLimits = false)
 	{
 		$db = JFactory::getDbo();
 
-		$query = FOFQueryAbstract::getNew($db)
+		$query = $db->getQuery(true)
 					->select('*')
 					->from('#__j4schema_tokens');
 

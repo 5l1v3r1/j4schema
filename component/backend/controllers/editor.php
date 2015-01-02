@@ -1,7 +1,7 @@
 <?php
 /**
  * @package 	J4Schema
- * @copyright 	Copyright (c)2011 Davide Tampellini
+ * @copyright 	Copyright (c)2011-2014 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  * @since 		1.0
  */
@@ -9,12 +9,12 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class J4schemaControllerEditor extends FOFController
+class J4schemaControllerEditor extends F0FController
 {
 	/**
 	 * I don't need to fetch data from database
 	 *
-	 * @see FOFController::read()
+	 * @see F0FController::read()
 	 */
 	public function read()
 	{

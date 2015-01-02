@@ -2,13 +2,13 @@
 /**
  * @package 	J4Schema
  * @category	J4SchemaPro
- * @copyright 	Copyright (c)2011 Davide Tampellini
+ * @copyright 	Copyright (c)2011-2014 Davide Tampellini
  * @license 	GNU General Public License version 3, or later
  */
 
 defined('_JEXEC') or die();
 
-class J4schemaControllerAuthors extends FOFController
+class J4schemaControllerAuthors extends F0FController
 {
 	public function synchAuthors()
 	{
