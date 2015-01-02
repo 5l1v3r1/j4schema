@@ -2,6 +2,7 @@
 J4Schema 5.3.0
 ================================================================================
 + Tokens now are case insensitive
+- Removed Joomla 3.x template overrides, since microdata info are now inside the core
 + [PRO] Updated K2 template overrides
 + [PRO] Updated Virtuemart template overrides
 
