@@ -58,7 +58,13 @@ class Com_j4schemaInstallerScript extends F0FUtilsInstallscript
 
 	/** @var array */
 	protected $removeFilesPro = array(
-        'folders' => array(),
+        'folders' => array(
+            'administrator/components/com_j4schema/overrides/2.5/virtuemart',
+            'administrator/components/com_j4schema/overrides/2.5/com_virtuemart',
+            'administrator/components/com_j4schema/overrides/2.5/com_k2',
+            'administrator/components/com_j4schema/overrides/3.0/com_content',
+            'administrator/components/com_j4schema/overrides/3.0/layouts',
+        ),
         'files' => array(
             'administrator/components/com_j4schema/views/author/skip.xml',
             'administrator/components/com_j4schema/views/authors/skip.xml',
