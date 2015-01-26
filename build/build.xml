@@ -120,6 +120,45 @@
 	====================================================================================================
 	-->
 
+  <target name="dev-release" depends="git">
+    <gitversion workingCopy="${dirs.root}" propertyName="git.lastrevision" />
+    <!-- Core release -->
+    <echo>Uploading J4Schema nightly build</echo>
+    <ftpdeploy
+      host="${ftp.host}"
+      port="${ftp.port}"
+      username="${ftp.username}"
+      password="${ftp.password}"
+      dir="${ftp.dir}/dev/j4schema/rev${git.lastrevision}"
+      mode="${ftp.mode}"
+      passive="true"
+      level="debug">
+      <fileset dir="${dirs.root}">
+        <include name="CHANGELOG"/>
+      </fileset>
+      <fileset dir="${dirs.release}">
+        <include name="com_j4schema*free.zip"/>
+      </fileset>
+    </ftpdeploy>
+
+    <ftpdeploy
+      host="${ftp.host}"
+      port="${ftp.port}"
+      username="${ftp.username}"
+      password="${ftp.password}"
+      dir="${ftp.dir}/dev/j4schema-pro/rev${git.lastrevision}"
+      mode="${ftp.mode}"
+      passive="true"
+      level="debug">
+      <fileset dir="${dirs.root}">
+        <include name="CHANGELOG"/>
+      </fileset>
+      <fileset dir="${dirs.release}">
+        <include name="com_j4schema*pro.zip"/>
+      </fileset>
+    </ftpdeploy>
+  </target>
+
     <target name="link" description="Internal linker">
         <exec command="php ../buildfiles/tools/link.php ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />
         <exec command="php ../buildfiles/tools/langlink.php ${application.startdir}/.." dir="${application.startdir}/.." passthru="true" />

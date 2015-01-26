@@ -32,6 +32,7 @@
     </update>
 
     <files folder="frontend">
+        <folder>views</folder>
         <filename>j4schema.php</filename>
         <filename>j4schema_frontend.php</filename>
         <filename>index.html</filename>
