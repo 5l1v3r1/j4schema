@@ -4,7 +4,7 @@ defined('_JEXEC') or die();
 ?>
 <script type="text/javascript">
 window.addEvent('domready', function(){
-	var test_url = 'http://www.google.com/webmasters/tools/richsnippets?url=' + encodeURIComponent(window.location);
+	var test_url = 'https://developers.google.com/structured-data/testing-tool/?url=' + window.location;
 	$('testLink').setProperty('href', test_url);
 });
 </script>
