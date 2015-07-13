@@ -56,6 +56,17 @@ class Com_j4schemaInstallerScript extends F0FUtilsInstallscript
     protected $fofSourcePath       = 'zzz_fof';
     protected $strapperSourcePath  = 'zzz_strapper';
 
+    protected $removeFilesAllVersions = array(
+        'folders' => array(
+            'administrator/components/com_j4schema/views/authors',
+            'administrator/components/com_j4schema/views/author',
+        ),
+        'files' => array(
+            'administrator/components/com_j4schema/controllers/authors.php',
+            'administrator/components/com_j4schema/models/authors.php',
+        )
+    );
+
 	/** @var array */
 	protected $removeFilesPro = array(
         'folders' => array(

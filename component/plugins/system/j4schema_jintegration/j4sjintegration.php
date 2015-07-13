@@ -38,12 +38,6 @@ class plgSystemJ4sjintegration extends JPlugin
 					$this->token = '';
 				break;
 
-				case 'google+':
-					$this->token = $token;
-					$body = preg_replace_callback('#\{'.$token->to_name.':.*?\}#i', array($this, 'buildGoogle'), $body);
-					$this->token = '';
-				break;
-
 				case 'link':
 					$body = str_ireplace('{'.$token->to_name.'}', '<link '.$token->to_replace.' />', $body);
 				break;
@@ -71,23 +65,6 @@ class plgSystemJ4sjintegration extends JPlugin
 		$iso = $this->timeToISO($datetime);
 
 		return $this->token->to_replace.' datetime="'.$iso.'"';
-	}
-
-	function buildGoogle($value)
-	{
-		$db = JFactory::getDbo();
-
-		$userid = preg_replace('#[^\d]#', '', $value[0]);
-
-		$query = $db->getQuery(true)
-					->select('at_profile')
-					->from('#__j4schema_authors')
-					->where('at_userid = '.$userid);
-		$db->setQuery($query);
-		$profile = $db->loadResult();
-
-		if(!$profile) 	return '';
-		else			return 'https://plus.google.com/'.$profile.'?rel=author';
 	}
 
 	function buildMeta($value)

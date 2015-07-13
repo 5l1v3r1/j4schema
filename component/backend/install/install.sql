@@ -77,7 +77,6 @@ INSERT IGNORE INTO `#__j4schema_tokens` (`id_tokens`, `to_integration`, `to_name
 (29, 'virtuemart', 'VM_REVIEW_AUTHOR', 'text', ' itemprop="author"', 1),
 (30, 'virtuemart', 'VM_PRODUCT_IN_STOCK', 'link', ' itemprop="availability" href="https://schema.org/InStock"', 1),
 (31, 'virtuemart', 'VM_PRODUCT_OUT_STOCK', 'link', ' itemprop="availability" href="https://schema.org/OutOfStock"', 1),
-(32, 'joomla', 'GOOGLE_PLUS_AUTHOR', 'google+', '', 1),
 (33, 'virtuemart', 'VM_META_REVIEW_RATING', 'meta', ' itemprop="ratingValue" ', 1),
 (34, 'virtuemart', 'VM_META_REVIEW_BEST_RATING', 'meta', ' itemprop="bestRating"', 1),
 (35, 'virtuemart', 'VM_META_REVIEW_PUBLISH_DATE', 'meta', ' itemprop="datePublished"', 1),
