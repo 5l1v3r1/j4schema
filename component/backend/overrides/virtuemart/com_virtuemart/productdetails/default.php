@@ -13,7 +13,7 @@
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
  * other free or open source software licenses.
- * @version $Id: default.php 8610 2014-12-02 18:53:19Z Milbo $
+ * @version $Id: default.php 8842 2015-05-04 20:34:47Z Milbo $
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
@@ -27,15 +27,7 @@ if (empty($this->product)) {
 
 echo shopFunctionsF::renderVmSubLayout('askrecomjs',array('product'=>$this->product));
 
-vmJsApi::jDynUpdate();
-vmJsApi::addJScript('updDynamicListeners',"
-jQuery(document).ready(function() { // GALT: Start listening for dynamic content update.
-	// If template is aware of dynamic update and provided a variable let's
-	// set-up the event listeners.
-	if (Virtuemart.container)
-		Virtuemart.updateDynamicUpdateListeners();
 
-}); ");
 
 if(vRequest::getInt('print',false)){ ?>
 <body onload="javascript:print();">
@@ -67,7 +59,7 @@ if(vRequest::getInt('print',false)){ ?>
 	<?php // Back To Category Button
 	if ($this->product->virtuemart_category_id) {
 		$catURL =  JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id='.$this->product->virtuemart_category_id, FALSE);
-		$categoryName = $this->product->category_name ;
+		$categoryName = vmText::_($this->product->category_name) ;
 	} else {
 		$catURL =  JRoute::_('index.php?option=com_virtuemart');
 		$categoryName = vmText::_('COM_VIRTUEMART_SHOP_HOME') ;
@@ -161,6 +153,7 @@ echo $this->loadTemplate('images');
 		//In case you are not happy using everywhere the same price display fromat, just create your own layout
 		//in override /html/fields and use as first parameter the name of your file
 		echo shopFunctionsF::renderVmSubLayout('prices',array('product'=>$this->product,'currency'=>$this->currency));
+		?> <div class="clear"></div><?php
 		echo shopFunctionsF::renderVmSubLayout('addtocart',array('product'=>$this->product));
 
 		echo shopFunctionsF::renderVmSubLayout('stockhandle',array('product'=>$this->product));
@@ -223,7 +216,7 @@ echo $this->loadTemplate('images');
         </div>
     <?php } // Product Packaging END ?>
 
-    <?php
+    <?php 
 	echo shopFunctionsF::renderVmSubLayout('customfields',array('product'=>$this->product,'position'=>'onbot'));
 
     echo shopFunctionsF::renderVmSubLayout('customfields',array('product'=>$this->product,'position'=>'related_products','class'=> 'product-related-products','customTitle' => true ));
@@ -233,35 +226,41 @@ echo $this->loadTemplate('images');
 	?>
 
 <?php // onContentAfterDisplay event
-echo $this->product->event->afterDisplayContent; ?>
+echo $this->product->event->afterDisplayContent;
 
-<?php
 echo $this->loadTemplate('reviews');
-?>
-<?php // Show child categories
-    if (VmConfig::get('showCategory', 1)) {
-		echo $this->loadTemplate('showcategory');
-    }?>
-	<?php
-	echo vmJsApi::writeJS();
-	?>
 
-</div>
-<script>
-	// GALT
-	/*
+// Show child categories
+if (VmConfig::get('showCategory', 1)) {
+	echo $this->loadTemplate('showcategory');
+}
+
+$j = 'jQuery(document).ready(function($) {
+	Virtuemart.product(jQuery("form.product"));
+
+	$("form.js-recalculate").each(function(){
+		if ($(this).find(".product-fields").length && !$(this).find(".no-vm-bind").length) {
+			var id= $(this).find(\'input[name="virtuemart_product_id[]"]\').val();
+			Virtuemart.setproducttype($(this),id);
+
+		}
+	});
+});';
+//vmJsApi::addJScript('recalcReady',$j);
+
+/** GALT
 	 * Notice for Template Developers!
 	 * Templates must set a Virtuemart.container variable as it takes part in
 	 * dynamic content update.
 	 * This variable points to a topmost element that holds other content.
 	 */
-	// If this <script> block goes right after the element itself there is no
-	// need in ready() handler, which is much better.
-	//jQuery(document).ready(function() {
-	Virtuemart.container = jQuery('.productdetails-view');
-	Virtuemart.containerSelector = '.productdetails-view';
-	//Virtuemart.container = jQuery('.main');
-	//Virtuemart.containerSelector = '.main';
-	//});
-</script>
+$j = "Virtuemart.container = jQuery('.productdetails-view');
+Virtuemart.containerSelector = '.productdetails-view';";
+
+vmJsApi::addJScript('ajaxContent',$j);
+
+echo vmJsApi::writeJS();
+?> </div>
+
+
 

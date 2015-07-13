@@ -66,4 +66,4 @@ $currency = $viewData['currency'];
 	}
 	?>
 </div>
-<div class="clear"></div>
+

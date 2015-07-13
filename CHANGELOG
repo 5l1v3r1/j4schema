@@ -1,6 +1,7 @@
 <?php die();?>
 J4Schema 5.4.0
 ================================================================================
++ [PRO] Updated Virtuemart template overrides
 ~ Updated URL for automatic link testing
 - [PRO] Removed author integration (Google is not supporting them anymore)
 
