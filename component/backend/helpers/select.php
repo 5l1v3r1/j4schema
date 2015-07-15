@@ -17,7 +17,6 @@ class J4schemaHelperSelect
 		if(!isset(self::$cache['integration']))
 		{
 			$opt[] = array('value' => ''		, 	'text' => ' - '.JText::_('COM_J4SCHEMA_SELECT').' - ');
-			$opt[] = array('value' => 'jevents'	, 	'text' => 'JEvents');
 			$opt[] = array('value' => 'joomla'	, 	'text' => 'Joomla!');
 			$opt[] = array('value' => 'k2'		, 	'text' => 'K2');
 			$opt[] = array('value' => 'virtuemart', 'text' => 'Virtuemart');
@@ -34,7 +33,6 @@ class J4schemaHelperSelect
 		{
 			$opt[] = array('value' => '', 'text' => ' - '.JText::_('COM_J4SCHEMA_SELECT').' - ');
 			$opt[] = array('value' => 'date', 'text' => JText::_('COM_J4SCHEMA_DATE'));
-			$opt[] = array('value' => 'google+', 'text' => 'Google+');
 			$opt[] = array('value' => 'link', 'text' => 'Link');
 			$opt[] = array('value' => 'meta', 'text' => 'Meta');
 			$opt[] = array('value' => 'text', 'text' => JText::_('COM_J4SCHEMA_PLAIN_TEXT'));
