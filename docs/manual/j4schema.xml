@@ -979,10 +979,6 @@
                     </listitem>
 
                     <listitem>
-                      <para>Google+</para>
-                    </listitem>
-
-                    <listitem>
                       <para>Link</para>
                     </listitem>
 
@@ -1191,95 +1187,6 @@
           the plugin the date in order to transform it into the ISO format. To
           do that we have to add a colon (<code>:</code>) after the token
           name, then output the date value.</para>
-        </section>
-
-        <section id="add-an-author-token">
-          <title>Add an author token</title>
-
-          <para>With this token type, you can add author information on your
-          page. In this way, author profile photo will show up in search
-          results:</para>
-
-          <para>
-            <mediaobject>
-              <imageobject>
-                <imagedata align="center" fileref="images/author_snippet.gif"/>
-              </imageobject>
-
-              <caption>Image taken from Google's Rich Testing Tools</caption>
-            </mediaobject>
-          </para>
-
-          <para>First of all, you have to configure your Google+ profile; then
-          edit the <emphasis>Contributor To</emphasis> section. In the dialog
-          that appears, click <emphasis>Add custom link</emphasis> and enter
-          the website URL, then click <emphasis>Save</emphasis>.</para>
-
-          <para>
-            <mediaobject>
-              <imageobject>
-                <imagedata align="center" fileref="images/google_plus.gif"/>
-              </imageobject>
-            </mediaobject>
-          </para>
-
-          <note>
-            <para>As you can imagine, you can test author tokens on live sites
-            only; you can't do it on localhost, since Google can't reach
-            it!</para>
-          </note>
-
-          <para>Then surf on the <guilabel>Authors</guilabel> view and click
-          on <guibutton>Synch Authors</guibutton>. In this way you'll import
-          existant users inside J4Schema.</para>
-
-          <para>Don't worry, only new users will be imported, so you can run
-          this operation every time you want. However, if you want, you can
-          manually add a single user, clicking on the
-          <guibutton>New</guibutton> button.</para>
-
-          <para>For each author, you have to insert his google profile
-          id:</para>
-
-          <para>Well, you're done! If you test your page, you should see a
-          nice image of your profile next to the search result!</para>
-
-          <section id="add-author-manually">
-            <title>Add an author token manually</title>
-
-            <para>If you want to add the author token in an already existant
-            template override (or in another part of your site), you have to
-            follow these steps.</para>
-
-            <para>First of all, you have to create a
-            <guilabel>Google+</guilabel> token, and assign it a name.</para>
-
-            <para>
-              <mediaobject>
-                <imageobject>
-                  <imagedata align="center"
-                             fileref="images/google_plus_token.gif"/>
-                </imageobject>
-              </mediaobject>
-            </para>
-
-            <para>Then, in your template override, you have to place your
-            token in this way: <example>
-                <title>Google+ Token</title>
-
-                <programlisting>
-                  &lt;a href ="{ GOOGLE_PLUS_AUTHOR:&lt;?php echo $this-&gt;item-&gt;created_by?&gt; }"&gt;
-                  &lt;?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?&gt;
-                  &lt;/a&gt;
-                </programlisting>
-              </example></para>
-
-            <para>As you can see, the token is made by two part: the token
-            name and the userid of the author, joined together by a semicolon
-            ( <code>:</code> ). In this way <guilabel>J4Schema</guilabel> can
-            check if there is a linked Google+ profile and create a correct
-            link.</para>
-          </section>
         </section>
 
         <section id="add-a-meta-token">
